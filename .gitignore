@@ -1,0 +1,23 @@
+# dependencies
+node_modules/
+
+# next.js
+.next/
+out/
+build/
+
+# misc
+*.tsbuildinfo
+next-env.d.ts
+*.log
+.DS_Store
+
+# env
+.env
+.env*.local
+
+# vercel
+.vercel
+
+# pm2 (local only)
+ecosystem.config.cjs
