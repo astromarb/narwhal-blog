@@ -825,3 +825,30 @@ section[id] { scroll-margin-top: 88px; }
   .post-body li { font-size: 16px; }
   .post-pager { grid-template-columns: 1fr; }
 }
+
+/* — work-in-progress placeholder — */
+.wip-block {
+  padding: 24px 0 48px;
+}
+.wip {
+  border: 1px dashed var(--ink);
+  border-radius: 6px;
+  padding: 56px 24px;
+  text-align: center;
+  background: var(--paper);
+  margin-top: 8px;
+}
+.wip-tag {
+  font-family: var(--f-mono);
+  font-size: 11px;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  color: var(--ink-2);
+  margin-bottom: 14px;
+}
+.wip-text {
+  font-family: var(--f-hand, var(--f-display));
+  font-size: 28px;
+  color: var(--ink);
+  margin: 0;
+}
