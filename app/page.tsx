@@ -9,6 +9,19 @@ import {
   CATEGORY_CHIP,
 } from "@/lib/posts";
 
+function formatDate(d: string): string {
+  try {
+    const date = new Date(d);
+    if (Number.isNaN(date.getTime())) return d;
+    return date
+      .toLocaleDateString("en-US", { year: "numeric", month: "short", day: "2-digit" })
+      .toLowerCase()
+      .replace(",", " /");
+  } catch {
+    return d;
+  }
+}
+
 export default function HomePage() {
   const posts = getAllPosts().map(({ html: _html, content: _content, ...p }) => p);
   const categories = getAllCategories();
@@ -66,7 +79,7 @@ export default function HomePage() {
                     <span className="chip">{latest.readingTime} read</span>
                   )}
                 </div>
-                <span className="feature-date">{latest.date}</span>
+                <span className="feature-date">{formatDate(latest.date)}</span>
               </a>
             ) : (
               <div className="blog-feature-card" style={{ opacity: 0.45 }}>
