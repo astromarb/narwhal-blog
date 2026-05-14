@@ -4,6 +4,9 @@ import path from "node:path";
 import matter from "gray-matter";
 import { marked } from "marked";
 import DOMPurify from "isomorphic-dompurify";
+import { CATEGORIES } from "@/lib/categories";
+export { CATEGORIES, CATEGORY_CHIP } from "@/lib/categories";
+export type { Category } from "@/lib/categories";
 
 export type PostFrontmatter = {
   title: string;
@@ -19,25 +22,7 @@ export type PostFrontmatter = {
 export type Post = PostFrontmatter & {
   content: string;
   html: string;
-  /** Lowercased haystack for client-side semantic-ish search */
   searchBlob: string;
-};
-
-/** Stable category order across the blog UI. */
-export const CATEGORIES = [
-  "field notes",
-  "papers I'm reading",
-  "code and ai",
-  "misc",
-] as const;
-export type Category = (typeof CATEGORIES)[number];
-
-/** Visual chip variant per category — keeps colors stable across pages. */
-export const CATEGORY_CHIP: Record<string, "fill" | "fill2" | "fill3" | ""> = {
-  "field notes": "fill",
-  "papers I'm reading": "fill2",
-  "code and ai": "fill3",
-  "misc": "",
 };
 
 const POSTS_DIR = path.join(process.cwd(), "content", "posts");
@@ -62,7 +47,6 @@ function readPostFile(filename: string): Post | null {
   const rawHtml = marked.parse(parsed.content, { async: false }) as string;
   const html = DOMPurify.sanitize(rawHtml, { USE_PROFILES: { html: true } });
 
-  // Strip markdown markers so the search blob is closer to plain prose.
   const plain = parsed.content
     .replace(/`{1,3}[^`]*`{1,3}/g, " ")
     .replace(/[#>*_\-]/g, " ")
@@ -133,7 +117,6 @@ export function getAllCategories(): string[] {
   for (const p of getAllPosts()) {
     if (p.category) cats.add(p.category);
   }
-  // Preserve canonical order; append unknown categories at the end.
   const ordered: string[] = [];
   for (const c of CATEGORIES) if (cats.has(c)) ordered.push(c);
   for (const c of cats) if (!ordered.includes(c)) ordered.push(c);
