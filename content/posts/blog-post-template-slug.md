@@ -5,9 +5,10 @@ date: "2026-05-13"
 excerpt: "Reuseable layout and stylesheet."
 tags: ["misc"]
 category: "misc"
-readingTime: "1 min"
+readingTime: "3 min"
 tape: "off-the-clock"
 ---
+
 # Heading 1
 ## Heading 2
 ### Heading 3
@@ -212,4 +213,3 @@ Another sentence with a longer footnote reference.[^long-note]
 [^1]: This is the first footnote.
 [^2]: This is another footnote.
 [^long-note]: This is a longer footnote used to test wrapping, spacing, and readability in the footnotes section.
-
