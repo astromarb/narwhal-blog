@@ -126,7 +126,8 @@ export default function AdminShell() {
     existingSha?: string
   ) {
     const password = sessionStorage.getItem(SESSION_KEY) ?? "";
-    const slug = fields.slug ?? titleToSlug(fields.title ?? "untitled");
+    const slug =
+      titleToSlug(fields.slug || fields.title || "untitled") || "untitled";
     const filename = `${slug}.md`;
     const content = serializePost(fields, unknownYaml, body);
 
