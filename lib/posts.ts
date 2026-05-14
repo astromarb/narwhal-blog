@@ -3,6 +3,7 @@ import fs from "node:fs";
 import path from "node:path";
 import matter from "gray-matter";
 import { marked } from "marked";
+import DOMPurify from "isomorphic-dompurify";
 
 export type PostFrontmatter = {
   title: string;
@@ -58,7 +59,8 @@ function readPostFile(filename: string): Post | null {
   const slug =
     data.slug ?? filename.replace(/\.mdx?$/i, "").toLowerCase();
 
-  const html = marked.parse(parsed.content, { async: false }) as string;
+  const rawHtml = marked.parse(parsed.content, { async: false }) as string;
+  const html = DOMPurify.sanitize(rawHtml, { USE_PROFILES: { html: true } });
 
   // Strip markdown markers so the search blob is closer to plain prose.
   const plain = parsed.content
