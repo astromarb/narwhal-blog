@@ -4,6 +4,9 @@ import path from "node:path";
 import matter from "gray-matter";
 import { marked } from "marked";
 import DOMPurify from "isomorphic-dompurify";
+import { CATEGORIES } from "@/lib/categories";
+export { CATEGORIES, CATEGORY_CHIP } from "@/lib/categories";
+export type { Category } from "@/lib/categories";
 
 export type PostFrontmatter = {
   title: string;
@@ -19,25 +22,7 @@ export type PostFrontmatter = {
 export type Post = PostFrontmatter & {
   content: string;
   html: string;
-  /** Lowercased haystack for client-side semantic-ish search */
   searchBlob: string;
-};
-
-/** Stable category order across the blog UI. */
-export const CATEGORIES = [
-  "field notes",
-  "papers I'm reading",
-  "code and ai",
-  "misc",
-] as const;
-export type Category = (typeof CATEGORIES)[number];
-
-/** Visual chip variant per category — keeps colors stable across pages. */
-export const CATEGORY_CHIP: Record<string, "fill" | "fill2" | "fill3" | ""> = {
-  "field notes": "fill",
-  "papers I'm reading": "fill2",
-  "code and ai": "fill3",
-  "misc": "",
 };
 
 const POSTS_DIR = path.join(process.cwd(), "content", "posts");
