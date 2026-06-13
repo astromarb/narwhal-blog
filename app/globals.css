@@ -1,20 +1,20 @@
 @import url("https://fonts.googleapis.com/css2?family=Caveat:wght@500;700&family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap");
 
 /* ============================================================
-   DESIGN TOKENS
+   DESIGN TOKENS — dark warm editorial
    ============================================================ */
 :root {
-  --paper:   #faf7f0;
-  --paper-2: #f3eee2;
-  --paper-3: #ede5d0;
-  --ink:     #1a1a1a;
-  --ink-2:   #4a4a4a;
-  --ink-3:   #8a8a8a;
-  --a1:      #ff5a1f;
-  --a2:      #ffb800;
-  --a3:      #e11d48;
-  --ascii-pink: #ec4899;
-  --on-a2:   #1a1a1a;
+  --paper:   #13110e;
+  --paper-2: #1c1a16;
+  --paper-3: #252219;
+  --ink:     #e3ddd4;
+  --ink-2:   #9a9388;
+  --ink-3:   #5c5852;
+  --a1:      #dc2626;
+  --a2:      #facc15;
+  --a3:      #60a5fa;
+  --ascii-pink: #f472b6;
+  --on-a2:   #0f0e0c;
   --on-a3:   #fff;
   --f-display: "Space Grotesk", sans-serif;
   --f-body:    "Inter", sans-serif;
@@ -40,14 +40,13 @@ body {
   text-rendering: optimizeLegibility;
 }
 
-/* Grid only covers the hero/highlights region (#home section).
-   Below that, the page is plain paper. */
+/* Grid covers the hero/highlights region (#home section). */
 #home {
   background:
-    linear-gradient(to right,  color-mix(in oklab, var(--ink) 5%, transparent) 1px, transparent 1px) 0 0 / 26px 26px,
-    linear-gradient(to bottom, color-mix(in oklab, var(--ink) 5%, transparent) 1px, transparent 1px) 0 0 / 26px 26px,
+    linear-gradient(to right,  color-mix(in oklab, var(--ink) 7%, transparent) 1px, transparent 1px) 0 0 / 26px 26px,
+    linear-gradient(to bottom, color-mix(in oklab, var(--ink) 7%, transparent) 1px, transparent 1px) 0 0 / 26px 26px,
     var(--paper);
-  margin: -48px -40px 48px;  /* extend to edges of <main> padding */
+  margin: -48px -40px 48px;
   padding: 48px 40px 40px;
 }
 
@@ -72,28 +71,28 @@ section[id] { scroll-margin-top: 88px; }
   display: inline-flex;
   align-items: center;
   gap: 6px;
-  border: 1.2px solid var(--ink);
+  border: 1.2px solid color-mix(in oklab, var(--ink) 55%, transparent);
   border-radius: 999px;
   padding: 4px 11px;
   font-family: var(--f-mono);
   font-size: 10.5px;
   text-transform: uppercase;
   letter-spacing: .08em;
-  color: var(--ink);
+  color: var(--ink-2);
   background: transparent;
 }
 .chip.fill  { background: var(--a1); color: #fff; border-color: var(--a1); }
-.chip.fill2 { background: var(--a2); color: var(--on-a2, #1a1a1a); border-color: var(--a2); }
-.chip.fill3 { background: var(--a3); color: var(--on-a3, #fff); border-color: var(--a3); }
+.chip.fill2 { background: var(--a2); color: var(--on-a2); border-color: var(--a2); }
+.chip.fill3 { background: var(--a3); color: var(--on-a3); border-color: var(--a3); }
 
-/* Image placeholder — striped, transparent base */
+/* Image placeholder */
 .ph {
   position: relative;
   background:
     repeating-linear-gradient(135deg,
-      color-mix(in oklab, var(--ink) 6%, transparent) 0 6px,
+      color-mix(in oklab, var(--ink) 8%, transparent) 0 6px,
       transparent 6px 14px);
-  border: 1px solid color-mix(in oklab, var(--ink) 22%, transparent);
+  border: 1px solid color-mix(in oklab, var(--ink) 18%, transparent);
   display: grid;
   place-items: center;
   text-align: center;
@@ -101,7 +100,7 @@ section[id] { scroll-margin-top: 88px; }
   font-size: 10.5px;
   letter-spacing: .08em;
   text-transform: uppercase;
-  color: var(--ink-2);
+  color: var(--ink-3);
   padding: 12px;
   overflow: hidden;
 }
@@ -111,7 +110,7 @@ section[id] { scroll-margin-top: 88px; }
   top: 8px; left: 10px;
   font-size: 9px;
   letter-spacing: .14em;
-  color: color-mix(in oklab, var(--ink) 35%, transparent);
+  color: color-mix(in oklab, var(--ink) 30%, transparent);
 }
 
 /* Wavy underline */
@@ -125,13 +124,15 @@ section[id] { scroll-margin-top: 88px; }
 
 /* Highlighter */
 .hl {
-  background: linear-gradient(180deg, transparent 55%, color-mix(in oklab, var(--a2) 75%, transparent) 55% 92%, transparent 92%);
+  background: linear-gradient(180deg, transparent 55%, color-mix(in oklab, var(--a2) 55%, transparent) 55% 92%, transparent 92%);
   padding: 0 4px;
+  color: var(--on-a2);
 }
 
 .tape {
   display: inline-block;
-  background: color-mix(in oklab, var(--a2) 75%, transparent);
+  background: color-mix(in oklab, var(--a2) 80%, transparent);
+  color: var(--on-a2);
   padding: 4px 14px;
   font-family: var(--f-mono);
   font-size: 10.5px;
@@ -151,25 +152,25 @@ section[id] { scroll-margin-top: 88px; }
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  border: 1.5px solid var(--ink);
+  border: 1.5px solid color-mix(in oklab, var(--ink) 55%, transparent);
   padding: 10px 18px;
   font-family: var(--f-mono);
   font-size: 12px;
   letter-spacing: .08em;
   text-transform: uppercase;
-  background: var(--paper);
-  transition: all .15s ease;
+  background: transparent;
+  color: var(--ink);
+  transition: background .15s ease, color .15s ease, border-color .15s ease;
 }
-.btn { background: transparent; }
-.btn:hover { background: var(--ink); color: var(--paper); }
+.btn:hover { background: var(--ink); color: var(--paper); border-color: var(--ink); }
 .btn.primary { background: var(--a1); color: #fff; border-color: var(--a1); }
-.btn.primary:hover { background: #1a1a1a; border-color: #1a1a1a; }
+.btn.primary:hover { background: color-mix(in oklab, var(--a1) 80%, #000); border-color: transparent; }
 
 @import "tailwindcss";
 
 
 /* ============================================================
-   NAV  (matches main-site nav so the brand reads continuous)
+   NAV  (carries main-site palette; local vars override globals)
    ============================================================ */
 .site-nav {
   --paper:   #f8f5ec;
@@ -178,7 +179,6 @@ section[id] { scroll-margin-top: 88px; }
   --ink:     #0f0f12;
   --ink-2:   #4a4a55;
   --ink-3:   #8a8a92;
-  --a1:      #dc2626;
   --a2:      #0f172a;
   --a3:      #facc15;
   position: sticky; top: 0; z-index: 30;
@@ -237,6 +237,19 @@ section[id] { scroll-margin-top: 88px; }
 }
 .site-nav .nav-cta:hover { background: var(--a3); color: var(--ink); }
 
+/* Standalone nav-cta outside .site-nav (used in admin) */
+.nav-cta {
+  font-family: var(--f-mono); font-size: 11px;
+  letter-spacing: .12em; text-transform: uppercase;
+  padding: 8px 14px;
+  background: var(--a1); color: #fff; border: none;
+  white-space: nowrap;
+  text-decoration: none;
+  cursor: pointer;
+  transition: opacity .15s ease;
+}
+.nav-cta:hover { opacity: .85; }
+
 /* ============================================================
    SECTION HEADER
    ============================================================ */
@@ -258,7 +271,7 @@ section[id] { scroll-margin-top: 88px; }
 }
 
 /* ============================================================
-   HERO  (two-column: text + headshot/feature card)
+   HERO
    ============================================================ */
 .blog-hero {
   display: grid;
@@ -302,7 +315,7 @@ section[id] { scroll-margin-top: 88px; }
   flex-wrap: wrap;
 }
 
-/* Right column: headshot stacked above a smaller latest-highlight card. */
+/* Right column */
 .blog-hero__side {
   display: grid;
   grid-template-rows: 1fr auto;
@@ -311,7 +324,7 @@ section[id] { scroll-margin-top: 88px; }
 }
 .blog-hero__portrait {
   position: relative;
-  border: 2px solid var(--ink);
+  border: 2px solid color-mix(in oklab, var(--ink) 30%, transparent);
   background: var(--paper-2);
   overflow: hidden;
   min-height: 280px;
@@ -332,12 +345,12 @@ section[id] { scroll-margin-top: 88px; }
   letter-spacing: .14em;
   text-transform: uppercase;
   background: var(--paper);
-  border: 1.5px solid var(--ink);
+  border: 1.5px solid color-mix(in oklab, var(--ink) 30%, transparent);
   padding: 4px 8px;
-  color: var(--ink);
+  color: var(--ink-2);
 }
 
-/* Smaller feature card — half the prototype's height, still scannable. */
+/* Feature card — inverts to a warm-light surface on the dark page */
 .blog-feature-card {
   border: 2px solid var(--ink);
   background: var(--ink);
@@ -350,9 +363,12 @@ section[id] { scroll-margin-top: 88px; }
   position: relative;
   overflow: hidden;
   min-height: 150px;
-  transition: transform .15s ease;
+  transition: transform .15s ease, box-shadow .15s ease;
 }
-.blog-feature-card:hover { transform: translate(-2px, -2px); }
+.blog-feature-card:hover {
+  transform: translate(-2px, -2px);
+  box-shadow: 4px 4px 0 var(--a1);
+}
 .blog-feature-card::before {
   content: "";
   position: absolute;
@@ -360,7 +376,7 @@ section[id] { scroll-margin-top: 88px; }
   width: 28%;
   aspect-ratio: 1;
   background:
-    repeating-linear-gradient(135deg, rgba(255,255,255,.18) 0 6px, transparent 6px 12px),
+    repeating-linear-gradient(135deg, rgba(0,0,0,.12) 0 6px, transparent 6px 12px),
     var(--a1);
   border: 2px solid var(--paper);
 }
@@ -370,7 +386,7 @@ section[id] { scroll-margin-top: 88px; }
   font-size: 10px;
   letter-spacing: .14em;
   text-transform: uppercase;
-  color: color-mix(in oklab, var(--paper) 68%, transparent);
+  color: color-mix(in oklab, var(--paper) 55%, transparent);
 }
 .blog-feature-card strong {
   max-width: 16ch;
@@ -379,21 +395,22 @@ section[id] { scroll-margin-top: 88px; }
   line-height: 1.02;
   letter-spacing: -.02em;
   font-weight: 700;
+  color: var(--paper);
 }
 .blog-feature-card .feature-blurb {
   max-width: 44ch;
-  color: color-mix(in oklab, var(--paper) 78%, transparent);
+  color: color-mix(in oklab, var(--paper) 72%, transparent);
   font-size: 13px;
   line-height: 1.45;
 }
 .blog-feature-card .chip {
   align-self: flex-start;
   color: var(--paper);
-  border-color: var(--paper);
+  border-color: color-mix(in oklab, var(--paper) 40%, transparent);
 }
 
 /* ============================================================
-   ARCHIVE GRID — sticky left rail filter + post list
+   ARCHIVE GRID
    ============================================================ */
 .blog-writing {
   margin-bottom: var(--sec-gap);
@@ -423,7 +440,7 @@ section[id] { scroll-margin-top: 88px; }
   margin-top: 14px;
 }
 
-/* Vertical filter list — each row reads as a left-rail link. */
+/* Vertical filter list */
 .filter-list {
   margin-top: 28px;
   display: flex;
@@ -442,7 +459,7 @@ section[id] { scroll-margin-top: 88px; }
   border-left: 2px solid transparent;
   background: transparent;
   letter-spacing: .08em;
-  color: var(--ink-2);
+  color: var(--ink-3);
   text-align: left;
   cursor: pointer;
   font: inherit;
@@ -451,7 +468,7 @@ section[id] { scroll-margin-top: 88px; }
 }
 .filter-list button:hover {
   color: var(--ink);
-  background: color-mix(in oklab, var(--paper-2) 60%, transparent);
+  background: color-mix(in oklab, var(--paper-2) 80%, transparent);
 }
 .filter-list button.on {
   border-left-color: var(--a1);
@@ -464,15 +481,15 @@ section[id] { scroll-margin-top: 88px; }
   letter-spacing: .1em;
 }
 
-/* Search box sits inside the side rail, under the lead. */
+/* Search box */
 .filter-search {
   margin-top: 22px;
   position: relative;
 }
 .filter-search input {
   width: 100%;
-  background: var(--paper);
-  border: 1.5px solid var(--ink);
+  background: var(--paper-2);
+  border: 1.5px solid color-mix(in oklab, var(--ink) 25%, transparent);
   padding: 10px 12px 10px 32px;
   font-family: var(--f-mono);
   font-size: 12px;
@@ -514,23 +531,27 @@ section[id] { scroll-margin-top: 88px; }
 }
 .post-row {
   padding: 28px 0;
-  border-top: 1.5px solid var(--ink);
+  border-top: 1px solid color-mix(in oklab, var(--ink) 18%, transparent);
   display: grid;
   grid-template-columns: 110px 1fr auto;
   gap: 24px;
   align-items: baseline;
   text-decoration: none;
   color: inherit;
+  transition: padding-left .15s ease;
 }
 .post-row:last-child {
-  border-bottom: 1.5px solid var(--ink);
+  border-bottom: 1px solid color-mix(in oklab, var(--ink) 18%, transparent);
+}
+.post-row:hover {
+  padding-left: 6px;
 }
 .post-row .date {
   font-family: var(--f-mono);
   font-size: 11px;
   letter-spacing: .12em;
   text-transform: uppercase;
-  color: var(--ink-2);
+  color: var(--ink-3);
 }
 .post-row h3 {
   font-family: var(--f-display);
@@ -551,7 +572,7 @@ section[id] { scroll-margin-top: 88px; }
 .post-row .read {
   font-family: var(--f-mono);
   font-size: 11px;
-  color: var(--ink-2);
+  color: var(--ink-3);
   letter-spacing: .08em;
   text-align: right;
   white-space: nowrap;
@@ -565,8 +586,8 @@ section[id] { scroll-margin-top: 88px; }
 
 .post-empty {
   padding: 56px 12px;
-  border-top: 1.5px solid var(--ink);
-  border-bottom: 1.5px solid var(--ink);
+  border-top: 1px solid color-mix(in oklab, var(--ink) 18%, transparent);
+  border-bottom: 1px solid color-mix(in oklab, var(--ink) 18%, transparent);
   text-align: center;
   font-family: var(--f-hand);
   font-size: 22px;
@@ -598,8 +619,9 @@ section[id] { scroll-margin-top: 88px; }
   font-size: 11px;
   letter-spacing: .14em;
   text-transform: uppercase;
-  color: var(--ink-2);
+  color: var(--ink-3);
   text-decoration: none;
+  transition: color .12s ease;
 }
 .blog-back:hover { color: var(--a1); }
 .blog-article-header .tape-row {
@@ -629,10 +651,10 @@ section[id] { scroll-margin-top: 88px; }
 }
 
 .post-body {
-  border-top: 2px solid var(--ink);
-  border-bottom: 2px solid var(--ink);
-  background: color-mix(in oklab, var(--paper) 76%, white);
-  padding: 14px 0 28px;
+  border-top: 1.5px solid color-mix(in oklab, var(--ink) 20%, transparent);
+  border-bottom: 1.5px solid color-mix(in oklab, var(--ink) 20%, transparent);
+  background: var(--paper-2);
+  padding: 14px 0 36px;
 }
 .post-body > * {
   max-width: 72ch;
@@ -643,29 +665,31 @@ section[id] { scroll-margin-top: 88px; }
 .post-body p,
 .post-body li {
   font-size: 18px;
-  line-height: 1.72;
+  line-height: 1.78;
   color: var(--ink-2);
 }
 .post-body p {
-  margin-top: 22px;
+  margin-top: 24px;
   margin-bottom: 0;
 }
 .post-body h2 {
-  margin-top: 42px;
-  margin-bottom: 8px;
+  margin-top: 48px;
+  margin-bottom: 10px;
   font-family: var(--f-display);
   font-size: 34px;
   letter-spacing: -.02em;
+  color: var(--ink);
 }
 .post-body h2::before {
   content: "— ";
   color: var(--a1);
 }
 .post-body h3 {
-  margin-top: 30px;
-  margin-bottom: 6px;
+  margin-top: 32px;
+  margin-bottom: 8px;
   font-family: var(--f-display);
   font-size: 24px;
+  color: var(--ink);
 }
 .post-body ul,
 .post-body ol {
@@ -677,36 +701,47 @@ section[id] { scroll-margin-top: 88px; }
 }
 .post-body a {
   color: var(--a1);
-  border-bottom: 1.5px solid currentColor;
+  border-bottom: 1px solid color-mix(in oklab, var(--a1) 50%, transparent);
   text-decoration: none;
+  transition: border-color .12s ease;
+}
+.post-body a:hover {
+  border-color: var(--a1);
 }
 .post-body blockquote {
-  border-left: 4px solid var(--a1);
-  margin-top: 28px;
-  padding: 4px 0 4px 20px;
+  border-left: 3px solid var(--a1);
+  background: color-mix(in oklab, var(--a1) 5%, transparent);
+  margin-top: 32px;
+  padding: 12px 0 12px 22px;
   font-family: var(--f-hand);
   font-size: 26px;
   color: var(--ink-2);
 }
 .post-body code {
   font-family: var(--f-mono);
-  font-size: .88em;
-  background: var(--paper-2);
-  padding: 2px 5px;
+  font-size: .86em;
+  background: color-mix(in oklab, var(--paper-3) 80%, transparent);
+  border: 1px solid color-mix(in oklab, var(--ink) 12%, transparent);
+  padding: 2px 6px;
+  color: var(--a3);
 }
 .post-body pre {
   overflow-x: auto;
-  padding: 18px;
-  background: var(--ink);
-  color: var(--paper);
-  border: 2px solid var(--ink);
+  padding: 20px;
+  background: #0c0b08;
+  color: #d4cfc6;
+  border: 1.5px solid color-mix(in oklab, var(--ink) 12%, transparent);
   font-family: var(--f-mono);
   font-size: 13px;
-  line-height: 1.55;
+  line-height: 1.6;
+  margin-top: 24px;
 }
 .post-body pre code {
   background: transparent;
+  border: none;
   padding: 0;
+  color: inherit;
+  font-size: inherit;
 }
 .post-body h1 {
   margin-top: 52px;
@@ -714,12 +749,12 @@ section[id] { scroll-margin-top: 88px; }
   font-family: var(--f-display);
   font-size: 44px;
   letter-spacing: -.025em;
+  color: var(--ink);
 }
 .post-body hr {
   border: none;
-  border-top: 1.5px solid var(--ink);
-  margin: 40px 0;
-  opacity: .25;
+  border-top: 1px solid color-mix(in oklab, var(--ink) 18%, transparent);
+  margin: 44px 0;
 }
 .post-body table {
   width: 100%;
@@ -729,24 +764,26 @@ section[id] { scroll-margin-top: 88px; }
 }
 .post-body th,
 .post-body td {
-  border: 1.5px solid color-mix(in oklab, var(--ink) 22%, transparent);
+  border: 1px solid color-mix(in oklab, var(--ink) 16%, transparent);
   padding: 9px 14px;
   text-align: left;
   vertical-align: top;
 }
 .post-body th {
   font-family: var(--f-mono);
-  font-size: 11px;
+  font-size: 10.5px;
   letter-spacing: .1em;
   text-transform: uppercase;
-  background: var(--paper-2);
+  background: var(--paper-3);
+  color: var(--ink);
 }
 .post-body td[align="right"],
 .post-body th[align="right"] { text-align: right; }
 .post-body td[align="center"],
 .post-body th[align="center"] { text-align: center; }
 .post-body mark {
-  background: linear-gradient(180deg, transparent 55%, color-mix(in oklab, var(--a2) 55%, transparent) 55% 92%, transparent 92%);
+  background: color-mix(in oklab, var(--a2) 35%, transparent);
+  color: var(--ink);
   padding: 0 3px;
 }
 .post-body kbd {
@@ -754,16 +791,18 @@ section[id] { scroll-margin-top: 88px; }
   font-family: var(--f-mono);
   font-size: .82em;
   padding: 1px 6px;
-  border: 1.5px solid color-mix(in oklab, var(--ink) 35%, transparent);
+  border: 1px solid color-mix(in oklab, var(--ink) 28%, transparent);
   border-bottom-width: 3px;
-  border-radius: 4px;
-  background: var(--paper-2);
+  border-radius: 3px;
+  background: var(--paper-3);
+  color: var(--ink-2);
   line-height: 1.5;
 }
 .post-body details {
   margin-top: 22px;
-  border: 1.5px solid color-mix(in oklab, var(--ink) 22%, transparent);
+  border: 1px solid color-mix(in oklab, var(--ink) 16%, transparent);
   padding: 12px 18px;
+  background: var(--paper-3);
 }
 .post-body summary {
   font-family: var(--f-mono);
@@ -771,7 +810,7 @@ section[id] { scroll-margin-top: 88px; }
   letter-spacing: .08em;
   text-transform: uppercase;
   cursor: pointer;
-  color: var(--ink-2);
+  color: var(--ink-3);
 }
 .post-body details[open] summary {
   margin-bottom: 12px;
@@ -787,7 +826,7 @@ section[id] { scroll-margin-top: 88px; }
 }
 .post-pager a {
   min-height: 132px;
-  border: 2px solid var(--ink);
+  border: 1.5px solid color-mix(in oklab, var(--ink) 20%, transparent);
   background: var(--paper-2);
   padding: 20px;
   display: flex;
@@ -795,16 +834,19 @@ section[id] { scroll-margin-top: 88px; }
   justify-content: space-between;
   text-decoration: none;
   color: var(--ink);
-  transition: transform .15s ease;
+  transition: transform .15s ease, box-shadow .15s ease;
 }
-.post-pager a:hover { transform: translate(-2px, -2px); }
+.post-pager a:hover { transform: translate(-2px, -2px); box-shadow: 4px 4px 0 var(--a1); }
 .post-pager a:nth-child(2) {
   text-align: right;
-  background: var(--a2);
+  background: var(--a1);
+  border-color: var(--a1);
+  color: #fff;
 }
+.post-pager a:nth-child(2):hover { box-shadow: 4px 4px 0 color-mix(in oklab, var(--a1) 40%, #000); }
 .post-pager .pager-empty {
   min-height: 132px;
-  border: 2px dashed color-mix(in oklab, var(--ink) 30%, transparent);
+  border: 1.5px dashed color-mix(in oklab, var(--ink) 16%, transparent);
   background: transparent;
 }
 .post-pager span {
@@ -812,8 +854,9 @@ section[id] { scroll-margin-top: 88px; }
   font-size: 10.5px;
   letter-spacing: .14em;
   text-transform: uppercase;
-  color: var(--ink-2);
+  color: var(--ink-3);
 }
+.post-pager a:nth-child(2) span { color: rgba(255,255,255,.6); }
 .post-pager strong {
   font-family: var(--f-display);
   font-size: 24px;
@@ -825,36 +868,37 @@ section[id] { scroll-margin-top: 88px; }
    FOOTER
    ============================================================ */
 .ascii-foot {
-  border-top: 1.5px solid var(--ink);
+  border-top: 1px solid color-mix(in oklab, var(--ink) 16%, transparent);
   margin-top: 0;
   padding: 56px 48px 32px;
-  background: var(--paper);
+  background: var(--paper-2);
   position: relative;
 }
 .ascii-foot__top {
   display: grid; grid-template-columns: 1fr auto; gap: 32px;
   align-items: flex-end; padding-bottom: 36px;
-  border-bottom: 1px solid color-mix(in oklab, var(--ink) 18%, transparent);
+  border-bottom: 1px solid color-mix(in oklab, var(--ink) 14%, transparent);
 }
 .ascii-foot__links {
   display: flex; gap: 18px; flex-wrap: wrap;
   font-family: var(--f-mono); font-size: 12px; letter-spacing: .06em;
 }
 .ascii-foot__links a {
-  border-bottom: 1.5px solid var(--ink);
+  border-bottom: 1px solid color-mix(in oklab, var(--ink) 30%, transparent);
   padding-bottom: 2px;
-  transition: color .15s ease;
+  transition: color .15s ease, border-color .15s ease;
   text-decoration: none;
-  color: inherit;
+  color: var(--ink-3);
 }
-.ascii-foot__links a:hover { color: var(--ascii-pink, #ec4899); }
+.ascii-foot__links a:hover { color: var(--ascii-pink); border-color: var(--ascii-pink); }
 .ascii-foot__intro {
   font-family: var(--f-display); font-size: 18px;
   max-width: 38ch; line-height: 1.4;
+  color: var(--ink);
 }
 .ascii-foot__art {
   font-family: var(--f-mono); font-weight: 600;
-  color: var(--ascii-pink, #ec4899);
+  color: var(--ascii-pink);
   font-size: clamp(10px, 1.6vw, 18px); line-height: 1.05;
   letter-spacing: -0.02em; white-space: pre;
   margin: 36px 0 0; user-select: none; overflow-x: auto;
@@ -862,7 +906,7 @@ section[id] { scroll-margin-top: 88px; }
 .ascii-foot__meta {
   display: flex; justify-content: space-between; margin-top: 24px;
   font-family: var(--f-mono); font-size: 11px; letter-spacing: .1em;
-  text-transform: uppercase; color: var(--ink-2);
+  text-transform: uppercase; color: var(--ink-3);
 }
 
 /* ============================================================
@@ -891,7 +935,7 @@ section[id] { scroll-margin-top: 88px; }
   .blog-article-header h1 { font-size: clamp(42px, 14vw, 64px); }
   .blog-article-header p { font-size: 24px; }
   .post-body p,
-  .post-body li { font-size: 16px; }
+  .post-body li { font-size: 16.5px; }
   .post-pager { grid-template-columns: 1fr; }
 }
 
@@ -900,11 +944,11 @@ section[id] { scroll-margin-top: 88px; }
   padding: 24px 0 48px;
 }
 .wip {
-  border: 1px dashed var(--ink);
-  border-radius: 6px;
+  border: 1px dashed color-mix(in oklab, var(--ink) 30%, transparent);
+  border-radius: 4px;
   padding: 56px 24px;
   text-align: center;
-  background: var(--paper);
+  background: var(--paper-2);
   margin-top: 8px;
 }
 .wip-tag {
@@ -912,7 +956,7 @@ section[id] { scroll-margin-top: 88px; }
   font-size: 11px;
   letter-spacing: .14em;
   text-transform: uppercase;
-  color: var(--ink-2);
+  color: var(--ink-3);
   margin-bottom: 14px;
 }
 .wip-text {
