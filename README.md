@@ -1,7 +1,5 @@
 ## Welcome to narwhal-blog 
-This repo is both my personal blog and a public, open-source template for a secure personal blog site that anyone can utilize and share. The files directly in the repository
-mirror the posts live in my blog site. You can inspect those if you're curious about how the .md is rendered on the website. Instructions for how to deploy a copy of this site for your own use are below. 
-
+This repo is both my personal blog and a public, open-source template for a secure personal blog site. The files directly in the repository mirror my live blog site. This site was designed with the intention for it to be: **easy to setup/deploy**, **easy to create/edit/delete posts directly from the site**, and **easy to share posts with others**. 
 
 ### Features
 - Animated, square-dominant, 'field-journal' style theme.
@@ -31,8 +29,8 @@ Vercel is a cloud platform built for the AI era that makes hosting websites and 
 4) Commit your new posts under 'content/posts' (be sure to fill out the post metadata). By default, commits to the main branch are pushed to the live Production build of the site. You can configure this in Vercel for Preview builds to inspect updates live before promoting to Production.  
 5) Once the deployment check completes, the website will be updated right away. 
 6) To change the header photo, replace 'headshot.jpg' in 'public'.
+7) To set your own password for the admin dashboard and to enable GitHub pushing from the site, see the Environment Variables table.
 
-All of this is available through Vercel's project management code-free. 
 
 ##### Environment Variables
 The admin dashboard (`/admin`) requires the following environment variables to be set (in Vercel's project settings, or in a local `.env.local` file for development). See `.env.example` for a starting template.

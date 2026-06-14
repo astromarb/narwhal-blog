@@ -29,7 +29,13 @@ const POSTS_DIR = path.join(process.cwd(), "content", "posts");
 
 function ensureDir(): void {
   if (!fs.existsSync(POSTS_DIR)) {
-    fs.mkdirSync(POSTS_DIR, { recursive: true });
+    try {
+      fs.mkdirSync(POSTS_DIR, { recursive: true });
+    } catch {
+      // Vercel's serverless runtime is read-only; if the directory is missing
+      // from the bundle, mkdirSync throws EROFS. Swallow it — readdirSync
+      // will return [] and getAllPosts will safely return an empty list.
+    }
   }
 }
 
@@ -90,9 +96,12 @@ function readPostFile(filename: string): Post | null {
 
 export function getAllPosts(): Post[] {
   ensureDir();
-  const files = fs
-    .readdirSync(POSTS_DIR)
-    .filter((f) => /\.mdx?$/i.test(f));
+  let files: string[];
+  try {
+    files = fs.readdirSync(POSTS_DIR).filter((f) => /\.mdx?$/i.test(f));
+  } catch {
+    return [];
+  }
 
   const posts = files
     .map((f) => {

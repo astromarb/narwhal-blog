@@ -1,19 +1,7 @@
-import { timingSafeEqual } from "crypto";
 import { NextRequest, NextResponse } from "next/server";
+import { checkAdminAuth } from "@/lib/auth";
 
 const GITHUB_API = "https://api.github.com";
-
-function verifyPassword(submitted: string, stored: string): boolean {
-  const a = Buffer.from(submitted, "utf8");
-  const b = Buffer.from(stored, "utf8");
-  if (a.length !== b.length) return false;
-  return timingSafeEqual(a, b);
-}
-
-function getBearer(req: NextRequest): string {
-  const h = req.headers.get("authorization") ?? "";
-  return h.startsWith("Bearer ") ? h.slice(7) : "";
-}
 
 function ghHeaders() {
   return {
@@ -27,8 +15,7 @@ function ghHeaders() {
 type Params = Promise<{ slug: string }>;
 
 export async function GET(req: NextRequest, { params }: { params: Params }) {
-  const stored = process.env.ADMIN_PASSWORD;
-  if (!stored || !verifyPassword(getBearer(req), stored)) {
+  if (!checkAdminAuth(req.headers.get("authorization"), process.env.ADMIN_PASSWORD)) {
     return NextResponse.json({ ok: false, error: "unauthorized" }, { status: 401 });
   }
 
@@ -55,8 +42,7 @@ export async function GET(req: NextRequest, { params }: { params: Params }) {
 }
 
 export async function DELETE(req: NextRequest, { params }: { params: Params }) {
-  const stored = process.env.ADMIN_PASSWORD;
-  if (!stored || !verifyPassword(getBearer(req), stored)) {
+  if (!checkAdminAuth(req.headers.get("authorization"), process.env.ADMIN_PASSWORD)) {
     return NextResponse.json({ ok: false, error: "unauthorized" }, { status: 401 });
   }
 
