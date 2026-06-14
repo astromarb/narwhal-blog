@@ -1213,6 +1213,11 @@ type SiteConfigData = {
     a2: string;
     a3: string;
   };
+  fontSizes: {
+    heroTitle: number;
+    tagline: number;
+    noteText: number;
+  };
 };
 
 const COLOR_FIELDS: Array<{ key: keyof SiteConfigData["colors"]; label: string }> = [
@@ -1237,6 +1242,7 @@ const DEFAULT_SITE: SiteConfigData = {
     ink: "#e3ddd4", ink2: "#9a9388", ink3: "#5c5852",
     a1: "#dc2626", a2: "#facc15", a3: "#60a5fa",
   },
+  fontSizes: { heroTitle: 118, tagline: 34, noteText: 22 },
 };
 
 function SiteEditor({ onBack }: { onBack: () => void }) {
@@ -1258,11 +1264,14 @@ function SiteEditor({ onBack }: { onBack: () => void }) {
       .catch((err) => { setError(String(err)); setLoading(false); });
   }, []);
 
-  const updateText = (key: keyof Omit<SiteConfigData, "colors">, val: string) =>
+  const updateText = (key: keyof Omit<SiteConfigData, "colors" | "fontSizes">, val: string) =>
     setConfig((c) => ({ ...c, [key]: val }));
 
   const updateColor = (colorKey: keyof SiteConfigData["colors"], val: string) =>
     setConfig((c) => ({ ...c, colors: { ...c.colors, [colorKey]: val } }));
+
+  const updateFontSize = (key: keyof SiteConfigData["fontSizes"], val: number) =>
+    setConfig((c) => ({ ...c, fontSizes: { ...c.fontSizes, [key]: val } }));
 
   async function save() {
     const password = sessionStorage.getItem(SESSION_KEY) ?? "";
@@ -1332,6 +1341,15 @@ function SiteEditor({ onBack }: { onBack: () => void }) {
               {COLOR_FIELDS.map(({ key, label }) => (
                 <SiteColorField key={key} label={label} value={config.colors[key]} onChange={(v) => updateColor(key, v)} />
               ))}
+            </section>
+
+            <section style={{ marginTop: 40 }}>
+              <h2 style={{ fontFamily: "var(--f-mono)", fontSize: 11, letterSpacing: ".1em", textTransform: "uppercase", color: "var(--ink-2)", marginBottom: 20, marginTop: 0, borderBottom: "1px solid color-mix(in oklab, var(--ink) 14%, transparent)", paddingBottom: 10 }}>
+                font sizes
+              </h2>
+              <SiteFontField label={'Hero title ("Field journal.")'} value={config.fontSizes.heroTitle} onChange={(v) => updateFontSize("heroTitle", v)} unit="px" hint="desktop max; clamps on smaller screens" />
+              <SiteFontField label="Tagline paragraph" value={config.fontSizes.tagline} onChange={(v) => updateFontSize("tagline", v)} unit="px" />
+              <SiteFontField label="Note / tape subtitle text" value={config.fontSizes.noteText} onChange={(v) => updateFontSize("noteText", v)} unit="px" />
             </section>
 
             <div style={{ marginTop: 36 }}>
@@ -1414,6 +1432,32 @@ function SiteColorField({
         style={{ width: 88, background: "var(--paper-2)", border: "1.5px solid color-mix(in oklab, var(--ink) 20%, transparent)", color: "var(--ink)", fontFamily: "var(--f-mono)", fontSize: 12, padding: "6px 8px", boxSizing: "border-box", outline: "none" }}
       />
       <span style={{ fontFamily: "var(--f-mono)", fontSize: 11, color: "var(--ink-2)" }}>{label}</span>
+    </div>
+  );
+}
+
+function SiteFontField({
+  label, value, onChange, unit, hint,
+}: {
+  label: string; value: number; onChange: (v: number) => void; unit?: string; hint?: string;
+}) {
+  return (
+    <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 14, flexWrap: "wrap" }}>
+      <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
+        <input
+          type="number"
+          value={value}
+          min={8}
+          max={300}
+          onChange={(e) => { const n = parseInt(e.target.value, 10); if (!isNaN(n) && n >= 8) onChange(n); }}
+          style={{ width: 68, background: "var(--paper-2)", border: "1.5px solid color-mix(in oklab, var(--ink) 20%, transparent)", color: "var(--ink)", fontFamily: "var(--f-mono)", fontSize: 13, padding: "6px 8px", boxSizing: "border-box" as const, outline: "none", textAlign: "right" as const }}
+        />
+        {unit && <span style={{ fontFamily: "var(--f-mono)", fontSize: 11, color: "var(--ink-3)" }}>{unit}</span>}
+      </div>
+      <div>
+        <span style={{ fontFamily: "var(--f-mono)", fontSize: 11, color: "var(--ink-2)" }}>{label}</span>
+        {hint && <span style={{ display: "block", fontFamily: "var(--f-mono)", fontSize: 10, color: "var(--ink-3)", marginTop: 2 }}>{hint}</span>}
+      </div>
     </div>
   );
 }

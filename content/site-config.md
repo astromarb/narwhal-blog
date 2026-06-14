@@ -10,11 +10,11 @@ colors:
   ink: "#f7f1e8"
   ink2: "#9a9388"
   ink3: "#5c5852"
-  a1: "#e52a2a"
-  a2: "#fad414"
-  a3: "#4470a7"
+  a1: "#dc2626"
+  a2: "#facc15"
+  a3: "#60a5fa"
 fontSizes:
-  heroTitle: 75
+  heroTitle: 118
   tagline: 34
-  noteText: 26
+  noteText: 22
 ---

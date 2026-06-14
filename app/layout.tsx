@@ -13,7 +13,7 @@ export default function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
-  const { colors: c } = getSiteConfig();
+  const { colors: c, fontSizes: fs } = getSiteConfig();
   const cssOverrides = `
     :root {
       --paper:   ${c.paper};
@@ -25,6 +25,9 @@ export default function RootLayout({
       --a1:      ${c.a1};
       --a2:      ${c.a2};
       --a3:      ${c.a3};
+      --hero-title-size: ${fs.heroTitle}px;
+      --tagline-size: ${fs.tagline}px;
+      --note-size: ${fs.noteText}px;
     }
   `.trim();
 
