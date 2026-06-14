@@ -8,6 +8,7 @@ import {
   getLatestPost,
   CATEGORY_CHIP,
 } from "@/lib/posts";
+import { getSiteConfig } from "@/lib/site-config";
 
 function formatDate(d: string): string {
   try {
@@ -27,6 +28,7 @@ export default function HomePage() {
   const categories = getAllCategories();
   const categoryCounts = getCategoryCounts();
   const latest = getLatestPost();
+  const site = getSiteConfig();
 
   const latestChipVariant = latest ? (CATEGORY_CHIP[latest.category ?? ""] ?? "") : "";
 
@@ -39,14 +41,14 @@ export default function HomePage() {
           {/* Left column: title + tagline + chips */}
           <div>
             <div className="tape-row">
-              <span className="tape">Blog / Field Journal</span>
-              <span className="note">Thoughts and findings on a range of topics I'm interested in.</span>
+              <span className="tape">{site.siteLabel}</span>
+              <span className="note">{site.tagline}</span>
             </div>
             <h1 id="blog-title">
-              Field <em>journal.</em>
+              {site.heroWord1} <em>{site.heroWord2}</em>
             </h1>
             <p className="blog-tagline">
-              Thoughts and findings on a range of topics I'm interested in. 
+              {site.tagline}
             </p>
             <div className="hero-chips">
               <span className="chip fill">field notes</span>
