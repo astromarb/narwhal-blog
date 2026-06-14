@@ -39,14 +39,14 @@ export default function HomePage() {
           {/* Left column: title + tagline + chips */}
           <div>
             <div className="tape-row">
-              <span className="tape">blog / field journal</span>
-              <span className="note">quiet writing from the field.</span>
+              <span className="tape">Blog / Field Journal</span>
+              <span className="note">Thoughts and findings on a range of topics I'm interested in.</span>
             </div>
             <h1 id="blog-title">
               Field <em>journal.</em>
             </h1>
             <p className="blog-tagline">
-              field notes, paper margins,<br />and quiet code.
+              Thoughts and findings on a range of topics I'm interested in. 
             </p>
             <div className="hero-chips">
               <span className="chip fill">field notes</span>
