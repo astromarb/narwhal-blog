@@ -109,12 +109,6 @@ export default function WritingFilter({
       aria-label="Blog archive"
     >
       <aside className="writing-side">
-        <div className="section-num">— archive / markdown</div>
-        <h2>notes as source files.</h2>
-        <div className="lead">
-          generated from a folder of markdown committed to the repo.
-        </div>
-
         <div className="filter-search">
           <span className="icon" aria-hidden="true">⌕</span>
           <input
