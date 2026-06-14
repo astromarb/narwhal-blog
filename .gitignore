@@ -21,5 +21,5 @@ next-env.d.ts
 # vercel
 .vercel
 
-# pm2 (local only)
-ecosystem.config.cjs
+# claude code internal
+.claude/
