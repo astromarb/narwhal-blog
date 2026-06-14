@@ -1,5 +1,5 @@
 ---
-siteLabel: "Blog / Field Journal"
+siteLabel: "Test"
 heroWord1: "Field"
 heroWord2: "journal."
 tagline: "Thoughts and findings on a range of topics I'm interested in."
