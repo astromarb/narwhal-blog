@@ -66,7 +66,6 @@ export default async function PostPage({ params }: { params: Params }) {
               {post.tape && <span className="tape">{post.tape}</span>}
               <span className="note">{formatDate(post.date)}</span>
             </div>
-            <h1>{post.title}</h1>
             {post.excerpt && <p>{post.excerpt}</p>}
             <div className="hero-chips">
               {post.category && (
@@ -81,6 +80,7 @@ export default async function PostPage({ params }: { params: Params }) {
           </header>
 
           <div>
+            <h1 className="post-title">{post.title}</h1>
             <div
               className="post-body"
               dangerouslySetInnerHTML={{ __html: post.html }}
