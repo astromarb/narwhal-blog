@@ -1466,11 +1466,8 @@ function SitePreview({ config }: { config: SiteConfigData }) {
   const { colors: c, siteLabel, heroWord1, heroWord2, tagline } = config;
   return (
     <div style={{ background: c.paper, border: "1.5px solid color-mix(in oklab, #fff 12%, transparent)", padding: "24px 22px", borderRadius: 3 }}>
-      <div style={{ display: "inline-block", background: c.a2, color: "#0f0e0c", fontFamily: "var(--f-mono)", fontSize: 9.5, fontWeight: 700, padding: "3px 10px", letterSpacing: ".08em", textTransform: "uppercase", marginBottom: 8 }}>
+      <div style={{ display: "inline-block", background: c.a2, color: "#0f0e0c", fontFamily: "var(--f-mono)", fontSize: 9.5, fontWeight: 700, padding: "3px 10px", letterSpacing: ".08em", textTransform: "uppercase", marginBottom: 14 }}>
         {siteLabel}
-      </div>
-      <div style={{ color: c.a1, fontFamily: "var(--f-hand)", fontSize: 12, marginBottom: 14, fontStyle: "italic", lineHeight: 1.4 }}>
-        {tagline}
       </div>
       <div style={{ fontFamily: "var(--f-display)", fontWeight: 700, fontSize: 38, lineHeight: 1.0, marginBottom: 12 }}>
         <span style={{ color: c.ink }}>{heroWord1} </span>
