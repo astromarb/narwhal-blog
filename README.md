@@ -1,12 +1,20 @@
-## Welcome to narwhal-blog. 
+## Welcome to narwhal-blog 
 This repo is both my personal blog and a public, open-source template for a secure personal blog site that anyone can utilize and share. The files directly in the repository
 mirror the posts live in my blog site. You can inspect those if you're curious about how the .md is rendered on the website. Instructions for how to deploy a copy of this site for your own use are below. 
+
+### Features
+- Animated, square-dominant, dark-theme design.
+- Cover image and featured post(s). 
+- Tagging system for posts with visual outputs.
+- Unique, shareable link for each post. 
+
+<img width="530" height="202" alt="image" src="https://github.com/user-attachments/assets/d05d8d88-b978-4c31-a686-d76bbff26ee6" />
 
 
 ## Architecture and Setup
 #### Tech Stack
 The website tech stack consists of Framework Next.js 16 and is written in TypeScript 5. The styling is in plain CSS using custom properties (no Tailwind is used).
-Node version 18 or highher is required, and **a tested deployment pathway is using [Vercel](https://vercel.com/)**. 
+For local editing/testing, Node version 18+ is required. **A verified deployment pathway is using [Vercel](https://vercel.com/)**. 
 
 
 #### Deploying
