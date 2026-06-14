@@ -5,15 +5,15 @@ export default function SiteFooter() {
         <div className="ascii-foot__intro">
           Thanks for reading.
           <div className="kicker" style={{ marginTop: "6px" }}>
-            marvin lopez acevedo · blog · 2026
+            Marvin Lopez Acevedo · Blog · 2026
           </div>
         </div>
         <div className="ascii-foot__links">
-          <a href="#top">top</a>
-          <a href="#archive">archive</a>
-          <a href="https://marvinlopezacevedo.com">main site</a>
-          <a href="https://lab.marvinlopezacevedo.com">lab</a>
-          <a href="mailto:marvlopezacevedo@gmail.com">email</a>
+          <a href="#top">Top</a>
+          <a href="#archive">Archive</a>
+          <a href="https://marvinlopezacevedo.com">main Site</a>
+          <a href="https://lab.marvinlopezacevedo.com">Projects</a>
+          <a href="mailto:marvlopezacevedo@gmail.com">Email</a>
         </div>
       </div>
       <pre className="ascii-foot__art" aria-label="MARVIN">
