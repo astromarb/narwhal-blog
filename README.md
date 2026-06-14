@@ -33,7 +33,6 @@ Vercel is a cloud platform built for the AI era that makes hosting websites and 
 6) To change the header photo, replace 'headshot.jpg' in 'public'.
 7) To set your own password for the admin dashboard and to enable GitHub pushing from the site, see the Environment Variables table.
 
-All of this is available through Vercel's project management code-free. 
 
 ##### Environment Variables
 The admin dashboard (`/admin`) requires the following environment variables to be set (in Vercel's project settings, or in a local `.env.local` file for development). See `.env.example` for a starting template.
