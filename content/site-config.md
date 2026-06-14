@@ -1,8 +1,9 @@
 ---
 siteLabel: "welcome"
-heroWord1: "My"
-heroWord2: "blog."
-tagline: "Thoughts and findings on a range of topics I'm interested in."
+heroNote: "to"
+heroWord1: "strata &"
+heroWord2: "signals"
+tagline: "sporadic thoughts on topics ranging from artificial intelligence, physics, geosciences, technology, art, etc..."
 colors:
   paper: "#0a0908"
   paper2: "#1c1a16"
@@ -11,10 +12,10 @@ colors:
   ink2: "#9a9388"
   ink3: "#5c5852"
   a1: "#dc2626"
-  a2: "#facc15"
+  a2: "#ffd21f"
   a3: "#60a5fa"
 fontSizes:
   heroTitle: 75
   tagline: 28
-  noteText: 25
+  noteText: 20
 ---
