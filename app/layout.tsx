@@ -3,9 +3,16 @@ import { getSiteConfig } from "@/lib/site-config";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "the wave · marvin a. lopez acevedo",
-  description:
-    "Field notes, paper margins, and quiet code — long-form writing from a geosciences PhD researcher.",
+  title: "Marvin A. Lopez Acevedo",
+  description: "Sporadic thoughts and ideas.",
+  openGraph: {
+    title: "Marvin A. Lopez Acevedo",
+    description: "Sporadic thoughts and ideas.",
+  },
+  twitter: {
+    title: "Marvin A. Lopez Acevedo",
+    description: "Sporadic thoughts and ideas.",
+  },
 };
 
 export default function RootLayout({
