@@ -7,7 +7,7 @@ colors:
   paper: "#13110e"
   paper2: "#1c1a16"
   paper3: "#252219"
-  ink: "#e3ddd4"
+  ink: "#f7f1e8"
   ink2: "#9a9388"
   ink3: "#5c5852"
   a1: "#dc2626"
