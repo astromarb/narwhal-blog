@@ -23,6 +23,7 @@ export type FontSizes = {
 
 export type SiteConfig = {
   siteLabel: string;
+  heroNote: string;
   heroWord1: string;
   heroWord2: string;
   tagline: string;
@@ -32,6 +33,7 @@ export type SiteConfig = {
 
 export const DEFAULT_SITE_CONFIG: SiteConfig = {
   siteLabel: "Blog / Field Journal",
+  heroNote: "Welcome.",
   heroWord1: "Field",
   heroWord2: "journal.",
   tagline: "Thoughts and findings on a range of topics I'm interested in.",
@@ -60,6 +62,7 @@ function parseRaw(raw: string): SiteConfig {
   const rfs = (data.fontSizes ?? {}) as Partial<Record<string, number>>;
   return {
     siteLabel: String(data.siteLabel ?? d.siteLabel),
+    heroNote: String(data.heroNote ?? d.heroNote),
     heroWord1: String(data.heroWord1 ?? d.heroWord1),
     heroWord2: String(data.heroWord2 ?? d.heroWord2),
     tagline: String(data.tagline ?? d.tagline),
@@ -97,6 +100,7 @@ export function serializeSiteConfig(config: SiteConfig): string {
   return [
     "---",
     `siteLabel: "${config.siteLabel}"`,
+    `heroNote: "${config.heroNote}"`,
     `heroWord1: "${config.heroWord1}"`,
     `heroWord2: "${config.heroWord2}"`,
     `tagline: "${config.tagline}"`,
