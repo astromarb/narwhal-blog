@@ -47,7 +47,6 @@ function readPostFile(filename: string): Post | null {
   const rawHtml = marked.parse(parsed.content, { async: false }) as string;
   const html = DOMPurify.sanitize(rawHtml, { USE_PROFILES: { html: true } });
 
-  // Strip markdown markers so the search blob is closer to plain prose.
   const plain = parsed.content
     .replace(/`{1,3}[^`]*`{1,3}/g, " ")
     .replace(/[#>*_\-]/g, " ")
@@ -118,7 +117,6 @@ export function getAllCategories(): string[] {
   for (const p of getAllPosts()) {
     if (p.category) cats.add(p.category);
   }
-  // Preserve canonical order; append unknown categories at the end.
   const ordered: string[] = [];
   for (const c of CATEGORIES) if (cats.has(c)) ordered.push(c);
   for (const c of cats) if (!ordered.includes(c)) ordered.push(c);

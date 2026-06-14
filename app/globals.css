@@ -681,7 +681,7 @@ section[id] { scroll-margin-top: 88px; }
   color: var(--ink);
 }
 .post-body h2::before {
-  content: "— ";
+  content: "\2014 ";
   color: var(--a1);
 }
 .post-body h3 {

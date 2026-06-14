@@ -66,13 +66,11 @@ export async function POST(req: NextRequest) {
     "Content-Type": "application/json",
   };
 
-  // Check if file already exists to get its sha.
   let existingSha: string | undefined = providedSha;
   if (!existingSha) {
     const checkRes = await fetch(`${apiBase}?ref=${branch}`, { headers: ghHeaders });
     if (checkRes.ok) {
       const existing = await checkRes.json() as { sha: string };
-      // File exists but caller didn't pass sha — return 409.
       return NextResponse.json(
         { ok: false, error: "file already exists", sha: existing.sha },
         { status: 409 }
