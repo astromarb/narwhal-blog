@@ -3,7 +3,7 @@ siteLabel: "welcome"
 heroNote: "to"
 heroWord1: "strata &"
 heroWord2: "signals"
-tagline: "sporadic thoughts on topics ranging from artificial intelligence, physics, geosciences, technology, art, etc..."
+tagline: "sporadic thoughts on topics ranging from artificial intelligence, physics, geosciences, technology, art, and more. "
 colors:
   paper: "#0a0908"
   paper2: "#1c1a16"
