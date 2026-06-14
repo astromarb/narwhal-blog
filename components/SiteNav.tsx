@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 
 const MAIN_URL = "https://marvinlopezacevedo.com";
-const LAB_URL  = "https://lab.marvinlopezacevedo.com";
+const LAB_URL  = "https://projects.marvinlopezacevedo.com";
 
 type Tab = { href: string; label: string; external?: boolean };
 
@@ -42,7 +42,7 @@ export default function SiteNav() {
       <a className="brand" href="#top">
         <span className="mark">M</span>
         Blog
-        <small>marvin lopez acevedo</small>
+        <small>Marvin Lopez Acevedo</small>
       </a>
       <nav className="tabs" role="navigation" aria-label="Blog navigation">
         {TABS.map((t) => (
@@ -59,7 +59,7 @@ export default function SiteNav() {
           ← main
         </a>
         <a href={LAB_URL} target="_blank" rel="noreferrer">
-          lab ↗
+          projects ↗
         </a>
       </nav>
       <a className="nav-cta" href="#archive">read →</a>
