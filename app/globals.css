@@ -465,12 +465,12 @@ section[id] { scroll-margin-top: 88px; }
 }
 .filter-list button:hover {
   color: var(--ink);
-  background: color-mix(in oklab, var(--paper-2) 80%, transparent);
+  background: color-mix(in oklab, var(--ink) 5%, transparent);
 }
 .filter-list button.on {
   border-left-color: var(--a1);
   color: var(--ink);
-  background: var(--paper-2);
+  background: var(--paper);
 }
 .filter-list .count {
   color: var(--ink-3);
@@ -485,7 +485,7 @@ section[id] { scroll-margin-top: 88px; }
 }
 .filter-search input {
   width: 100%;
-  background: var(--paper-2);
+  background: var(--paper);
   border: 1.5px solid color-mix(in oklab, var(--ink) 25%, transparent);
   padding: 10px 12px 10px 32px;
   font-family: var(--f-mono);
@@ -826,7 +826,7 @@ section[id] { scroll-margin-top: 88px; }
 .post-pager a {
   min-height: 132px;
   border: 1.5px solid color-mix(in oklab, var(--ink) 20%, transparent);
-  background: var(--paper-2);
+  background: var(--paper);
   padding: 20px;
   display: flex;
   flex-direction: column;
@@ -947,7 +947,7 @@ section[id] { scroll-margin-top: 88px; }
   border-radius: 4px;
   padding: 56px 24px;
   text-align: center;
-  background: var(--paper-2);
+  background: var(--paper);
   margin-top: 8px;
 }
 .wip-tag {
