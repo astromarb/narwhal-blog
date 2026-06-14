@@ -31,6 +31,7 @@ export default function HomePage() {
   const site = getSiteConfig();
 
   const latestChipVariant = latest ? (CATEGORY_CHIP[latest.category ?? ""] ?? "") : "";
+  const postsForList = latest ? posts.filter(p => p.slug !== latest.slug) : posts;
 
   return (
     <>
@@ -38,8 +39,8 @@ export default function HomePage() {
       <main className="blog-main" id="top">
         {/* ── HERO ── */}
         <section className="blog-hero" aria-labelledby="blog-title" id="latest">
-          {/* Left column: title + tagline + chips */}
-          <div>
+          {/* Left column: title + tagline + chips + portrait */}
+          <div className="blog-hero__left">
             <div className="tape-row">
               <span className="tape">{site.siteLabel}</span>
               {site.heroNote && <span className="note">{site.heroNote}</span>}
@@ -55,21 +56,25 @@ export default function HomePage() {
               <span className="chip fill2">papers i&rsquo;m reading</span>
               <span className="chip fill3">code and ai</span>
             </div>
-          </div>
-
-          {/* Right column: portrait + latest-post feature card */}
-          <div className="blog-hero__side">
-            <div className="blog-hero__portrait">
+            <div className="blog-hero__portrait blog-hero__portrait--left">
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img src="/headshot.jpg" alt="Marvin Lopez Acevedo" />
+            </div>
+          </div>
+
+          {/* Right column: decorative image + latest-post feature card */}
+          <div className="blog-hero__side">
+            <div className="blog-hero__circuit" aria-hidden="true">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img src="/hero-circuit.png" alt="" aria-hidden="true" style={{ width: "100%", height: "100%", objectFit: "cover", display: "block", opacity: 0.85 }} />
             </div>
 
             {latest ? (
               <a className="blog-feature-card" href={`/${latest.slug}`}>
-                <span className="clabel">latest post</span>
-                <strong>{latest.title}</strong>
+                <span className="clabel" style={{ fontSize: 13 }}>latest post</span>
+                <strong style={{ fontSize: "clamp(26px, 2.8vw, 38px)" }}>{latest.title}</strong>
                 {latest.excerpt && (
-                  <span className="feature-blurb">{latest.excerpt}</span>
+                  <span className="feature-blurb" style={{ fontSize: 15 }}>{latest.excerpt}</span>
                 )}
                 <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
                   {latest.category && (
@@ -81,7 +86,7 @@ export default function HomePage() {
                     <span className="chip">{latest.readingTime} read</span>
                   )}
                 </div>
-                <span className="feature-date">{formatDate(latest.date)}</span>
+                <span className="feature-date" style={{ fontSize: 13 }}>{formatDate(latest.date)}</span>
               </a>
             ) : (
               <div className="blog-feature-card" style={{ opacity: 0.45 }}>
@@ -97,7 +102,7 @@ export default function HomePage() {
 
         {/* ── ARCHIVE ── */}
         <WritingFilter
-          posts={posts}
+          posts={postsForList}
           categories={categories}
           categoryCounts={categoryCounts}
         />

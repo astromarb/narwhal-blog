@@ -51,7 +51,7 @@ export default function SiteFooter() {
                 Marvin Lopez
               </h2>
               <p className="site-footer__tagline">
-                Field notes on AI, physics, geoscience, gaming, society, and technology.
+                Sporadic thoughts on AI, physics, geoscience, gaming, society, and technology.
               </p>
             </span>
           </a>

@@ -143,7 +143,7 @@ section[id] { scroll-margin-top: 88px; }
 
 .note {
   font-family: var(--f-hand);
-  font-size: var(--note-size, 22px);
+  font-size: 22px;
   color: var(--a1);
   line-height: 1.15;
 }
@@ -293,7 +293,7 @@ section[id] { scroll-margin-top: 88px; }
   font-weight: 700;
   letter-spacing: -.03em;
   line-height: .94;
-  font-size: clamp(calc(var(--hero-title-size, 118px) * 0.54), 8vw, var(--hero-title-size, 118px));
+  font-size: clamp(64px, 8vw, 118px);
   margin: 0;
 }
 .blog-hero h1 em {
@@ -304,7 +304,7 @@ section[id] { scroll-margin-top: 88px; }
   max-width: 34ch;
   margin: 24px 0 0;
   font-family: var(--f-hand);
-  font-size: var(--tagline-size, 34px);
+  font-size: 34px;
   line-height: 1.12;
   color: var(--ink-2);
 }
@@ -318,7 +318,7 @@ section[id] { scroll-margin-top: 88px; }
 /* Right column */
 .blog-hero__side {
   display: grid;
-  grid-template-rows: auto auto;
+  grid-template-rows: 1fr auto;
   gap: 18px;
   min-width: 0;
 }
@@ -327,14 +327,17 @@ section[id] { scroll-margin-top: 88px; }
   border: 2px solid color-mix(in oklab, var(--ink) 30%, transparent);
   background: var(--paper-2);
   overflow: hidden;
+  min-height: 280px;
 }
 .blog-hero__portrait img {
   width: 100%;
-  height: auto;
+  height: 100%;
+  object-fit: cover;
+  object-position: center 25%;
   display: block;
 }
 .blog-hero__portrait::after {
-  content: "marvin / 2026";
+  content: "";
   position: absolute;
   left: 12px; bottom: 12px;
   font-family: var(--f-mono);
@@ -345,6 +348,28 @@ section[id] { scroll-margin-top: 88px; }
   border: 1.5px solid color-mix(in oklab, var(--ink) 30%, transparent);
   padding: 4px 8px;
   color: var(--ink-2);
+}
+.blog-hero__left {
+  display: flex;
+  flex-direction: column;
+}
+.blog-hero__portrait--left {
+  margin-top: 28px;
+  max-width: 240px;
+  aspect-ratio: 3 / 4;
+}
+.blog-hero__portrait--left img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center 20%;
+  display: block;
+}
+.blog-hero__circuit {
+  background: var(--paper-2);
+  border: 2px solid color-mix(in oklab, var(--ink) 20%, transparent);
+  min-height: 160px;
+  overflow: hidden;
 }
 
 /* Feature card — inverts to a warm-light surface on the dark page */
@@ -465,12 +490,12 @@ section[id] { scroll-margin-top: 88px; }
 }
 .filter-list button:hover {
   color: var(--ink);
-  background: color-mix(in oklab, var(--ink) 5%, transparent);
+  background: color-mix(in oklab, var(--paper-2) 80%, transparent);
 }
 .filter-list button.on {
   border-left-color: var(--a1);
   color: var(--ink);
-  background: var(--paper);
+  background: var(--paper-2);
 }
 .filter-list .count {
   color: var(--ink-3);
@@ -485,7 +510,7 @@ section[id] { scroll-margin-top: 88px; }
 }
 .filter-search input {
   width: 100%;
-  background: var(--paper);
+  background: var(--paper-2);
   border: 1.5px solid color-mix(in oklab, var(--ink) 25%, transparent);
   padding: 10px 12px 10px 32px;
   font-family: var(--f-mono);
@@ -826,7 +851,7 @@ section[id] { scroll-margin-top: 88px; }
 .post-pager a {
   min-height: 132px;
   border: 1.5px solid color-mix(in oklab, var(--ink) 20%, transparent);
-  background: var(--paper);
+  background: var(--paper-2);
   padding: 20px;
   display: flex;
   flex-direction: column;
@@ -947,7 +972,7 @@ section[id] { scroll-margin-top: 88px; }
   border-radius: 4px;
   padding: 56px 24px;
   text-align: center;
-  background: var(--paper);
+  background: var(--paper-2);
   margin-top: 8px;
 }
 .wip-tag {

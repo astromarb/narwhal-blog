@@ -38,6 +38,10 @@ function today(): string {
 export default function AdminShell() {
   const [phase, setPhase] = useState<Phase>({ name: "locked" });
   const [pw, setPw] = useState("");
+  const [lastBuildUrl, setLastBuildUrl] = useState<string>(() => {
+    if (typeof localStorage !== "undefined") return localStorage.getItem("last_build_url") ?? "";
+    return "";
+  });
 
   useEffect(() => {
     if (typeof sessionStorage !== "undefined" && sessionStorage.getItem(SESSION_KEY)) {
@@ -168,6 +172,10 @@ export default function AdminShell() {
     }
 
     setPhase({ name: "published", url: data.url ?? "", filename });
+    if (data.url) {
+      setLastBuildUrl(data.url);
+      try { localStorage.setItem("last_build_url", data.url); } catch {}
+    }
   }
 
   if (phase.name === "locked") {
@@ -180,6 +188,7 @@ export default function AdminShell() {
         posts={phase.posts}
         loading={phase.loading}
         error={phase.error}
+        buildUrl={lastBuildUrl}
         onNew={() => {
           const empty: ParsedPost = {
             known: { date: today(), category: "misc" },
@@ -267,7 +276,9 @@ function LockScreen({
           background: "var(--paper)",
         }}
       >
-        <div className="tape" style={{ marginBottom: 24 }}>blog / admin</div>
+        <div style={{ display: "inline-block", background: "var(--a3)", color: "#fff", fontFamily: "var(--f-mono)", fontSize: 12, fontWeight: 700, padding: "4px 12px", letterSpacing: ".08em", textTransform: "uppercase", marginBottom: 24 }}>
+          Administrator Dashboard Login.
+        </div>
         <h1
           style={{
             fontFamily: "var(--f-display)",
@@ -275,11 +286,12 @@ function LockScreen({
             fontWeight: 700,
             letterSpacing: "-.03em",
             margin: "0 0 8px",
+            textDecoration: "underline",
           }}
         >
           Sign in.
         </h1>
-        <p style={{ fontFamily: "var(--f-hand)", fontSize: 20, color: "var(--ink-2)", margin: "0 0 28px" }}>
+        <p style={{ fontFamily: "var(--f-hand)", fontSize: 17, color: "var(--ink-2)", margin: "0 0 28px" }}>
           password-protected publishing.
         </p>
 
@@ -307,12 +319,19 @@ function LockScreen({
             onChange={(e) => setPw(e.target.value)}
             autoFocus
             required
+            style={{ fontSize: 12 }}
           />
         </div>
 
-        <button type="submit" className="btn primary" style={{ marginTop: 20, width: "100%" }}>
+        <button type="submit" className="btn primary" style={{ marginTop: 20, width: "100%", fontSize: 12 }}>
           unlock →
         </button>
+        <a
+          href="/"
+          style={{ display: "block", textAlign: "center", marginTop: 12, fontFamily: "var(--f-mono)", fontSize: 10, color: "var(--ink-3)", textDecoration: "none", letterSpacing: ".06em" }}
+        >
+          ↩ back
+        </a>
       </form>
     </div>
   );
@@ -330,6 +349,7 @@ function Dashboard({
   onDelete,
   onLock,
   onSiteSettings,
+  buildUrl,
 }: {
   posts: PostMeta[] | null;
   loading: boolean;
@@ -340,6 +360,7 @@ function Dashboard({
   onDelete: (slug: string, title: string) => void;
   onLock: () => void;
   onSiteSettings: () => void;
+  buildUrl?: string;
 }) {
   return (
     <div style={{ minHeight: "100vh", background: "var(--paper)" }}>
@@ -353,21 +374,10 @@ function Dashboard({
           padding: "12px 32px",
           display: "flex",
           alignItems: "center",
-          justifyContent: "space-between",
+          justifyContent: "center",
           gap: 16,
         }}
       >
-        <span
-          style={{
-            fontFamily: "var(--f-mono)",
-            fontSize: 11,
-            letterSpacing: ".1em",
-            textTransform: "uppercase",
-            opacity: 0.7,
-          }}
-        >
-          blog / admin
-        </span>
         <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
           <button
             type="button"
@@ -401,9 +411,10 @@ function Dashboard({
               fontSize: 11,
               letterSpacing: ".1em",
               textTransform: "uppercase",
-              color: "color-mix(in oklab, var(--paper) 50%, transparent)",
-              background: "none",
+              color: "#fff",
+              background: "#555",
               border: "none",
+              padding: "8px 14px",
               cursor: "pointer",
             }}
           >
@@ -414,7 +425,7 @@ function Dashboard({
 
       <div style={{ maxWidth: 860, margin: "0 auto", padding: "48px 32px" }}>
         <div style={{ marginBottom: 40 }}>
-          <div className="tape" style={{ marginBottom: 16 }}>dashboard</div>
+          <div className="tape" style={{ marginBottom: 16, fontSize: 12 }}>dashboard</div>
           <h1
             style={{
               fontFamily: "var(--f-display)",
@@ -428,13 +439,25 @@ function Dashboard({
             All{" "}
             <em style={{ color: "var(--a1)", fontStyle: "italic" }}>posts.</em>
           </h1>
-          <p style={{ fontFamily: "var(--f-hand)", fontSize: 20, color: "var(--ink-2)", marginTop: 12 }}>
-            {loading
-              ? "loading…"
-              : posts
-              ? `${posts.length} post${posts.length !== 1 ? "s" : ""} · list reflects last build`
-              : ""}
-          </p>
+          <div style={{ display: "flex", alignItems: "center", gap: 12, marginTop: 12, flexWrap: "wrap" }}>
+            <p style={{ fontFamily: "var(--f-hand)", fontSize: 20, color: "var(--ink-2)", margin: 0 }}>
+              {loading
+                ? "loading…"
+                : posts
+                ? `${posts.length} post${posts.length !== 1 ? "s" : ""} · list reflects last build`
+                : ""}
+            </p>
+            {!loading && posts && (
+              <a
+                href={buildUrl || "https://github.com/astromarb/narwhal-blog/commits/main"}
+                target="_blank"
+                rel="noreferrer"
+                style={{ fontFamily: "var(--f-mono)", fontSize: 10, letterSpacing: ".08em", textTransform: "uppercase", color: "var(--ink-3)", border: "1px solid color-mix(in oklab, var(--ink) 25%, transparent)", padding: "4px 10px", textDecoration: "none", flexShrink: 0 }}
+              >
+                ↗ github build
+              </a>
+            )}
+          </div>
         </div>
 
         {error && (
@@ -518,7 +541,7 @@ function Dashboard({
                     <span
                       style={{
                         fontFamily: "var(--f-mono)",
-                        fontSize: 10.5,
+                        fontSize: 13,
                         color: "var(--ink-3)",
                         letterSpacing: ".06em",
                       }}
@@ -529,7 +552,7 @@ function Dashboard({
                       <span
                         style={{
                           fontFamily: "var(--f-mono)",
-                          fontSize: 10.5,
+                          fontSize: 13,
                           color: "var(--ink-3)",
                           letterSpacing: ".06em",
                         }}
@@ -541,7 +564,7 @@ function Dashboard({
                       <span
                         style={{
                           fontFamily: "var(--f-mono)",
-                          fontSize: 10.5,
+                          fontSize: 13,
                           color: "var(--ink-3)",
                           letterSpacing: ".06em",
                         }}
@@ -1199,7 +1222,6 @@ function ErrorScreen({
 
 type SiteConfigData = {
   siteLabel: string;
-  heroNote: string;
   heroWord1: string;
   heroWord2: string;
   tagline: string;
@@ -1213,11 +1235,6 @@ type SiteConfigData = {
     a1: string;
     a2: string;
     a3: string;
-  };
-  fontSizes: {
-    heroTitle: number;
-    tagline: number;
-    noteText: number;
   };
 };
 
@@ -1235,16 +1252,14 @@ const COLOR_FIELDS: Array<{ key: keyof SiteConfigData["colors"]; label: string }
 
 const DEFAULT_SITE: SiteConfigData = {
   siteLabel: "Blog / Field Journal",
-  heroNote: "Welcome.",
   heroWord1: "Field",
   heroWord2: "journal.",
   tagline: "Thoughts and findings on a range of topics I'm interested in.",
   colors: {
-    paper: "#0a0908", paper2: "#1c1a16", paper3: "#252219",
+    paper: "#13110e", paper2: "#1c1a16", paper3: "#252219",
     ink: "#e3ddd4", ink2: "#9a9388", ink3: "#5c5852",
     a1: "#dc2626", a2: "#facc15", a3: "#60a5fa",
   },
-  fontSizes: { heroTitle: 118, tagline: 34, noteText: 22 },
 };
 
 function SiteEditor({ onBack }: { onBack: () => void }) {
@@ -1266,14 +1281,11 @@ function SiteEditor({ onBack }: { onBack: () => void }) {
       .catch((err) => { setError(String(err)); setLoading(false); });
   }, []);
 
-  const updateText = (key: keyof Omit<SiteConfigData, "colors" | "fontSizes">, val: string) =>
+  const updateText = (key: keyof Omit<SiteConfigData, "colors">, val: string) =>
     setConfig((c) => ({ ...c, [key]: val }));
 
   const updateColor = (colorKey: keyof SiteConfigData["colors"], val: string) =>
     setConfig((c) => ({ ...c, colors: { ...c.colors, [colorKey]: val } }));
-
-  const updateFontSize = (key: keyof SiteConfigData["fontSizes"], val: number) =>
-    setConfig((c) => ({ ...c, fontSizes: { ...c.fontSizes, [key]: val } }));
 
   async function save() {
     const password = sessionStorage.getItem(SESSION_KEY) ?? "";
@@ -1330,8 +1342,7 @@ function SiteEditor({ onBack }: { onBack: () => void }) {
               <h2 style={{ fontFamily: "var(--f-mono)", fontSize: 11, letterSpacing: ".1em", textTransform: "uppercase", color: "var(--ink-2)", marginBottom: 20, marginTop: 0, borderBottom: "1px solid color-mix(in oklab, var(--ink) 14%, transparent)", paddingBottom: 10 }}>
                 hero copy
               </h2>
-              <SiteTextField label="Label / breadcrumb (yellow tape)" value={config.siteLabel} onChange={(v) => updateText("siteLabel", v)} />
-              <SiteTextField label="Note above title (red subtitle)" value={config.heroNote} onChange={(v) => updateText("heroNote", v)} />
+              <SiteTextField label="Label / breadcrumb" value={config.siteLabel} onChange={(v) => updateText("siteLabel", v)} />
               <SiteTextField label="Hero word 1 (white, large)" value={config.heroWord1} onChange={(v) => updateText("heroWord1", v)} />
               <SiteTextField label="Hero word 2 (red italic, large)" value={config.heroWord2} onChange={(v) => updateText("heroWord2", v)} />
               <SiteTextField label="Tagline" value={config.tagline} onChange={(v) => updateText("tagline", v)} multiline />
@@ -1344,15 +1355,6 @@ function SiteEditor({ onBack }: { onBack: () => void }) {
               {COLOR_FIELDS.map(({ key, label }) => (
                 <SiteColorField key={key} label={label} value={config.colors[key]} onChange={(v) => updateColor(key, v)} />
               ))}
-            </section>
-
-            <section style={{ marginTop: 40 }}>
-              <h2 style={{ fontFamily: "var(--f-mono)", fontSize: 11, letterSpacing: ".1em", textTransform: "uppercase", color: "var(--ink-2)", marginBottom: 20, marginTop: 0, borderBottom: "1px solid color-mix(in oklab, var(--ink) 14%, transparent)", paddingBottom: 10 }}>
-                font sizes
-              </h2>
-              <SiteFontField label={'Hero title ("Field journal.")'} value={config.fontSizes.heroTitle} onChange={(v) => updateFontSize("heroTitle", v)} unit="px" hint="desktop max; clamps on smaller screens" />
-              <SiteFontField label="Tagline paragraph" value={config.fontSizes.tagline} onChange={(v) => updateFontSize("tagline", v)} unit="px" />
-              <SiteFontField label="Note / tape subtitle text" value={config.fontSizes.noteText} onChange={(v) => updateFontSize("noteText", v)} unit="px" />
             </section>
 
             <div style={{ marginTop: 36 }}>
@@ -1439,45 +1441,15 @@ function SiteColorField({
   );
 }
 
-function SiteFontField({
-  label, value, onChange, unit, hint,
-}: {
-  label: string; value: number; onChange: (v: number) => void; unit?: string; hint?: string;
-}) {
-  return (
-    <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 14, flexWrap: "wrap" }}>
-      <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
-        <input
-          type="number"
-          value={value}
-          min={8}
-          max={300}
-          onChange={(e) => { const n = parseInt(e.target.value, 10); if (!isNaN(n) && n >= 8) onChange(n); }}
-          style={{ width: 68, background: "var(--paper-2)", border: "1.5px solid color-mix(in oklab, var(--ink) 20%, transparent)", color: "var(--ink)", fontFamily: "var(--f-mono)", fontSize: 13, padding: "6px 8px", boxSizing: "border-box" as const, outline: "none", textAlign: "right" as const }}
-        />
-        {unit && <span style={{ fontFamily: "var(--f-mono)", fontSize: 11, color: "var(--ink-3)" }}>{unit}</span>}
-      </div>
-      <div>
-        <span style={{ fontFamily: "var(--f-mono)", fontSize: 11, color: "var(--ink-2)" }}>{label}</span>
-        {hint && <span style={{ display: "block", fontFamily: "var(--f-mono)", fontSize: 10, color: "var(--ink-3)", marginTop: 2 }}>{hint}</span>}
-      </div>
-    </div>
-  );
-}
-
 function SitePreview({ config }: { config: SiteConfigData }) {
-  const { colors: c, siteLabel, heroNote, heroWord1, heroWord2, tagline } = config;
+  const { colors: c, siteLabel, heroWord1, heroWord2, tagline } = config;
   return (
     <div style={{ background: c.paper, border: "1.5px solid color-mix(in oklab, #fff 12%, transparent)", padding: "24px 22px", borderRadius: 3 }}>
-      <div style={{ display: "flex", alignItems: "center", gap: 10, flexWrap: "wrap", marginBottom: 14 }}>
-        <span style={{ display: "inline-block", background: c.a2, color: "#0f0e0c", fontFamily: "var(--f-mono)", fontSize: 9.5, fontWeight: 700, padding: "3px 10px", letterSpacing: ".08em", textTransform: "uppercase" }}>
-          {siteLabel}
-        </span>
-        {heroNote && (
-          <span style={{ color: c.a1, fontFamily: "var(--f-hand)", fontSize: 13, fontStyle: "italic", lineHeight: 1.15 }}>
-            {heroNote}
-          </span>
-        )}
+      <div style={{ display: "inline-block", background: c.a2, color: "#0f0e0c", fontFamily: "var(--f-mono)", fontSize: 9.5, fontWeight: 700, padding: "3px 10px", letterSpacing: ".08em", textTransform: "uppercase", marginBottom: 8 }}>
+        {siteLabel}
+      </div>
+      <div style={{ color: c.a1, fontFamily: "var(--f-hand)", fontSize: 12, marginBottom: 14, fontStyle: "italic", lineHeight: 1.4 }}>
+        {tagline}
       </div>
       <div style={{ fontFamily: "var(--f-display)", fontWeight: 700, fontSize: 38, lineHeight: 1.0, marginBottom: 12 }}>
         <span style={{ color: c.ink }}>{heroWord1} </span>
