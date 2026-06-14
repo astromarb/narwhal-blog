@@ -12,9 +12,11 @@ next-env.d.ts
 *.log
 .DS_Store
 
-# env
+# env — never commit real env files; on Vercel a committed .env* is read at
+# build time and overrides/wipes the dashboard-configured variables.
 .env
-.env*.local
+.env.*
+!.env.example
 
 # vercel
 .vercel
