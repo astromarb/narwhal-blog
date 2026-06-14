@@ -38,7 +38,7 @@ export const DEFAULT_SITE_CONFIG: SiteConfig = {
   heroWord2: "journal.",
   tagline: "Thoughts and findings on a range of topics I'm interested in.",
   colors: {
-    paper: "#13110e",
+    paper: "#0a0908",
     paper2: "#1c1a16",
     paper3: "#252219",
     ink: "#e3ddd4",
