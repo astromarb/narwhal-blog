@@ -1,7 +1,7 @@
 ---
-siteLabel: "Test"
-heroWord1: "Field"
-heroWord2: "journal."
+siteLabel: "welcome"
+heroWord1: "My"
+heroWord2: "blog."
 tagline: "Thoughts and findings on a range of topics I'm interested in."
 colors:
   paper: "#13110e"
@@ -14,7 +14,7 @@ colors:
   a2: "#facc15"
   a3: "#60a5fa"
 fontSizes:
-  heroTitle: 118
+  heroTitle: 75
   tagline: 34
-  noteText: 22
+  noteText: 26
 ---
