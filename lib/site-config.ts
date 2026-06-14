@@ -15,12 +15,19 @@ export type SiteColors = {
   a3: string;
 };
 
+export type FontSizes = {
+  heroTitle: number;
+  tagline: number;
+  noteText: number;
+};
+
 export type SiteConfig = {
   siteLabel: string;
   heroWord1: string;
   heroWord2: string;
   tagline: string;
   colors: SiteColors;
+  fontSizes: FontSizes;
 };
 
 export const DEFAULT_SITE_CONFIG: SiteConfig = {
@@ -39,6 +46,7 @@ export const DEFAULT_SITE_CONFIG: SiteConfig = {
     a2: "#facc15",
     a3: "#60a5fa",
   },
+  fontSizes: { heroTitle: 118, tagline: 34, noteText: 22 },
 };
 
 const CONFIG_PATH = path.join(process.cwd(), "content", "site-config.md");
@@ -47,7 +55,9 @@ function parseRaw(raw: string): SiteConfig {
   const { data } = matter(raw);
   const d = DEFAULT_SITE_CONFIG;
   const dc = d.colors;
+  const dfs = d.fontSizes;
   const rc = (data.colors ?? {}) as Partial<Record<string, string>>;
+  const rfs = (data.fontSizes ?? {}) as Partial<Record<string, number>>;
   return {
     siteLabel: String(data.siteLabel ?? d.siteLabel),
     heroWord1: String(data.heroWord1 ?? d.heroWord1),
@@ -64,6 +74,11 @@ function parseRaw(raw: string): SiteConfig {
       a2: String(rc.a2 ?? dc.a2),
       a3: String(rc.a3 ?? dc.a3),
     },
+    fontSizes: {
+      heroTitle: Number(rfs.heroTitle ?? dfs.heroTitle),
+      tagline: Number(rfs.tagline ?? dfs.tagline),
+      noteText: Number(rfs.noteText ?? dfs.noteText),
+    },
   };
 }
 
@@ -78,6 +93,7 @@ export function getSiteConfig(): SiteConfig {
 
 export function serializeSiteConfig(config: SiteConfig): string {
   const c = config.colors;
+  const fs = config.fontSizes;
   return [
     "---",
     `siteLabel: "${config.siteLabel}"`,
@@ -94,6 +110,10 @@ export function serializeSiteConfig(config: SiteConfig): string {
     `  a1: "${c.a1}"`,
     `  a2: "${c.a2}"`,
     `  a3: "${c.a3}"`,
+    "fontSizes:",
+    `  heroTitle: ${fs.heroTitle}`,
+    `  tagline: ${fs.tagline}`,
+    `  noteText: ${fs.noteText}`,
     "---",
     "",
   ].join("\n");
