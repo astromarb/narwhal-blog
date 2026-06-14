@@ -1,7 +1,5 @@
 ## Welcome to narwhal-blog 
-This repo is both my personal blog and a public, open-source template for a secure personal blog site that anyone can utilize and share. The files directly in the repository
-mirror the posts live in my blog site. You can inspect those if you're curious about how the .md is rendered on the website. Instructions for how to deploy a copy of this site for your own use are below. 
-
+This repo is both my personal blog and a public, open-source template for a secure personal blog site. The files directly in the repository mirror my live blog site. This site was designed with the intention for it to be: **easy to setup/deploy**, **easy to create/edit/delete posts directly from the site**, and **easy to share posts with others**. 
 
 ### Features
 - Animated, square-dominant, 'field-journal' style theme.
