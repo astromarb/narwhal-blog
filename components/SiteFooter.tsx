@@ -1,4 +1,5 @@
 import "./SiteFooter.css";
+import FooterScene from "./FooterScene";
 
 type FooterLink = {
   label: string;
@@ -79,9 +80,7 @@ export default function SiteFooter() {
       </div>
 
       <div className="site-footer__landscape" aria-hidden="true">
-        <div className="site-footer__stars" />
-        <div className="site-footer__mountains" />
-        <div className="site-footer__strata" />
+        <FooterScene />
       </div>
 
       <div className="site-footer__bottom">
