@@ -7,6 +7,7 @@ import type { NextConfig } from "next";
 // `outputFileTracingIncludes` is a top-level key in Next.js 16 but the
 // published @types/next still types it under `experimental`, so we cast.
 const nextConfig = {
+  serverExternalPackages: ["isomorphic-dompurify"],
   outputFileTracingIncludes: {
     "/api/**": ["./content/posts/**/*"],
   },
