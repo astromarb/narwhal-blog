@@ -1,14 +1,7 @@
-import { timingSafeEqual } from "crypto";
 import { NextRequest, NextResponse } from "next/server";
+import { checkAdminAuth } from "@/lib/auth";
 
 const GITHUB_API = "https://api.github.com";
-
-function verifyPassword(submitted: string, stored: string): boolean {
-  const a = Buffer.from(submitted, "utf8");
-  const b = Buffer.from(stored, "utf8");
-  if (a.length !== b.length) return false;
-  return timingSafeEqual(a, b);
-}
 
 function safeFilename(filename: string): boolean {
   return /^[\w.-]+\.md$/i.test(filename) && !filename.includes("..");
@@ -20,10 +13,7 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ ok: false, error: "server misconfigured" }, { status: 500 });
   }
 
-  const authHeader = req.headers.get("authorization") ?? "";
-  const submitted = authHeader.startsWith("Bearer ") ? authHeader.slice(7) : "";
-
-  if (!verifyPassword(submitted, stored)) {
+  if (!checkAdminAuth(req.headers.get("authorization"), stored)) {
     return NextResponse.json({ ok: false, error: "unauthorized" }, { status: 401 });
   }
 

@@ -1,22 +1,9 @@
-import { timingSafeEqual } from "crypto";
 import { NextRequest, NextResponse } from "next/server";
 import { getAllPosts } from "@/lib/posts";
-
-function verifyPassword(submitted: string, stored: string): boolean {
-  const a = Buffer.from(submitted, "utf8");
-  const b = Buffer.from(stored, "utf8");
-  if (a.length !== b.length) return false;
-  return timingSafeEqual(a, b);
-}
-
-function getBearer(req: NextRequest): string {
-  const h = req.headers.get("authorization") ?? "";
-  return h.startsWith("Bearer ") ? h.slice(7) : "";
-}
+import { checkAdminAuth, getBearer } from "@/lib/auth";
 
 export async function GET(req: NextRequest) {
-  const stored = process.env.ADMIN_PASSWORD;
-  if (!stored || !verifyPassword(getBearer(req), stored)) {
+  if (!checkAdminAuth(req.headers.get("authorization"), process.env.ADMIN_PASSWORD)) {
     return NextResponse.json({ ok: false, error: "unauthorized" }, { status: 401 });
   }
 
