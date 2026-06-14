@@ -548,10 +548,10 @@ section[id] { scroll-margin-top: 88px; }
 }
 .post-row .date {
   font-family: var(--f-mono);
-  font-size: 11px;
+  font-size: 22px;
   letter-spacing: .12em;
   text-transform: uppercase;
-  color: var(--ink-3);
+  color: #fff;
 }
 .post-row h3 {
   font-family: var(--f-display);

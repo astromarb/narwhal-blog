@@ -1,6 +1,6 @@
 ---
 title: Hello, and welcome.
-slug:
+slug: first-post
 date: 2026-06-14
 excerpt: Stick around for posts on a wide range of topics.
 tags:
@@ -18,5 +18,4 @@ Oftentimes, the topics that interest me come and go. They are interconnected to 
 
 Currently, I'm wrapping up a Masters thesis in Nashville, Tennessee, and developing a range of tools to assist me in creating scientific visualizations. The next few posts I'll make will likely be about my experience learning to use and applying agentic engineering workflows to create those tools. 
 
-If you're still here, thanks for reading my first post here. 
-
+If you're still here, thanks for reading my first post here.
