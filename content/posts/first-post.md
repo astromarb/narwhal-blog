@@ -1,14 +1,14 @@
 ---
-title: Hello, and welcome.
-slug: first-post
-date: 2026-06-14
-excerpt: Stick around for posts on a wide range of topics.
-tags:
-  - misc
-category: misc
-readingTime: 3 min
-tape: off-the-clock
+title: "Hello, and welcome."
+slug: "first-post"
+date: "2026-06-14"
+excerpt: "Stick around for posts on a wide range of topics."
+tags: ["misc"]
+category: "misc"
+readingTime: "2 min"
+tape: "off-the-clock"
 ---
+
 ##### Welcome to my blog, and to the first post. 
 *Marvin Lopez Acevedo* - June 14th, 2026
 
