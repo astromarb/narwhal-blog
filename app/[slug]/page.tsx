@@ -6,6 +6,7 @@ import {
   getPostBySlug,
   CATEGORY_CHIP,
 } from "@/lib/posts";
+import PrintButton from "@/components/PrintButton";
 
 type Params = Promise<{ slug: string }>;
 
@@ -81,6 +82,7 @@ export default async function PostPage({ params }: { params: Params }) {
 
           <div>
             <h1 className="post-title">{post.title}</h1>
+            <PrintButton />
             <div
               className="post-body"
               dangerouslySetInnerHTML={{ __html: post.html }}

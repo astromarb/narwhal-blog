@@ -26,7 +26,8 @@ type Phase =
   | { name: "editing"; parsed: ParsedPost; filename: string; sha?: string }
   | { name: "publishing"; message?: string }
   | { name: "published"; url: string; filename: string }
-  | { name: "error"; message: string };
+  | { name: "error"; message: string }
+  | { name: "site-editor" };
 
 const SESSION_KEY = "admin_pw";
 
@@ -191,8 +192,13 @@ export default function AdminShell() {
         onEdit={loadPostForEdit}
         onDelete={deletePost}
         onLock={lockOut}
+        onSiteSettings={() => setPhase({ name: "site-editor" })}
       />
     );
+  }
+
+  if (phase.name === "site-editor") {
+    return <SiteEditor onBack={() => loadDashboard()} />;
   }
 
   if (phase.name === "dropping") {
@@ -323,6 +329,7 @@ function Dashboard({
   onEdit,
   onDelete,
   onLock,
+  onSiteSettings,
 }: {
   posts: PostMeta[] | null;
   loading: boolean;
@@ -332,6 +339,7 @@ function Dashboard({
   onEdit: (slug: string) => void;
   onDelete: (slug: string, title: string) => void;
   onLock: () => void;
+  onSiteSettings: () => void;
 }) {
   return (
     <div style={{ minHeight: "100vh", background: "var(--paper)" }}>
@@ -361,6 +369,14 @@ function Dashboard({
           blog / admin
         </span>
         <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
+          <button
+            type="button"
+            onClick={onSiteSettings}
+            className="nav-cta"
+            style={{ fontFamily: "var(--f-mono)" }}
+          >
+            site settings
+          </button>
           <button
             type="button"
             onClick={onDrop}
@@ -1174,6 +1190,261 @@ function ErrorScreen({
         <button type="button" className="btn" onClick={onReset}>
           ← dashboard
         </button>
+      </div>
+    </div>
+  );
+}
+
+// ── Site editor ────────────────────────────────────────────────────────────────
+
+type SiteConfigData = {
+  siteLabel: string;
+  heroWord1: string;
+  heroWord2: string;
+  tagline: string;
+  colors: {
+    paper: string;
+    paper2: string;
+    paper3: string;
+    ink: string;
+    ink2: string;
+    ink3: string;
+    a1: string;
+    a2: string;
+    a3: string;
+  };
+};
+
+const COLOR_FIELDS: Array<{ key: keyof SiteConfigData["colors"]; label: string }> = [
+  { key: "paper",  label: "Background (paper)" },
+  { key: "paper2", label: "Paper 2" },
+  { key: "paper3", label: "Paper 3" },
+  { key: "ink",    label: "Ink (main text)" },
+  { key: "ink2",   label: "Ink 2 (muted)" },
+  { key: "ink3",   label: "Ink 3 (subtle)" },
+  { key: "a1",     label: "Accent 1 (red)" },
+  { key: "a2",     label: "Accent 2 (gold)" },
+  { key: "a3",     label: "Accent 3 (blue)" },
+];
+
+const DEFAULT_SITE: SiteConfigData = {
+  siteLabel: "Blog / Field Journal",
+  heroWord1: "Field",
+  heroWord2: "journal.",
+  tagline: "Thoughts and findings on a range of topics I'm interested in.",
+  colors: {
+    paper: "#13110e", paper2: "#1c1a16", paper3: "#252219",
+    ink: "#e3ddd4", ink2: "#9a9388", ink3: "#5c5852",
+    a1: "#dc2626", a2: "#facc15", a3: "#60a5fa",
+  },
+};
+
+function SiteEditor({ onBack }: { onBack: () => void }) {
+  const [config, setConfig] = useState<SiteConfigData>(DEFAULT_SITE);
+  const [loading, setLoading] = useState(true);
+  const [saving, setSaving] = useState(false);
+  const [savedMsg, setSavedMsg] = useState("");
+  const [error, setError] = useState("");
+
+  useEffect(() => {
+    const password = sessionStorage.getItem(SESSION_KEY) ?? "";
+    fetch("/api/admin/site", { headers: { Authorization: `Bearer ${password}` } })
+      .then((r) => r.json() as Promise<{ ok: boolean; config?: SiteConfigData; error?: string }>)
+      .then((data) => {
+        if (data.ok && data.config) setConfig(data.config);
+        else if (!data.ok) setError(data.error ?? "Failed to load config.");
+        setLoading(false);
+      })
+      .catch((err) => { setError(String(err)); setLoading(false); });
+  }, []);
+
+  const updateText = (key: keyof Omit<SiteConfigData, "colors">, val: string) =>
+    setConfig((c) => ({ ...c, [key]: val }));
+
+  const updateColor = (colorKey: keyof SiteConfigData["colors"], val: string) =>
+    setConfig((c) => ({ ...c, colors: { ...c.colors, [colorKey]: val } }));
+
+  async function save() {
+    const password = sessionStorage.getItem(SESSION_KEY) ?? "";
+    setSaving(true);
+    setSavedMsg("");
+    setError("");
+    try {
+      const res = await fetch("/api/admin/site", {
+        method: "PUT",
+        headers: { "Content-Type": "application/json", Authorization: `Bearer ${password}` },
+        body: JSON.stringify({ config }),
+      });
+      if (res.status === 401) { onBack(); return; }
+      const data = await res.json() as { ok: boolean; error?: string };
+      if (data.ok) {
+        setSavedMsg("Committed to GitHub — Vercel will deploy in ~30 s.");
+      } else {
+        setError(data.error ?? "Save failed.");
+      }
+    } catch (err) {
+      setError(String(err));
+    } finally {
+      setSaving(false);
+    }
+  }
+
+  if (loading) return <Spinner message="loading site config…" />;
+
+  return (
+    <div style={{ minHeight: "100vh", background: "var(--paper)" }}>
+      <div style={{ position: "sticky", top: 0, zIndex: 20, background: "var(--ink)", color: "var(--paper)", padding: "12px 32px", display: "flex", alignItems: "center", justifyContent: "space-between", gap: 16 }}>
+        <span style={{ fontFamily: "var(--f-mono)", fontSize: 11, letterSpacing: ".1em", textTransform: "uppercase", opacity: 0.7 }}>
+          blog / admin / site settings
+        </span>
+        <button type="button" onClick={onBack} style={{ fontFamily: "var(--f-mono)", fontSize: 11, letterSpacing: ".1em", textTransform: "uppercase", color: "color-mix(in oklab, var(--paper) 50%, transparent)", background: "none", border: "none", cursor: "pointer" }}>
+          ← dashboard
+        </button>
+      </div>
+
+      <div style={{ maxWidth: 960, margin: "0 auto", padding: "48px 32px" }}>
+        <div style={{ marginBottom: 40 }}>
+          <div className="tape" style={{ marginBottom: 16 }}>site settings</div>
+          <h1 style={{ fontFamily: "var(--f-display)", fontSize: "clamp(36px, 5vw, 52px)", fontWeight: 700, letterSpacing: "-.03em", lineHeight: 0.94, margin: 0 }}>
+            Edit <em style={{ color: "var(--a1)", fontStyle: "italic" }}>content.</em>
+          </h1>
+          <p style={{ fontFamily: "var(--f-hand)", fontSize: 18, color: "var(--ink-2)", marginTop: 12 }}>
+            changes commit to github and deploy via vercel automatically.
+          </p>
+        </div>
+
+        <div style={{ display: "grid", gridTemplateColumns: "minmax(0,1fr) minmax(0,380px)", gap: 56, alignItems: "start" }}>
+          <div>
+            <section style={{ marginBottom: 40 }}>
+              <h2 style={{ fontFamily: "var(--f-mono)", fontSize: 11, letterSpacing: ".1em", textTransform: "uppercase", color: "var(--ink-2)", marginBottom: 20, marginTop: 0, borderBottom: "1px solid color-mix(in oklab, var(--ink) 14%, transparent)", paddingBottom: 10 }}>
+                hero copy
+              </h2>
+              <SiteTextField label="Label / breadcrumb" value={config.siteLabel} onChange={(v) => updateText("siteLabel", v)} />
+              <SiteTextField label="Hero word 1 (white, large)" value={config.heroWord1} onChange={(v) => updateText("heroWord1", v)} />
+              <SiteTextField label="Hero word 2 (red italic, large)" value={config.heroWord2} onChange={(v) => updateText("heroWord2", v)} />
+              <SiteTextField label="Tagline" value={config.tagline} onChange={(v) => updateText("tagline", v)} multiline />
+            </section>
+
+            <section>
+              <h2 style={{ fontFamily: "var(--f-mono)", fontSize: 11, letterSpacing: ".1em", textTransform: "uppercase", color: "var(--ink-2)", marginBottom: 20, marginTop: 0, borderBottom: "1px solid color-mix(in oklab, var(--ink) 14%, transparent)", paddingBottom: 10 }}>
+                colors
+              </h2>
+              {COLOR_FIELDS.map(({ key, label }) => (
+                <SiteColorField key={key} label={label} value={config.colors[key]} onChange={(v) => updateColor(key, v)} />
+              ))}
+            </section>
+
+            <div style={{ marginTop: 36 }}>
+              {error && <div style={{ fontFamily: "var(--f-mono)", fontSize: 11, color: "var(--a3)", padding: "10px 14px", border: "1.5px solid var(--a3)", marginBottom: 14 }}>{error}</div>}
+              {savedMsg && <div style={{ fontFamily: "var(--f-mono)", fontSize: 11, color: "#4ade80", padding: "10px 14px", border: "1.5px solid #4ade80", marginBottom: 14 }}>✓ {savedMsg}</div>}
+              <button type="button" onClick={save} disabled={saving} className="btn primary" style={{ width: "100%", fontFamily: "var(--f-mono)" }}>
+                {saving ? "saving…" : "save & commit →"}
+              </button>
+            </div>
+          </div>
+
+          <div style={{ position: "sticky", top: 80 }}>
+            <h2 style={{ fontFamily: "var(--f-mono)", fontSize: 11, letterSpacing: ".1em", textTransform: "uppercase", color: "var(--ink-2)", marginBottom: 16, marginTop: 0, borderBottom: "1px solid color-mix(in oklab, var(--ink) 14%, transparent)", paddingBottom: 10 }}>
+              live preview
+            </h2>
+            <SitePreview config={config} />
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function SiteTextField({
+  label, value, onChange, multiline,
+}: {
+  label: string; value: string; onChange: (v: string) => void; multiline?: boolean;
+}) {
+  const inputStyle: React.CSSProperties = {
+    width: "100%",
+    background: "var(--paper-2)",
+    border: "1.5px solid color-mix(in oklab, var(--ink) 20%, transparent)",
+    color: "var(--ink)",
+    fontFamily: "var(--f-body)",
+    fontSize: 14,
+    padding: "10px 12px",
+    boxSizing: "border-box",
+    outline: "none",
+  };
+  return (
+    <div style={{ marginBottom: 18 }}>
+      <label style={{ fontFamily: "var(--f-mono)", fontSize: 10.5, letterSpacing: ".06em", textTransform: "uppercase", color: "var(--ink-3)", display: "block", marginBottom: 5 }}>
+        {label}
+      </label>
+      {multiline ? (
+        <textarea value={value} onChange={(e) => onChange(e.target.value)} rows={3} style={{ ...inputStyle, resize: "vertical" }} />
+      ) : (
+        <input type="text" value={value} onChange={(e) => onChange(e.target.value)} style={inputStyle} />
+      )}
+    </div>
+  );
+}
+
+function SiteColorField({
+  label, value, onChange,
+}: {
+  label: string; value: string; onChange: (v: string) => void;
+}) {
+  const [hex, setHex] = useState(value);
+  useEffect(() => { setHex(value); }, [value]);
+
+  const handleHex = (raw: string) => {
+    setHex(raw);
+    if (/^#[0-9a-fA-F]{6}$/.test(raw)) onChange(raw);
+  };
+
+  return (
+    <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 12 }}>
+      <input
+        type="color"
+        value={value}
+        onChange={(e) => { onChange(e.target.value); setHex(e.target.value); }}
+        style={{ width: 38, height: 38, border: "1.5px solid color-mix(in oklab, var(--ink) 20%, transparent)", background: "none", cursor: "pointer", padding: 2, flexShrink: 0 }}
+      />
+      <input
+        type="text"
+        value={hex}
+        onChange={(e) => handleHex(e.target.value)}
+        maxLength={7}
+        style={{ width: 88, background: "var(--paper-2)", border: "1.5px solid color-mix(in oklab, var(--ink) 20%, transparent)", color: "var(--ink)", fontFamily: "var(--f-mono)", fontSize: 12, padding: "6px 8px", boxSizing: "border-box", outline: "none" }}
+      />
+      <span style={{ fontFamily: "var(--f-mono)", fontSize: 11, color: "var(--ink-2)" }}>{label}</span>
+    </div>
+  );
+}
+
+function SitePreview({ config }: { config: SiteConfigData }) {
+  const { colors: c, siteLabel, heroWord1, heroWord2, tagline } = config;
+  return (
+    <div style={{ background: c.paper, border: "1.5px solid color-mix(in oklab, #fff 12%, transparent)", padding: "24px 22px", borderRadius: 3 }}>
+      <div style={{ display: "inline-block", background: c.a2, color: "#0f0e0c", fontFamily: "var(--f-mono)", fontSize: 9.5, fontWeight: 700, padding: "3px 10px", letterSpacing: ".08em", textTransform: "uppercase", marginBottom: 8 }}>
+        {siteLabel}
+      </div>
+      <div style={{ color: c.a1, fontFamily: "var(--f-hand)", fontSize: 12, marginBottom: 14, fontStyle: "italic", lineHeight: 1.4 }}>
+        {tagline}
+      </div>
+      <div style={{ fontFamily: "var(--f-display)", fontWeight: 700, fontSize: 38, lineHeight: 1.0, marginBottom: 12 }}>
+        <span style={{ color: c.ink }}>{heroWord1} </span>
+        <em style={{ color: c.a1, fontStyle: "italic" }}>{heroWord2}</em>
+      </div>
+      <div style={{ color: c.ink2, fontFamily: "var(--f-hand)", fontSize: 13, lineHeight: 1.45, marginBottom: 18 }}>
+        {tagline}
+      </div>
+      <div style={{ display: "flex", gap: 6, flexWrap: "wrap" }}>
+        {([
+          { label: "field notes",        bg: c.a1, fg: "#fff" },
+          { label: "papers i'm reading", bg: c.a2, fg: "#0f0e0c" },
+          { label: "code and ai",        bg: c.a3, fg: "#fff" },
+        ] as const).map(({ label, bg, fg }) => (
+          <span key={label} style={{ background: bg, color: fg, fontFamily: "var(--f-mono)", fontSize: 9, fontWeight: 700, padding: "4px 10px", borderRadius: 99, textTransform: "uppercase", letterSpacing: ".06em" }}>
+            {label}
+          </span>
+        ))}
       </div>
     </div>
   );
