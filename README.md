@@ -34,6 +34,16 @@ Vercel is a cloud platform built for the AI era that makes hosting websites and 
 
 All of this is available through Vercel's project management code-free. 
 
+##### Environment Variables
+The admin dashboard (`/admin`) requires the following environment variables to be set (in Vercel's project settings, or in a local `.env.local` file for development). See `.env.example` for a starting template.
+
+| Variable | Purpose |
+| --- | --- |
+| ADMIN_PASSWORD | Login gate |
+| GITHUB_TOKEN | Auth to write commits via GitHub API |
+| GITHUB_REPO | Target repo (e.g. astromarb/narwhal-blog) |
+| GITHUB_BRANCH | Branch to commit to |
+
 ##### Domain Names
 By default, the deployed site will use a Vercel generated domain. This is fine for most people who are looking to document their writing and get practice with deploying a site. If you own your own domain name and want to use a custom subdomain (ex. blog.yoursite.com):
 1) Go to Domains inside of the Vercel project for the blog site you deployed
