@@ -967,3 +967,113 @@ section[id] { scroll-margin-top: 88px; }
   color: var(--ink);
   margin: 0;
 }
+
+/* ============================================================
+   PRINT / PDF EXPORT
+   ============================================================ */
+@media print {
+  @page {
+    size: A4;
+    margin: 1.5cm 2cm;
+  }
+
+  /* Neutral palette for print */
+  :root {
+    --paper:   #ffffff;
+    --paper-2: #f4f4f2;
+    --paper-3: #ebebea;
+    --ink:     #111111;
+    --ink-2:   #444444;
+    --ink-3:   #666666;
+    --a1:      #b91c1c;
+    --a2:      #92700a;
+    --a3:      #1d4ed8;
+  }
+
+  /* Hide everything that isn't the article */
+  .site-nav,
+  .site-footer,
+  .blog-back,
+  .post-pager,
+  .no-print { display: none !important; }
+
+  body {
+    font-size: 11pt;
+    line-height: 1.65;
+    background: #fff;
+    color: #111;
+  }
+
+  .blog-post-shell { padding: 0; }
+
+  .blog-article {
+    display: block;
+    max-width: 100%;
+    padding: 0;
+    gap: 0;
+  }
+
+  .blog-article-header {
+    border-right: none;
+    padding: 0 0 1.5em;
+    margin-bottom: 1.5em;
+    border-bottom: 1px solid #ccc;
+  }
+
+  .post-title {
+    font-size: 22pt;
+    margin-bottom: 0.4em;
+    color: #111;
+  }
+
+  /* Post body */
+  .post-body {
+    background: transparent;
+    padding: 0;
+    font-size: 11pt;
+    color: #111;
+  }
+
+  .post-body pre {
+    background: #f4f4f2;
+    border: 1px solid #ddd;
+    color: #111;
+    white-space: pre-wrap;
+    word-break: break-word;
+    font-size: 9pt;
+    box-shadow: none;
+  }
+
+  .post-body code {
+    background: #f4f4f2;
+    color: #111;
+    font-size: 9pt;
+  }
+
+  /* Show link destinations inline */
+  .post-body a[href]::after {
+    content: " (" attr(href) ")";
+    font-size: 8pt;
+    color: #666;
+    word-break: break-all;
+  }
+  .post-body a[href^="#"]::after,
+  .post-body a[href^="javascript"]::after { content: ""; }
+
+  /* Page-break control */
+  h2, h3, h4 { break-after: avoid; }
+  pre, blockquote, table, figure, img { break-inside: avoid; }
+
+  /* Tape labels — keep color in print */
+  .tape {
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+
+  /* Chips */
+  .chip {
+    border: 1px solid currentColor;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+}
