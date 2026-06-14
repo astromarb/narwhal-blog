@@ -42,7 +42,7 @@ export default function HomePage() {
           <div>
             <div className="tape-row">
               <span className="tape">{site.siteLabel}</span>
-              <span className="note">{site.tagline}</span>
+              {site.heroNote && <span className="note">{site.heroNote}</span>}
             </div>
             <h1 id="blog-title">
               {site.heroWord1} <em>{site.heroWord2}</em>

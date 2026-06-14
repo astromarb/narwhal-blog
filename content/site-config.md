@@ -4,7 +4,7 @@ heroWord1: "My"
 heroWord2: "blog."
 tagline: "Thoughts and findings on a range of topics I'm interested in."
 colors:
-  paper: "#13110e"
+  paper: "#0a0908"
   paper2: "#1c1a16"
   paper3: "#252219"
   ink: "#f7f1e8"
