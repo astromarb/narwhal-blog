@@ -3,7 +3,7 @@ import fs from "node:fs";
 import path from "node:path";
 import matter from "gray-matter";
 import { marked } from "marked";
-import DOMPurify from "isomorphic-dompurify";
+import sanitizeHtml from "sanitize-html";
 import { CATEGORIES } from "@/lib/categories";
 export { CATEGORIES, CATEGORY_CHIP } from "@/lib/categories";
 export type { Category } from "@/lib/categories";
@@ -45,7 +45,15 @@ function readPostFile(filename: string): Post | null {
     data.slug ?? filename.replace(/\.mdx?$/i, "").toLowerCase();
 
   const rawHtml = marked.parse(parsed.content, { async: false }) as string;
-  const html = DOMPurify.sanitize(rawHtml, { USE_PROFILES: { html: true } });
+  const html = sanitizeHtml(rawHtml, {
+    allowedTags: sanitizeHtml.defaults.allowedTags.concat(["img", "h1", "h2"]),
+    allowedAttributes: {
+      ...sanitizeHtml.defaults.allowedAttributes,
+      img: ["src", "alt", "title", "width", "height"],
+      a: ["href", "title", "target", "rel"],
+      "*": ["class"],
+    },
+  });
 
   const plain = parsed.content
     .replace(/`{1,3}[^`]*`{1,3}/g, " ")

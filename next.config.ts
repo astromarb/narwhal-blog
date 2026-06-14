@@ -1,7 +1,6 @@
 import type { NextConfig } from "next";
 
 const nextConfig = {
-  serverExternalPackages: ["isomorphic-dompurify"],
   outputFileTracingIncludes: {
     "/**": ["./content/**/*"],
   },
