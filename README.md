@@ -31,6 +31,7 @@ Vercel is a cloud platform built for the AI era that makes hosting websites and 
 4) Commit your new posts under 'content/posts' (be sure to fill out the post metadata). By default, commits to the main branch are pushed to the live Production build of the site. You can configure this in Vercel for Preview builds to inspect updates live before promoting to Production.  
 5) Once the deployment check completes, the website will be updated right away. 
 6) To change the header photo, replace 'headshot.jpg' in 'public'.
+7) To set your own password for the admin dashboard and to enable GitHub pushing from the site, see the Environment Variables table.
 
 All of this is available through Vercel's project management code-free. 
 
