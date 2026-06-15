@@ -21,7 +21,7 @@ colors:
   a2: "#ffc500"
   a3: "#0b39d7"
 fontSizes:
-  heroTitle: 78
+  heroTitle: 106
   tagline: 26
   noteText: 23
 ---
