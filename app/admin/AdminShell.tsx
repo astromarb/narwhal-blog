@@ -1551,9 +1551,8 @@ function SiteFontField({
   label: string; value: number; onChange: (v: number) => void;
   previewText?: string; previewFont?: string; previewColor?: string;
 }) {
-  const displaySize = Math.min(value, 32);
   return (
-    <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 16, minHeight: 44 }}>
+    <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 16 }}>
       <input
         type="number"
         value={value}
@@ -1564,16 +1563,16 @@ function SiteFontField({
       />
       <span style={{ fontFamily: "var(--f-mono)", fontSize: 12, color: "var(--ink-3)", letterSpacing: ".04em", flexShrink: 0, whiteSpace: "nowrap" }}>{label}</span>
       {previewText && (
-        <div style={{ flex: 1, overflow: "hidden", borderLeft: "1px solid color-mix(in oklab, var(--ink) 10%, transparent)", paddingLeft: 14 }}>
+        <div style={{ flex: 1, height: 52, overflow: "hidden", borderLeft: "1px solid color-mix(in oklab, var(--ink) 10%, transparent)", paddingLeft: 14, display: "flex", alignItems: "center" }}>
           <span style={{
             fontFamily: previewFont ?? "var(--f-display)",
-            fontSize: displaySize,
+            fontSize: value,
             color: previewColor ?? "var(--ink)",
             whiteSpace: "nowrap",
             display: "block",
             overflow: "hidden",
             textOverflow: "ellipsis",
-            lineHeight: 1.15,
+            lineHeight: 1,
           }}>
             {previewText}
           </span>
@@ -1584,34 +1583,81 @@ function SiteFontField({
 }
 
 function SitePreview({ config }: { config: SiteConfigData }) {
-  const { colors: c, siteLabel, heroNote, heroWord1, heroWord2, tagline } = config;
+  const [tab, setTab] = useState<"home" | "post">("home");
+  const { colors: c, siteLabel, heroNote, heroWord1, heroWord2, tagline, fontSizes: fs, categories } = config;
+
+  const tabStyle = (t: "home" | "post"): React.CSSProperties => ({
+    fontFamily: "var(--f-mono)", fontSize: 10, letterSpacing: ".1em", textTransform: "uppercase",
+    padding: "5px 12px", cursor: "pointer", border: "none",
+    background: tab === t ? c.ink : "transparent",
+    color: tab === t ? c.paper : c.ink2,
+    transition: "background .12s ease",
+  });
+
   return (
-    <div style={{ background: c.paper, border: "1.5px solid color-mix(in oklab, #fff 12%, transparent)", padding: "24px 22px", borderRadius: 3 }}>
-      <div style={{ display: "inline-block", background: c.a2, color: "#0f0e0c", fontFamily: "var(--f-mono)", fontSize: 9.5, fontWeight: 700, padding: "3px 10px", letterSpacing: ".08em", textTransform: "uppercase", marginBottom: 8 }}>
-        {siteLabel}
+    <div style={{ background: c.paper, border: "1.5px solid color-mix(in oklab, #fff 12%, transparent)", borderRadius: 3, overflow: "hidden" }}>
+      {/* Tab bar */}
+      <div style={{ display: "flex", borderBottom: `1px solid color-mix(in oklab, ${c.ink} 14%, transparent)` }}>
+        <button type="button" style={tabStyle("home")} onClick={() => setTab("home")}>Homepage</button>
+        <button type="button" style={tabStyle("post")} onClick={() => setTab("post")}>Post page</button>
       </div>
-      {heroNote && (
-        <div style={{ color: c.a1, fontFamily: "var(--f-hand)", fontSize: 12, marginBottom: 6, fontStyle: "italic", lineHeight: 1.4 }}>
-          {heroNote}
-        </div>
-      )}
-      <div style={{ fontFamily: "var(--f-display)", fontWeight: 700, fontSize: 38, lineHeight: 1.0, marginBottom: 12 }}>
-        <span style={{ color: c.ink }}>{heroWord1} </span>
-        <em style={{ color: c.a1, fontStyle: "italic" }}>{heroWord2}</em>
-      </div>
-      <div style={{ color: c.ink2, fontFamily: "var(--f-hand)", fontSize: 13, lineHeight: 1.45, marginBottom: 18 }}>
-        {tagline}
-      </div>
-      <div style={{ display: "flex", gap: 6, flexWrap: "wrap" }}>
-        {([
-          { label: "field notes",        bg: c.a1, fg: "#fff" },
-          { label: "papers i'm reading", bg: c.a2, fg: "#0f0e0c" },
-          { label: "code and ai",        bg: c.a3, fg: "#fff" },
-        ] as const).map(({ label, bg, fg }) => (
-          <span key={label} style={{ background: bg, color: fg, fontFamily: "var(--f-mono)", fontSize: 9, fontWeight: 700, padding: "4px 10px", borderRadius: 99, textTransform: "uppercase", letterSpacing: ".06em" }}>
-            {label}
-          </span>
-        ))}
+
+      <div style={{ padding: "20px 20px" }}>
+        {tab === "home" ? (
+          <>
+            <div style={{ display: "inline-block", background: c.a2, color: "#0f0e0c", fontFamily: "var(--f-mono)", fontSize: 9.5, fontWeight: 700, padding: "3px 10px", letterSpacing: ".08em", textTransform: "uppercase", marginBottom: 8 }}>
+              {siteLabel}
+            </div>
+            {heroNote && (
+              <div style={{ color: c.a1, fontFamily: "var(--f-hand)", fontSize: Math.min(fs.noteText, 14), marginBottom: 6, fontStyle: "italic", lineHeight: 1.4 }}>
+                {heroNote}
+              </div>
+            )}
+            <div style={{ fontFamily: "var(--f-display)", fontWeight: 700, fontSize: Math.min(fs.heroTitle, 42), lineHeight: 1.0, marginBottom: 10 }}>
+              <span style={{ color: c.ink }}>{heroWord1} </span>
+              <em style={{ color: c.a1, fontStyle: "italic" }}>{heroWord2}</em>
+            </div>
+            <div style={{ color: c.ink2, fontFamily: "var(--f-hand)", fontSize: Math.min(fs.tagline, 14), lineHeight: 1.45, marginBottom: 16 }}>
+              {tagline}
+            </div>
+            <div style={{ display: "flex", gap: 6, flexWrap: "wrap" }}>
+              {categories.map((cat, i) => {
+                const fills = [c.a1, c.a2, c.a3];
+                const fgs  = ["#fff", "#0f0e0c", "#fff"];
+                const bg = fills[i % fills.length];
+                const fg = fgs[i % fgs.length];
+                return (
+                  <span key={cat} style={{ background: bg, color: fg, fontFamily: "var(--f-mono)", fontSize: 9, fontWeight: 700, padding: "4px 10px", borderRadius: 99, textTransform: "uppercase", letterSpacing: ".06em" }}>
+                    {cat}
+                  </span>
+                );
+              })}
+            </div>
+          </>
+        ) : (
+          <>
+            {/* Post page preview */}
+            <div style={{ marginBottom: 10 }}>
+              <span style={{ fontFamily: "var(--f-mono)", fontSize: 9, color: c.ink3, letterSpacing: ".1em", textTransform: "uppercase" }}>
+                jun 15 / 2026
+              </span>
+            </div>
+            <div style={{ display: "inline-block", background: c.a1, color: "#fff", fontFamily: "var(--f-mono)", fontSize: 9, fontWeight: 700, padding: "3px 10px", letterSpacing: ".08em", textTransform: "uppercase", borderRadius: 99, marginBottom: 12 }}>
+              {categories[0] ?? "field notes"}
+            </div>
+            <h1 style={{ fontFamily: "var(--f-display)", fontWeight: 700, fontSize: Math.min(fs.heroTitle * 0.55, 34), lineHeight: 1.05, letterSpacing: "-.02em", color: c.ink, margin: "0 0 12px" }}>
+              Sample post title
+            </h1>
+            <p style={{ fontFamily: "var(--f-hand)", fontSize: Math.min(fs.tagline, 14), color: c.ink2, lineHeight: 1.5, margin: "0 0 16px" }}>
+              A short excerpt or description of the post goes here, giving the reader a sense of what to expect.
+            </p>
+            <div style={{ borderTop: `1px solid color-mix(in oklab, ${c.ink} 12%, transparent)`, paddingTop: 14 }}>
+              <p style={{ fontFamily: "var(--f-body, serif)", fontSize: 13, color: c.ink, lineHeight: 1.7, margin: 0 }}>
+                Post body text appears here in your chosen ink color, with comfortable line spacing for reading. The background behind this text is <span style={{ background: c.paper2, padding: "1px 4px" }}>{c.paper2}</span>.
+              </p>
+            </div>
+          </>
+        )}
       </div>
     </div>
   );
