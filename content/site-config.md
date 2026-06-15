@@ -14,14 +14,14 @@ colors:
   paper: "#0a0908"
   paper2: "#1c1a16"
   paper3: "#252219"
-  ink: "#f7f1e8"
-  ink2: "#cbc0af"
+  ink: "#fbf8f3"
+  ink2: "#bcb6a9"
   ink3: "#5c5852"
   a1: "#dd0016"
   a2: "#ffc500"
   a3: "#0b39d7"
 fontSizes:
-  heroTitle: 75
-  tagline: 18
+  heroTitle: 68
+  tagline: 19
   noteText: 24
 ---
