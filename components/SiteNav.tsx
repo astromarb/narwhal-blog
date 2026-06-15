@@ -47,7 +47,6 @@ export default function SiteNav() {
       <a className="brand" href={resolve("#top")}>
         <span className="mark">M</span>
         Blog
-        <small>Marvin Lopez Acevedo</small>
       </a>
       <nav className="tabs" role="navigation" aria-label="Blog navigation">
         {TABS.map((t) => {

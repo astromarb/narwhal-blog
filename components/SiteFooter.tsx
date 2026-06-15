@@ -59,7 +59,6 @@ export default function SiteFooter() {
         <p>© {year} Marvin A. Lopez Acevedo. All rights reserved.</p>
         <div className="site-footer__legal">
           <a href="/#top">Top ↑</a>
-          <span aria-hidden="true">•</span>
           <a href="https://github.com/astromarb" target="_blank" rel="noreferrer">GitHub</a>
         </div>
       </div>
