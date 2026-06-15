@@ -1133,6 +1133,8 @@ section[id] { scroll-margin-top: 88px; }
   .writing-grid { grid-template-columns: 1fr; gap: 28px; }
   .writing-side { position: static; }
   .sidebar-circuit { display: none; }
+  .blog-hero__side { align-self: auto; width: 100%; }
+  .blog-feature-card { width: 100%; }
 }
 @media (max-width: 860px) {
   .site-nav { grid-template-columns: 1fr; gap: 12px; }
