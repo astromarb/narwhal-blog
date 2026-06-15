@@ -717,7 +717,7 @@ section[id] { scroll-margin-top: 88px; }
 }
 .archive-year__label {
   font-family: var(--f-mono);
-  font-size: 11px;
+  font-size: 15px;
   font-weight: 700;
   letter-spacing: .1em;
   text-transform: uppercase;
@@ -756,7 +756,7 @@ section[id] { scroll-margin-top: 88px; }
 }
 .archive-row__date {
   font-family: var(--f-mono);
-  font-size: 10.5px;
+  font-size: 13px;
   color: var(--ink-3);
   letter-spacing: .04em;
   white-space: nowrap;
@@ -780,7 +780,7 @@ section[id] { scroll-margin-top: 88px; }
 }
 .archive-row__time {
   font-family: var(--f-mono);
-  font-size: 9.5px;
+  font-size: 12px;
   color: var(--ink-3);
   letter-spacing: .06em;
   white-space: nowrap;
@@ -848,6 +848,13 @@ section[id] { scroll-margin-top: 88px; }
   letter-spacing: -.03em;
   line-height: .98;
   font-size: clamp(30px, 3.9vw, 53px);
+  margin: 0 0 10px;
+}
+.post-byline {
+  font-family: var(--f-mono);
+  font-size: 13px;
+  color: var(--ink-3);
+  letter-spacing: .04em;
   margin: 0 0 28px;
 }
 .blog-article-header p {

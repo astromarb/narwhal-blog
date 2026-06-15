@@ -1,12 +1,13 @@
 import { notFound } from "next/navigation";
 import SiteNav from "@/components/SiteNav";
 import SiteFooter from "@/components/SiteFooter";
+import BackButton from "@/components/BackButton";
+import PostActions from "@/components/PostActions";
 import {
   getAllPosts,
   getPostBySlug,
   CATEGORY_CHIP,
 } from "@/lib/posts";
-import PrintButton from "@/components/PrintButton";
 
 type Params = Promise<{ slug: string }>;
 
@@ -60,12 +61,9 @@ export default async function PostPage({ params }: { params: Params }) {
       <main className="blog-post-shell" id="top">
         <article className="blog-article">
           <header className="blog-article-header">
-            <a className="blog-back" href="/#archive">
-              ← back to archive
-            </a>
+            <BackButton />
             <div className="tape-row">
               {post.tape && <span className="tape">{post.tape}</span>}
-              <span className="note">{formatDate(post.date)}</span>
             </div>
             {post.excerpt && <p>{post.excerpt}</p>}
             <div className="hero-chips">
@@ -82,11 +80,15 @@ export default async function PostPage({ params }: { params: Params }) {
 
           <div>
             <h1 className="post-title">{post.title}</h1>
-            <PrintButton />
+            <p className="post-byline">
+              Marvin A. Lopez Acevedo · {formatDate(post.date)}
+            </p>
             <div
               className="post-body"
               dangerouslySetInnerHTML={{ __html: post.html }}
             />
+
+            <PostActions />
 
             <nav className="post-pager" aria-label="Post navigation">
               {olderPost ? (
