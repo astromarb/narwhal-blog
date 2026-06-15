@@ -694,10 +694,9 @@ section[id] { scroll-margin-top: 88px; }
 }
 .archive-subtitle {
   font-family: var(--f-mono);
-  font-size: 12px;
-  color: var(--ink-3);
-  letter-spacing: .06em;
-  text-transform: uppercase;
+  font-size: clamp(0.9rem, 1.4vw, 1.05rem);
+  color: var(--ink-2);
+  line-height: 1.65;
   margin: 0;
 }
 .archive-body {
