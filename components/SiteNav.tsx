@@ -6,13 +6,12 @@ import { usePathname } from "next/navigation";
 const MAIN_URL = "https://marvinlopezacevedo.com";
 const LAB_URL  = "https://projects.marvinlopezacevedo.com";
 
-type Tab = { href: string; label: string; external?: boolean };
+type Tab = { href: string; label: string };
 
 const TABS: Tab[] = [
-  { href: "#top",      label: "top" },
-  { href: "/archive",  label: "archive" },
-  { href: "#latest",   label: "latest" },
-  { href: "#footer",   label: "links" },
+  { href: "#top",     label: "top" },
+  { href: "/archive", label: "archive" },
+  { href: "#footer",  label: "links" },
 ];
 
 export default function SiteNav() {
@@ -20,14 +19,13 @@ export default function SiteNav() {
   const pathname = usePathname();
   const onHome = pathname === "/";
 
-  // On a post page, hash-links (#top, #latest, #footer) resolve to the homepage.
   const resolve = (href: string) =>
     !onHome && href.startsWith("#") ? `/${href === "#top" ? "" : href}` : href;
 
   useEffect(() => {
-    const ids = TABS.map((t) => t.href.slice(1));
-    const sections = ids
-      .map((id) => document.getElementById(id))
+    const hashTabs = TABS.filter((t) => t.href.startsWith("#"));
+    const sections = hashTabs
+      .map((t) => document.getElementById(t.href.slice(1)))
       .filter(Boolean) as HTMLElement[];
     if (sections.length === 0) return;
 
@@ -68,14 +66,15 @@ export default function SiteNav() {
             </a>
           );
         })}
-        <a href={MAIN_URL} target="_blank" rel="noreferrer">
-          ← main
-        </a>
-        <a href={LAB_URL} target="_blank" rel="noreferrer">
+      </nav>
+      <div className="nav-right">
+        <a href={LAB_URL} target="_blank" rel="noreferrer" className="nav-projects">
           projects ↗
         </a>
-      </nav>
-      <a className="nav-cta" href={resolve("#archive")}>read →</a>
+        <a className="nav-cta" href={MAIN_URL} target="_blank" rel="noreferrer">
+          main →
+        </a>
+      </div>
     </header>
   );
 }

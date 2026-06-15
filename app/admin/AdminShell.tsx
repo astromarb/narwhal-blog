@@ -1551,29 +1551,20 @@ function SiteFontField({
   label: string; value: number; onChange: (v: number) => void;
   previewText?: string; previewFont?: string; previewColor?: string;
 }) {
-  const displaySize = Math.min(value, 36);
+  const displaySize = Math.min(value, 32);
   return (
-    <div style={{ marginBottom: 20 }}>
-      <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 8 }}>
-        <input
-          type="number"
-          value={value}
-          min={10}
-          max={200}
-          onChange={(e) => onChange(Number(e.target.value))}
-          style={{ width: 76, background: "var(--paper-2)", border: "1.5px solid color-mix(in oklab, var(--ink) 20%, transparent)", color: "var(--ink)", fontFamily: "var(--f-mono)", fontSize: 14, padding: "7px 10px", boxSizing: "border-box", outline: "none", textAlign: "right" }}
-        />
-        <span style={{ fontFamily: "var(--f-mono)", fontSize: 13, color: "var(--ink-2)", letterSpacing: ".04em" }}>{label}</span>
-      </div>
+    <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 16, minHeight: 44 }}>
+      <input
+        type="number"
+        value={value}
+        min={10}
+        max={200}
+        onChange={(e) => onChange(Number(e.target.value))}
+        style={{ width: 76, flexShrink: 0, background: "var(--paper-2)", border: "1.5px solid color-mix(in oklab, var(--ink) 20%, transparent)", color: "var(--ink)", fontFamily: "var(--f-mono)", fontSize: 14, padding: "7px 10px", boxSizing: "border-box", outline: "none", textAlign: "right" }}
+      />
+      <span style={{ fontFamily: "var(--f-mono)", fontSize: 12, color: "var(--ink-3)", letterSpacing: ".04em", flexShrink: 0, whiteSpace: "nowrap" }}>{label}</span>
       {previewText && (
-        <div style={{
-          background: "var(--paper-2)",
-          border: "1px solid color-mix(in oklab, var(--ink) 10%, transparent)",
-          padding: "10px 14px",
-          overflow: "hidden",
-          maxHeight: 56,
-          lineHeight: 1.1,
-        }}>
+        <div style={{ flex: 1, overflow: "hidden", borderLeft: "1px solid color-mix(in oklab, var(--ink) 10%, transparent)", paddingLeft: 14 }}>
           <span style={{
             fontFamily: previewFont ?? "var(--f-display)",
             fontSize: displaySize,
@@ -1582,6 +1573,7 @@ function SiteFontField({
             display: "block",
             overflow: "hidden",
             textOverflow: "ellipsis",
+            lineHeight: 1.15,
           }}>
             {previewText}
           </span>

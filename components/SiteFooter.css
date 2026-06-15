@@ -102,12 +102,13 @@
 }
 .site-footer__headshot {
   display: block;
-  margin-top: 1.5rem;
-  width: 180px;
+  width: 135px;
   height: auto;
   border-radius: 0.25rem;
-  opacity: 0.85;
+  opacity: 0.88;
   border: 1px solid rgba(239, 231, 212, 0.2);
+  flex-shrink: 0;
+  align-self: flex-start;
 }
 .site-footer__tagline {
   max-width: 34rem;
@@ -118,45 +119,26 @@
   line-height: 1.65;
 }
 .site-footer__nav {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(8rem, 1fr));
-  gap: clamp(2rem, 5vw, 5.5rem);
+  display: flex;
+  align-items: flex-start;
+  padding-top: 0.25rem;
 }
-.site-footer__group h3 {
-  margin: 0 0 1.4rem;
-  color: #efe7d4;
-  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
-  font-size: 1rem;
-  font-weight: 700;
-  letter-spacing: 0.04em;
-}
-.site-footer__group h3::after {
-  content: "";
-  display: block;
-  width: 3.6rem;
-  height: 2px;
-  margin-top: 0.55rem;
-  background: #4d83aa;
-  border-radius: 999px;
-}
-.site-footer__group:nth-child(2) h3::after {
-  background: #c85c3e;
-}
-.site-footer__group ul {
-  display: grid;
-  gap: 0.85rem;
-  padding: 0;
-  margin: 0;
+.site-footer__links {
   list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
 }
-.site-footer__group a {
+.site-footer__links a {
   color: rgba(239, 231, 212, 0.64);
   font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
   font-size: 0.94rem;
   text-decoration: none;
   transition: color 160ms ease;
 }
-.site-footer__group a:hover {
+.site-footer__links a:hover {
   color: #f3ead6;
 }
 .site-footer__landscape {
@@ -228,9 +210,8 @@
   .site-footer__brand {
     flex-direction: column;
   }
-  .site-footer__nav {
-    grid-template-columns: 1fr;
-    gap: 1.75rem;
+  .site-footer__headshot {
+    width: 100px;
   }
   .site-footer__landscape {
     height: 14rem;
