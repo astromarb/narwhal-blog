@@ -100,6 +100,15 @@
   letter-spacing: -0.055em;
   color: #f3ead6;
 }
+.site-footer__headshot {
+  display: block;
+  margin-top: 1.5rem;
+  width: 180px;
+  height: auto;
+  border-radius: 0.25rem;
+  opacity: 0.85;
+  border: 1px solid rgba(239, 231, 212, 0.2);
+}
 .site-footer__tagline {
   max-width: 34rem;
   margin: 1.25rem 0 0;

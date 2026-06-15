@@ -53,6 +53,12 @@ export default function SiteFooter() {
               <p className="site-footer__tagline">
                 Sporadic thoughts on AI, physics, geoscience, gaming, society, and technology.
               </p>
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                src="/headshot.jpg"
+                alt="Marvin Lopez Acevedo"
+                className="site-footer__headshot"
+              />
             </span>
           </a>
         </section>

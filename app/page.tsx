@@ -51,15 +51,6 @@ export default function HomePage() {
             <p className="blog-tagline">
               {site.tagline}
             </p>
-            <div className="hero-chips">
-              <span className="chip fill">field notes</span>
-              <span className="chip fill2">papers i&rsquo;m reading</span>
-              <span className="chip fill3">code and ai</span>
-            </div>
-            <div className="blog-hero__portrait blog-hero__portrait--left">
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src="/headshot.jpg" alt="Marvin Lopez Acevedo" />
-            </div>
           </div>
 
           {/* Right column: decorative image + latest-post feature card */}
