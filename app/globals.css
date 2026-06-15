@@ -84,7 +84,6 @@ section[id] { scroll-margin-top: 88px; }
 .chip.fill  { background: var(--a1); color: #fff; border-color: var(--a1); }
 .chip.fill2 { background: var(--a2); color: var(--on-a2); border-color: var(--a2); }
 .chip.fill3 { background: var(--a3); color: var(--on-a3); border-color: var(--a3); }
-.chip.fill4 { background: #14b8a6; color: #fff; border-color: #14b8a6; }
 
 /* Image placeholder */
 .ph {
