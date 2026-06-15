@@ -125,36 +125,38 @@ export default function WritingFilter({
           </div>
         </div>
 
-        <div className="filter-list" role="tablist" aria-label="Filter by category">
+      </aside>
+
+      <div className="writing-main">
+        <div className="archive-chip-bar" role="tablist" aria-label="Filter by category">
           <button
             type="button"
             role="tab"
             aria-selected={activeCategory === null}
-            className={activeCategory === null ? "on" : ""}
+            className={`chip archive-chip${activeCategory === null ? " archive-chip--on" : ""}`}
             onClick={() => setActiveCategory(null)}
           >
-            <span>— all</span>
-            <span className="count">{totalCount}</span>
+            all <span className="archive-chip__count">{totalCount}</span>
           </button>
-          {categories.map((c) => (
-            <button
-              key={c}
-              type="button"
-              role="tab"
-              aria-selected={activeCategory === c}
-              className={activeCategory === c ? "on" : ""}
-              onClick={() =>
-                setActiveCategory(activeCategory === c ? null : c)
-              }
-            >
-              <span>— {c}</span>
-              <span className="count">{categoryCounts[c] ?? 0}</span>
-            </button>
-          ))}
+          {categories.map((c) => {
+            const variant = CATEGORY_CHIP[c] ?? "";
+            const isOn = activeCategory === c;
+            return (
+              <button
+                key={c}
+                type="button"
+                role="tab"
+                aria-selected={isOn}
+                className={`chip ${variant} archive-chip${isOn ? " archive-chip--on" : ""}`}
+                onClick={() => setActiveCategory(isOn ? null : c)}
+              >
+                {c} <span className="archive-chip__count">{categoryCounts[c] ?? 0}</span>
+              </button>
+            );
+          })}
         </div>
-      </aside>
 
-      <div className="writing-list">
+        <div className="writing-list">
         {filtered.length === 0 ? (
           <div className="post-empty">
             no posts match those filters yet — try clearing one.
@@ -189,6 +191,7 @@ export default function WritingFilter({
             );
           })
         )}
+        </div>
       </div>
     </section>
   );
