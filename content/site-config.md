@@ -15,7 +15,7 @@ colors:
   paper2: "#1c1a16"
   paper3: "#252219"
   ink: "#f7f1e8"
-  ink2: "#9a9388"
+  ink2: "#cbc0af"
   ink3: "#5c5852"
   a1: "#dd0016"
   a2: "#ffc500"
