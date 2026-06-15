@@ -1,7 +1,8 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { CATEGORIES } from "@/lib/categories";
+const FILL_VARIANTS = ["fill", "fill2", "fill3"] as const;
+const CHIP_COLORS: Record<string, string> = { fill: "#dc2626", fill2: "#facc15", fill3: "#60a5fa" };
 import {
   calcReadingTime,
   parseFrontmatter,
@@ -35,9 +36,12 @@ function today(): string {
   return new Date().toISOString().slice(0, 10);
 }
 
+const DEFAULT_CATEGORIES = ["field notes", "papers I'm reading", "code and ai", "misc"];
+
 export default function AdminShell() {
   const [phase, setPhase] = useState<Phase>({ name: "locked" });
   const [pw, setPw] = useState("");
+  const [siteCategories, setSiteCategories] = useState<string[]>(DEFAULT_CATEGORIES);
   const [lastBuildUrl, setLastBuildUrl] = useState<string>(() => {
     if (typeof localStorage !== "undefined") return localStorage.getItem("last_build_url") ?? "";
     return "";
@@ -54,14 +58,21 @@ export default function AdminShell() {
     const password = sessionStorage.getItem(SESSION_KEY) ?? "";
     setPhase({ name: "dashboard", posts: null, loading: true });
     try {
-      const res = await fetch("/api/admin/posts", {
-        headers: { Authorization: `Bearer ${password}` },
-      });
-      if (res.status === 401) { lockOut("Session expired — please log in again."); return; }
-      const data = await res.json() as { ok: boolean; posts?: PostMeta[]; error?: string };
+      const [postsRes, siteRes] = await Promise.all([
+        fetch("/api/admin/posts", { headers: { Authorization: `Bearer ${password}` } }),
+        fetch("/api/admin/site",  { headers: { Authorization: `Bearer ${password}` } }),
+      ]);
+      if (postsRes.status === 401) { lockOut("Session expired — please log in again."); return; }
+      const data = await postsRes.json() as { ok: boolean; posts?: PostMeta[]; error?: string };
       if (!data.ok) {
         setPhase({ name: "dashboard", posts: [], loading: false, error: data.error });
         return;
+      }
+      if (siteRes.ok) {
+        const siteData = await siteRes.json() as { ok: boolean; config?: { categories?: string[] } };
+        if (siteData.ok && siteData.config?.categories?.length) {
+          setSiteCategories(siteData.config.categories);
+        }
       }
       setPhase({ name: "dashboard", posts: data.posts ?? [], loading: false });
     } catch (err) {
@@ -225,6 +236,7 @@ export default function AdminShell() {
         parsed={phase.parsed}
         filename={phase.filename}
         sha={phase.sha}
+        categories={siteCategories}
         onBack={() => loadDashboard()}
         onPublish={publish}
       />
@@ -767,12 +779,14 @@ function EditorForm({
   parsed,
   filename,
   sha,
+  categories,
   onBack,
   onPublish,
 }: {
   parsed: ParsedPost;
   filename: string;
   sha?: string;
+  categories: string[];
   onBack: () => void;
   onPublish: (
     fields: Partial<ParsedPost["known"]>,
@@ -963,7 +977,7 @@ function EditorForm({
                 value={category}
                 onChange={(e) => setCategory(e.target.value)}
               >
-                {CATEGORIES.map((c) => (
+                {categories.map((c) => (
                   <option key={c} value={c}>
                     {c}
                   </option>
@@ -1226,6 +1240,7 @@ type SiteConfigData = {
   heroWord1: string;
   heroWord2: string;
   tagline: string;
+  categories: string[];
   colors: {
     paper: string;
     paper2: string;
@@ -1262,6 +1277,7 @@ const DEFAULT_SITE: SiteConfigData = {
   heroWord1: "Field",
   heroWord2: "journal.",
   tagline: "Thoughts and findings on a range of topics I'm interested in.",
+  categories: ["field notes", "papers I'm reading", "code and ai", "misc"],
   colors: {
     paper: "#0a0908", paper2: "#1c1a16", paper3: "#252219",
     ink: "#e3ddd4", ink2: "#9a9388", ink3: "#5c5852",
@@ -1289,7 +1305,7 @@ function SiteEditor({ onBack }: { onBack: () => void }) {
       .catch((err) => { setError(String(err)); setLoading(false); });
   }, []);
 
-  const updateText = (key: keyof Omit<SiteConfigData, "colors" | "fontSizes">, val: string) =>
+  const updateText = (key: keyof Omit<SiteConfigData, "colors" | "fontSizes" | "categories">, val: string) =>
     setConfig((c) => ({ ...c, [key]: val }));
 
   const updateColor = (colorKey: keyof SiteConfigData["colors"], val: string) =>
@@ -1297,6 +1313,15 @@ function SiteEditor({ onBack }: { onBack: () => void }) {
 
   const updateFontSize = (key: keyof SiteConfigData["fontSizes"], val: number) =>
     setConfig((c) => ({ ...c, fontSizes: { ...c.fontSizes, [key]: val } }));
+
+  const updateCategory = (i: number, val: string) =>
+    setConfig((c) => { const cats = [...c.categories]; cats[i] = val; return { ...c, categories: cats }; });
+
+  const removeCategory = (i: number) =>
+    setConfig((c) => ({ ...c, categories: c.categories.filter((_, j) => j !== i) }));
+
+  const addCategory = () =>
+    setConfig((c) => ({ ...c, categories: [...c.categories, ""] }));
 
   async function save() {
     const password = sessionStorage.getItem(SESSION_KEY) ?? "";
@@ -1350,8 +1375,8 @@ function SiteEditor({ onBack }: { onBack: () => void }) {
         <div style={{ display: "grid", gridTemplateColumns: "minmax(0,1fr) minmax(0,380px)", gap: 56, alignItems: "start" }}>
           <div>
             <section style={{ marginBottom: 40 }}>
-              <h2 style={{ fontFamily: "var(--f-mono)", fontSize: 11, letterSpacing: ".1em", textTransform: "uppercase", color: "var(--ink-2)", marginBottom: 20, marginTop: 0, borderBottom: "1px solid color-mix(in oklab, var(--ink) 14%, transparent)", paddingBottom: 10 }}>
-                hero copy
+              <h2 style={{ fontFamily: "var(--f-mono)", fontSize: 13, letterSpacing: ".08em", textTransform: "uppercase", color: "var(--ink-2)", marginBottom: 20, marginTop: 0, borderBottom: "1px solid color-mix(in oklab, var(--ink) 14%, transparent)", paddingBottom: 10 }}>
+                Hero copy
               </h2>
               <SiteTextField label="Label / breadcrumb" value={config.siteLabel} onChange={(v) => updateText("siteLabel", v)} />
               <SiteTextField label="Note above title (red subtitle)" value={config.heroNote} onChange={(v) => updateText("heroNote", v)} />
@@ -1361,17 +1386,75 @@ function SiteEditor({ onBack }: { onBack: () => void }) {
             </section>
 
             <section style={{ marginBottom: 40 }}>
-              <h2 style={{ fontFamily: "var(--f-mono)", fontSize: 11, letterSpacing: ".1em", textTransform: "uppercase", color: "var(--ink-2)", marginBottom: 20, marginTop: 0, borderBottom: "1px solid color-mix(in oklab, var(--ink) 14%, transparent)", paddingBottom: 10 }}>
-                font sizes (px)
+              <h2 style={{ fontFamily: "var(--f-mono)", fontSize: 13, letterSpacing: ".08em", textTransform: "uppercase", color: "var(--ink-2)", marginBottom: 20, marginTop: 0, borderBottom: "1px solid color-mix(in oklab, var(--ink) 14%, transparent)", paddingBottom: 10 }}>
+                Font sizes (px)
               </h2>
-              <SiteFontField label="Hero title" value={config.fontSizes.heroTitle} onChange={(v) => updateFontSize("heroTitle", v)} />
-              <SiteFontField label="Tagline" value={config.fontSizes.tagline} onChange={(v) => updateFontSize("tagline", v)} />
-              <SiteFontField label="Note text (red subtitle)" value={config.fontSizes.noteText} onChange={(v) => updateFontSize("noteText", v)} />
+              <SiteFontField
+                label="Hero title"
+                value={config.fontSizes.heroTitle}
+                onChange={(v) => updateFontSize("heroTitle", v)}
+                previewText={`${config.heroWord1} ${config.heroWord2}`}
+                previewFont="var(--f-display)"
+                previewColor={config.colors.ink}
+              />
+              <SiteFontField
+                label="Tagline"
+                value={config.fontSizes.tagline}
+                onChange={(v) => updateFontSize("tagline", v)}
+                previewText={config.tagline}
+                previewFont="var(--f-hand)"
+                previewColor={config.colors.ink2}
+              />
+              <SiteFontField
+                label="Note text (red subtitle)"
+                value={config.fontSizes.noteText}
+                onChange={(v) => updateFontSize("noteText", v)}
+                previewText={config.heroNote || "Welcome."}
+                previewFont="var(--f-hand)"
+                previewColor={config.colors.a1}
+              />
+            </section>
+
+            <section style={{ marginBottom: 40 }}>
+              <h2 style={{ fontFamily: "var(--f-mono)", fontSize: 13, letterSpacing: ".08em", textTransform: "uppercase", color: "var(--ink-2)", marginBottom: 20, marginTop: 0, borderBottom: "1px solid color-mix(in oklab, var(--ink) 14%, transparent)", paddingBottom: 10 }}>
+                Categories
+              </h2>
+              <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
+                {config.categories.map((cat, i) => {
+                  const fill = FILL_VARIANTS[i % FILL_VARIANTS.length];
+                  const dot = CHIP_COLORS[fill];
+                  return (
+                    <div key={i} style={{ display: "flex", alignItems: "center", gap: 10 }}>
+                      <span style={{ width: 12, height: 12, borderRadius: "50%", background: dot, flexShrink: 0, display: "inline-block" }} />
+                      <input
+                        type="text"
+                        value={cat}
+                        onChange={(e) => updateCategory(i, e.target.value)}
+                        style={{ flex: 1, background: "var(--paper-2)", border: "1.5px solid color-mix(in oklab, var(--ink) 20%, transparent)", color: "var(--ink)", fontFamily: "var(--f-body)", fontSize: 14, padding: "7px 10px", outline: "none" }}
+                      />
+                      <button
+                        type="button"
+                        onClick={() => removeCategory(i)}
+                        style={{ background: "none", border: "1px solid color-mix(in oklab, var(--a1) 40%, transparent)", color: "var(--a1)", fontFamily: "var(--f-mono)", fontSize: 11, padding: "5px 10px", cursor: "pointer", flexShrink: 0 }}
+                      >
+                        remove
+                      </button>
+                    </div>
+                  );
+                })}
+              </div>
+              <button
+                type="button"
+                onClick={addCategory}
+                style={{ marginTop: 14, background: "none", border: "1.5px dashed color-mix(in oklab, var(--ink) 30%, transparent)", color: "var(--ink-2)", fontFamily: "var(--f-mono)", fontSize: 11, letterSpacing: ".06em", padding: "8px 16px", cursor: "pointer", width: "100%", textAlign: "center" }}
+              >
+                + add category
+              </button>
             </section>
 
             <section>
-              <h2 style={{ fontFamily: "var(--f-mono)", fontSize: 11, letterSpacing: ".1em", textTransform: "uppercase", color: "var(--ink-2)", marginBottom: 20, marginTop: 0, borderBottom: "1px solid color-mix(in oklab, var(--ink) 14%, transparent)", paddingBottom: 10 }}>
-                colors
+              <h2 style={{ fontFamily: "var(--f-mono)", fontSize: 13, letterSpacing: ".08em", textTransform: "uppercase", color: "var(--ink-2)", marginBottom: 20, marginTop: 0, borderBottom: "1px solid color-mix(in oklab, var(--ink) 14%, transparent)", paddingBottom: 10 }}>
+                Colors
               </h2>
               {COLOR_FIELDS.map(({ key, label }) => (
                 <SiteColorField key={key} label={label} value={config.colors[key]} onChange={(v) => updateColor(key, v)} />
@@ -1417,7 +1500,7 @@ function SiteTextField({
   };
   return (
     <div style={{ marginBottom: 18 }}>
-      <label style={{ fontFamily: "var(--f-mono)", fontSize: 10.5, letterSpacing: ".06em", textTransform: "uppercase", color: "var(--ink-3)", display: "block", marginBottom: 5 }}>
+      <label style={{ fontFamily: "var(--f-mono)", fontSize: 12, letterSpacing: ".06em", textTransform: "uppercase", color: "var(--ink-2)", display: "block", marginBottom: 6 }}>
         {label}
       </label>
       {multiline ? (
@@ -1457,23 +1540,53 @@ function SiteColorField({
         maxLength={7}
         style={{ width: 88, background: "var(--paper-2)", border: "1.5px solid color-mix(in oklab, var(--ink) 20%, transparent)", color: "var(--ink)", fontFamily: "var(--f-mono)", fontSize: 12, padding: "6px 8px", boxSizing: "border-box", outline: "none" }}
       />
-      <span style={{ fontFamily: "var(--f-mono)", fontSize: 11, color: "var(--ink-2)" }}>{label}</span>
+      <span style={{ fontFamily: "var(--f-mono)", fontSize: 13, color: "var(--ink-2)" }}>{label}</span>
     </div>
   );
 }
 
-function SiteFontField({ label, value, onChange }: { label: string; value: number; onChange: (v: number) => void }) {
+function SiteFontField({
+  label, value, onChange, previewText, previewFont, previewColor,
+}: {
+  label: string; value: number; onChange: (v: number) => void;
+  previewText?: string; previewFont?: string; previewColor?: string;
+}) {
+  const displaySize = Math.min(value, 36);
   return (
-    <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 12 }}>
-      <input
-        type="number"
-        value={value}
-        min={10}
-        max={200}
-        onChange={(e) => onChange(Number(e.target.value))}
-        style={{ width: 72, background: "var(--paper-2)", border: "1.5px solid color-mix(in oklab, var(--ink) 20%, transparent)", color: "var(--ink)", fontFamily: "var(--f-mono)", fontSize: 13, padding: "6px 8px", boxSizing: "border-box", outline: "none", textAlign: "right" }}
-      />
-      <span style={{ fontFamily: "var(--f-mono)", fontSize: 11, color: "var(--ink-2)" }}>{label}</span>
+    <div style={{ marginBottom: 20 }}>
+      <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 8 }}>
+        <input
+          type="number"
+          value={value}
+          min={10}
+          max={200}
+          onChange={(e) => onChange(Number(e.target.value))}
+          style={{ width: 76, background: "var(--paper-2)", border: "1.5px solid color-mix(in oklab, var(--ink) 20%, transparent)", color: "var(--ink)", fontFamily: "var(--f-mono)", fontSize: 14, padding: "7px 10px", boxSizing: "border-box", outline: "none", textAlign: "right" }}
+        />
+        <span style={{ fontFamily: "var(--f-mono)", fontSize: 13, color: "var(--ink-2)", letterSpacing: ".04em" }}>{label}</span>
+      </div>
+      {previewText && (
+        <div style={{
+          background: "var(--paper-2)",
+          border: "1px solid color-mix(in oklab, var(--ink) 10%, transparent)",
+          padding: "10px 14px",
+          overflow: "hidden",
+          maxHeight: 56,
+          lineHeight: 1.1,
+        }}>
+          <span style={{
+            fontFamily: previewFont ?? "var(--f-display)",
+            fontSize: displaySize,
+            color: previewColor ?? "var(--ink)",
+            whiteSpace: "nowrap",
+            display: "block",
+            overflow: "hidden",
+            textOverflow: "ellipsis",
+          }}>
+            {previewText}
+          </span>
+        </div>
+      )}
     </div>
   );
 }

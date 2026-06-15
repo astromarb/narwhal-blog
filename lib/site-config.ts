@@ -27,6 +27,7 @@ export type SiteConfig = {
   heroWord1: string;
   heroWord2: string;
   tagline: string;
+  categories: string[];
   colors: SiteColors;
   fontSizes: FontSizes;
 };
@@ -37,6 +38,7 @@ export const DEFAULT_SITE_CONFIG: SiteConfig = {
   heroWord1: "Field",
   heroWord2: "journal.",
   tagline: "Thoughts and findings on a range of topics I'm interested in.",
+  categories: ["field notes", "papers I'm reading", "code and ai", "misc"],
   colors: {
     paper: "#0a0908",
     paper2: "#1c1a16",
@@ -60,12 +62,18 @@ function parseRaw(raw: string): SiteConfig {
   const dfs = d.fontSizes;
   const rc = (data.colors ?? {}) as Partial<Record<string, string>>;
   const rfs = (data.fontSizes ?? {}) as Partial<Record<string, number>>;
+  const rawCats = data.categories;
+  const categories: string[] = Array.isArray(rawCats) && rawCats.length > 0
+    ? rawCats.map(String)
+    : d.categories;
+
   return {
     siteLabel: String(data.siteLabel ?? d.siteLabel),
     heroNote: String(data.heroNote ?? d.heroNote),
     heroWord1: String(data.heroWord1 ?? d.heroWord1),
     heroWord2: String(data.heroWord2 ?? d.heroWord2),
     tagline: String(data.tagline ?? d.tagline),
+    categories,
     colors: {
       paper: String(rc.paper ?? dc.paper),
       paper2: String(rc.paper2 ?? dc.paper2),
@@ -104,6 +112,8 @@ export function serializeSiteConfig(config: SiteConfig): string {
     `heroWord1: "${config.heroWord1}"`,
     `heroWord2: "${config.heroWord2}"`,
     `tagline: "${config.tagline}"`,
+    "categories:",
+    ...config.categories.map((c) => `  - "${c}"`),
     "colors:",
     `  paper: "${c.paper}"`,
     `  paper2: "${c.paper2}"`,
