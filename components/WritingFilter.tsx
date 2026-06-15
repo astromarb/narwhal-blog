@@ -26,7 +26,7 @@ const CATEGORY_CHIP: Record<string, string> = {
   "field notes": "fill",
   "papers I'm reading": "fill2",
   "code and ai": "fill3",
-  "misc": "",
+  "misc": "fill4",
 };
 
 function formatDate(d: string): string {
