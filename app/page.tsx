@@ -53,13 +53,8 @@ export default function HomePage() {
             </p>
           </div>
 
-          {/* Right column: decorative image + latest-post feature card */}
+          {/* Right column: latest-post feature card */}
           <div className="blog-hero__side">
-            <div className="blog-hero__circuit" aria-hidden="true">
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src="/hero-circuit.png" alt="" aria-hidden="true" style={{ width: "100%", height: "100%", objectFit: "cover", display: "block", opacity: 0.85 }} />
-            </div>
-
             {latest ? (
               <a className="blog-feature-card" href={`/${latest.slug}`}>
                 <span className="clabel" style={{ fontSize: 13 }}>latest post</span>

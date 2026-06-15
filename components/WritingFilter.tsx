@@ -119,6 +119,13 @@ export default function WritingFilter({
           </div>
         </div>
 
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img
+          src="/hero-circuit.png"
+          alt=""
+          aria-hidden="true"
+          className="sidebar-circuit"
+        />
       </aside>
 
       <div className="writing-main">

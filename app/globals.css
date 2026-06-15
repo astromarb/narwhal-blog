@@ -545,6 +545,16 @@ section[id] { scroll-margin-top: 88px; }
   letter-spacing: .1em;
 }
 
+.sidebar-circuit {
+  display: block;
+  width: 100%;
+  aspect-ratio: 1;
+  object-fit: cover;
+  margin-top: 20px;
+  border: 2px solid color-mix(in oklab, var(--ink) 12%, transparent);
+  opacity: 0.8;
+}
+
 /* Search box */
 .filter-search {
   margin-top: 22px;
@@ -1119,6 +1129,7 @@ section[id] { scroll-margin-top: 88px; }
   .blog-article-header { position: static; }
   .writing-grid { grid-template-columns: 1fr; gap: 28px; }
   .writing-side { position: static; }
+  .sidebar-circuit { display: none; }
 }
 @media (max-width: 860px) {
   .site-nav { grid-template-columns: 1fr; gap: 12px; }
