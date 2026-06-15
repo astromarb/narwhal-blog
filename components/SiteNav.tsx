@@ -9,10 +9,10 @@ const LAB_URL  = "https://projects.marvinlopezacevedo.com";
 type Tab = { href: string; label: string; external?: boolean };
 
 const TABS: Tab[] = [
-  { href: "#top",     label: "top" },
-  { href: "#archive", label: "archive" },
-  { href: "#latest",  label: "latest" },
-  { href: "#footer",  label: "links" },
+  { href: "#top",      label: "top" },
+  { href: "/archive",  label: "archive" },
+  { href: "#latest",   label: "latest" },
+  { href: "#footer",   label: "links" },
 ];
 
 export default function SiteNav() {
@@ -20,9 +20,7 @@ export default function SiteNav() {
   const pathname = usePathname();
   const onHome = pathname === "/";
 
-  // On a post page, the homepage sections (#top, #archive, #latest, #footer)
-  // don't exist — resolve them to the homepage so the browser navigates there
-  // and pans to the matching section.
+  // On a post page, hash-links (#top, #latest, #footer) resolve to the homepage.
   const resolve = (href: string) =>
     !onHome && href.startsWith("#") ? `/${href === "#top" ? "" : href}` : href;
 
@@ -54,16 +52,22 @@ export default function SiteNav() {
         <small>Marvin Lopez Acevedo</small>
       </a>
       <nav className="tabs" role="navigation" aria-label="Blog navigation">
-        {TABS.map((t) => (
-          <a
-            key={t.href}
-            href={resolve(t.href)}
-            className={onHome && active === t.href.slice(1) ? "active" : ""}
-            onClick={() => setActive(t.href.slice(1))}
-          >
-            {t.label}
-          </a>
-        ))}
+        {TABS.map((t) => {
+          const isPageLink = !t.href.startsWith("#");
+          const isActive = isPageLink
+            ? pathname === t.href
+            : onHome && active === t.href.slice(1);
+          return (
+            <a
+              key={t.href}
+              href={resolve(t.href)}
+              className={isActive ? "active" : ""}
+              onClick={() => { if (!isPageLink) setActive(t.href.slice(1)); }}
+            >
+              {t.label}
+            </a>
+          );
+        })}
         <a href={MAIN_URL} target="_blank" rel="noreferrer">
           ← main
         </a>

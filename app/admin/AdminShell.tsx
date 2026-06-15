@@ -1222,6 +1222,7 @@ function ErrorScreen({
 
 type SiteConfigData = {
   siteLabel: string;
+  heroNote: string;
   heroWord1: string;
   heroWord2: string;
   tagline: string;
@@ -1235,6 +1236,11 @@ type SiteConfigData = {
     a1: string;
     a2: string;
     a3: string;
+  };
+  fontSizes: {
+    heroTitle: number;
+    tagline: number;
+    noteText: number;
   };
 };
 
@@ -1252,14 +1258,16 @@ const COLOR_FIELDS: Array<{ key: keyof SiteConfigData["colors"]; label: string }
 
 const DEFAULT_SITE: SiteConfigData = {
   siteLabel: "Blog / Field Journal",
+  heroNote: "Welcome.",
   heroWord1: "Field",
   heroWord2: "journal.",
   tagline: "Thoughts and findings on a range of topics I'm interested in.",
   colors: {
-    paper: "#13110e", paper2: "#1c1a16", paper3: "#252219",
+    paper: "#0a0908", paper2: "#1c1a16", paper3: "#252219",
     ink: "#e3ddd4", ink2: "#9a9388", ink3: "#5c5852",
     a1: "#dc2626", a2: "#facc15", a3: "#60a5fa",
   },
+  fontSizes: { heroTitle: 118, tagline: 34, noteText: 22 },
 };
 
 function SiteEditor({ onBack }: { onBack: () => void }) {
@@ -1281,11 +1289,14 @@ function SiteEditor({ onBack }: { onBack: () => void }) {
       .catch((err) => { setError(String(err)); setLoading(false); });
   }, []);
 
-  const updateText = (key: keyof Omit<SiteConfigData, "colors">, val: string) =>
+  const updateText = (key: keyof Omit<SiteConfigData, "colors" | "fontSizes">, val: string) =>
     setConfig((c) => ({ ...c, [key]: val }));
 
   const updateColor = (colorKey: keyof SiteConfigData["colors"], val: string) =>
     setConfig((c) => ({ ...c, colors: { ...c.colors, [colorKey]: val } }));
+
+  const updateFontSize = (key: keyof SiteConfigData["fontSizes"], val: number) =>
+    setConfig((c) => ({ ...c, fontSizes: { ...c.fontSizes, [key]: val } }));
 
   async function save() {
     const password = sessionStorage.getItem(SESSION_KEY) ?? "";
@@ -1343,9 +1354,19 @@ function SiteEditor({ onBack }: { onBack: () => void }) {
                 hero copy
               </h2>
               <SiteTextField label="Label / breadcrumb" value={config.siteLabel} onChange={(v) => updateText("siteLabel", v)} />
+              <SiteTextField label="Note above title (red subtitle)" value={config.heroNote} onChange={(v) => updateText("heroNote", v)} />
               <SiteTextField label="Hero word 1 (white, large)" value={config.heroWord1} onChange={(v) => updateText("heroWord1", v)} />
               <SiteTextField label="Hero word 2 (red italic, large)" value={config.heroWord2} onChange={(v) => updateText("heroWord2", v)} />
               <SiteTextField label="Tagline" value={config.tagline} onChange={(v) => updateText("tagline", v)} multiline />
+            </section>
+
+            <section style={{ marginBottom: 40 }}>
+              <h2 style={{ fontFamily: "var(--f-mono)", fontSize: 11, letterSpacing: ".1em", textTransform: "uppercase", color: "var(--ink-2)", marginBottom: 20, marginTop: 0, borderBottom: "1px solid color-mix(in oklab, var(--ink) 14%, transparent)", paddingBottom: 10 }}>
+                font sizes (px)
+              </h2>
+              <SiteFontField label="Hero title" value={config.fontSizes.heroTitle} onChange={(v) => updateFontSize("heroTitle", v)} />
+              <SiteFontField label="Tagline" value={config.fontSizes.tagline} onChange={(v) => updateFontSize("tagline", v)} />
+              <SiteFontField label="Note text (red subtitle)" value={config.fontSizes.noteText} onChange={(v) => updateFontSize("noteText", v)} />
             </section>
 
             <section>
@@ -1441,16 +1462,34 @@ function SiteColorField({
   );
 }
 
+function SiteFontField({ label, value, onChange }: { label: string; value: number; onChange: (v: number) => void }) {
+  return (
+    <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 12 }}>
+      <input
+        type="number"
+        value={value}
+        min={10}
+        max={200}
+        onChange={(e) => onChange(Number(e.target.value))}
+        style={{ width: 72, background: "var(--paper-2)", border: "1.5px solid color-mix(in oklab, var(--ink) 20%, transparent)", color: "var(--ink)", fontFamily: "var(--f-mono)", fontSize: 13, padding: "6px 8px", boxSizing: "border-box", outline: "none", textAlign: "right" }}
+      />
+      <span style={{ fontFamily: "var(--f-mono)", fontSize: 11, color: "var(--ink-2)" }}>{label}</span>
+    </div>
+  );
+}
+
 function SitePreview({ config }: { config: SiteConfigData }) {
-  const { colors: c, siteLabel, heroWord1, heroWord2, tagline } = config;
+  const { colors: c, siteLabel, heroNote, heroWord1, heroWord2, tagline } = config;
   return (
     <div style={{ background: c.paper, border: "1.5px solid color-mix(in oklab, #fff 12%, transparent)", padding: "24px 22px", borderRadius: 3 }}>
       <div style={{ display: "inline-block", background: c.a2, color: "#0f0e0c", fontFamily: "var(--f-mono)", fontSize: 9.5, fontWeight: 700, padding: "3px 10px", letterSpacing: ".08em", textTransform: "uppercase", marginBottom: 8 }}>
         {siteLabel}
       </div>
-      <div style={{ color: c.a1, fontFamily: "var(--f-hand)", fontSize: 12, marginBottom: 14, fontStyle: "italic", lineHeight: 1.4 }}>
-        {tagline}
-      </div>
+      {heroNote && (
+        <div style={{ color: c.a1, fontFamily: "var(--f-hand)", fontSize: 12, marginBottom: 6, fontStyle: "italic", lineHeight: 1.4 }}>
+          {heroNote}
+        </div>
+      )}
       <div style={{ fontFamily: "var(--f-display)", fontWeight: 700, fontSize: 38, lineHeight: 1.0, marginBottom: 12 }}>
         <span style={{ color: c.ink }}>{heroWord1} </span>
         <em style={{ color: c.a1, fontStyle: "italic" }}>{heroWord2}</em>
