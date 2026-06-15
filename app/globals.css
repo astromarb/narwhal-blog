@@ -185,10 +185,9 @@ section[id] { scroll-margin-top: 88px; }
   background: var(--ink);
   color: var(--paper);
   padding: 14px 24px;
-  display: grid;
-  grid-template-columns: auto 1fr auto;
-  gap: 24px;
+  display: flex;
   align-items: center;
+  gap: 16px;
 }
 .site-nav .brand {
   display: flex; align-items: center; gap: 10px;
@@ -219,15 +218,17 @@ section[id] { scroll-margin-top: 88px; }
 }
 .site-nav .nav-right {
   display: flex; align-items: stretch; gap: 0; flex-shrink: 0;
+  margin-left: auto;
 }
 .site-nav .nav-projects {
   font-family: var(--f-mono); font-size: 11px;
   letter-spacing: .12em; text-transform: uppercase;
-  padding: 8px 14px; color: var(--ink-2);
+  padding: 8px 14px; color: #fff;
   text-decoration: none; white-space: nowrap;
-  transition: color .12s ease;
+  border: 2px solid var(--a3);
+  transition: background .12s ease;
 }
-.site-nav .nav-projects:hover { color: var(--ink); }
+.site-nav .nav-projects:hover { background: var(--a3); }
 .site-nav .tabs a {
   font-family: var(--f-mono); font-size: 11px;
   letter-spacing: .12em; text-transform: uppercase;
@@ -313,7 +314,7 @@ section[id] { scroll-margin-top: 88px; }
 }
 .blog-tagline {
   max-width: 34ch;
-  margin: 24px 0 0;
+  margin: 52px 0 0;
   font-family: var(--f-hand);
   font-size: 34px;
   line-height: 1.12;
@@ -388,14 +389,14 @@ section[id] { scroll-margin-top: 88px; }
   border: 2px solid var(--ink);
   background: var(--ink);
   color: var(--paper);
-  padding: 18px calc(30% + 14px) 18px 20px;
+  padding: 14px calc(22% + 14px) 14px 16px;
   display: grid;
   grid-template-columns: 1fr;
-  gap: 8px;
+  gap: 6px;
   text-decoration: none;
   position: relative;
   overflow: hidden;
-  min-height: 150px;
+  min-height: 0;
   transition: transform .15s ease, box-shadow .15s ease;
 }
 .blog-feature-card:hover {
@@ -406,7 +407,7 @@ section[id] { scroll-margin-top: 88px; }
   content: "";
   position: absolute;
   inset: 14px 14px auto auto;
-  width: 28%;
+  width: 20%;
   aspect-ratio: 1;
   background:
     repeating-linear-gradient(135deg, rgba(0,0,0,.12) 0 6px, transparent 6px 12px),
