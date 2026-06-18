@@ -1144,7 +1144,8 @@ section[id] { scroll-margin-top: 88px; }
 }
 @media (max-width: 860px) {
   .site-nav { grid-template-columns: 1fr; gap: 12px; }
-  .site-nav .tabs { justify-content: flex-start; overflow-x: auto; }
+  .site-nav .tabs { justify-content: flex-end; overflow-x: auto; }
+  .archive-title { text-align: center; }
   .site-nav .nav-right { display: none; }
   .blog-main { padding: 32px 20px 0; }
   .blog-post-shell { padding: 32px 20px 0; }
