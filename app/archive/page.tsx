@@ -42,15 +42,9 @@ export default function ArchivePage() {
       <SiteNav />
       <main className="blog-post-shell archive-shell" id="top">
         <header className="archive-header">
-          <div className="tape-row">
-            <span className="tape">all posts</span>
-          </div>
           <h1 className="archive-title">
             Archive<em>.</em>
           </h1>
-          <p className="archive-subtitle">
-            {posts.length} {posts.length === 1 ? "post" : "posts"} — in reverse chronological order.
-          </p>
         </header>
 
         <div className="archive-body">
@@ -73,9 +67,6 @@ export default function ArchivePage() {
                               <span className={`chip ${chipVariant}`.trim()}>
                                 {p.category}
                               </span>
-                            )}
-                            {p.readingTime && (
-                              <span className="archive-row__time">{p.readingTime}</span>
                             )}
                           </span>
                         </a>
