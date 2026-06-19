@@ -1141,9 +1141,16 @@ section[id] { scroll-margin-top: 88px; }
   .sidebar-circuit { display: none; }
   .blog-hero__side { align-self: auto; width: 100%; }
   .blog-feature-card { width: 100%; }
+  /* Center hero text in single-column layout */
+  .blog-hero .tape-row { justify-content: center; }
+  .blog-hero h1 { text-align: center; font-style: italic; }
+  .blog-tagline { text-align: center; }
 }
 @media (max-width: 860px) {
   .site-nav { grid-template-columns: 1fr; gap: 12px; }
+  /* Show only ARCHIVE tab; hide TOP (nth-child 1) and LINKS (nth-child 3) */
+  .site-nav .tabs a:nth-child(1) { display: none; }
+  .site-nav .tabs a:nth-child(3) { display: none; }
   .site-nav .tabs { justify-content: flex-end; overflow-x: auto; }
   .archive-title { text-align: center; }
   .site-nav .nav-right { display: none; }
@@ -1154,8 +1161,8 @@ section[id] { scroll-margin-top: 88px; }
   .post-row .read { text-align: left; }
 }
 @media (max-width: 640px) {
-  .blog-hero h1 { font-size: clamp(54px, 18vw, 88px); }
-  .blog-tagline { font-size: 28px; }
+  .blog-hero h1 { font-size: clamp(51px, 18vw, 85px); }
+  .blog-tagline { font-size: 26px; }
   .post-title { font-size: clamp(27px, 9.1vw, 42px); }
   .blog-article-header p { font-size: 21px; }
   .post-body p,
