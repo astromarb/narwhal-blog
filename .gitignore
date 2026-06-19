@@ -23,3 +23,5 @@ next-env.d.ts
 
 # claude code internal
 .claude/
+!.claude/skills/
+!.claude/skills/**
