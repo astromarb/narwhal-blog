@@ -57,10 +57,9 @@ export default function HomePage() {
           <div className="blog-hero__side">
             {latest ? (
               <a className="blog-feature-card" href={`/${latest.slug}`}>
-                <span className="clabel" style={{ fontSize: 13 }}>latest post</span>
                 <strong style={{ fontSize: "clamp(17px, 1.85vw, 25px)" }}>{latest.title}</strong>
                 {latest.excerpt && (
-                  <span className="feature-blurb" style={{ fontSize: 15 }}>{latest.excerpt}</span>
+                  <span className="feature-blurb" style={{ fontSize: 15, marginTop: 10 }}>{latest.excerpt}</span>
                 )}
                 <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
                   {latest.category && (
