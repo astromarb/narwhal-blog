@@ -191,12 +191,14 @@ section[id] { scroll-margin-top: 88px; }
   padding: 10px 24px;
   display: grid;
   grid-template-columns: 1fr auto 1fr;
+  grid-template-rows: auto;
   align-items: center;
   gap: 16px;
 }
-.site-nav .brand    { grid-column: 2; justify-self: center; }
-.site-nav .tabs     { grid-column: 1; width: fit-content; }
-.site-nav .nav-right { grid-column: 3; justify-self: end; margin-left: 0; }
+/* Force all three nav items onto the same row explicitly */
+.site-nav .tabs     { grid-column: 1; grid-row: 1; width: fit-content; }
+.site-nav .brand    { grid-column: 2; grid-row: 1; justify-self: center; }
+.site-nav .nav-right { grid-column: 3; grid-row: 1; justify-self: end; margin-left: 0; }
 .site-nav .brand {
   display: flex; align-items: center; gap: 10px;
   font-family: var(--f-display); font-weight: 700;
