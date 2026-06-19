@@ -48,32 +48,36 @@ export default function SiteNav() {
         <span className="mark">M</span>
         Blog
       </a>
-      <nav className="tabs" role="navigation" aria-label="Blog navigation">
-        {TABS.map((t) => {
-          const isPageLink = !t.href.startsWith("#");
-          const isActive = isPageLink
-            ? pathname === t.href
-            : onHome && active === t.href.slice(1);
-          return (
-            <a
-              key={t.href}
-              href={resolve(t.href)}
-              className={isActive ? "active" : ""}
-              onClick={() => { if (!isPageLink) setActive(t.href.slice(1)); }}
-            >
-              {t.label}
-            </a>
-          );
-        })}
-      </nav>
-      <div className="nav-right">
-        <a href={LAB_URL} target="_blank" rel="noreferrer" className="nav-projects">
-          projects ↗
-        </a>
-        <a className="nav-cta" href={MAIN_URL} target="_blank" rel="noreferrer">
-          main →
-        </a>
-      </div>
+      {!onHome && (
+        <nav className="tabs" role="navigation" aria-label="Blog navigation">
+          {TABS.map((t) => {
+            const isPageLink = !t.href.startsWith("#");
+            const isActive = isPageLink
+              ? pathname === t.href
+              : onHome && active === t.href.slice(1);
+            return (
+              <a
+                key={t.href}
+                href={resolve(t.href)}
+                className={isActive ? "active" : ""}
+                onClick={() => { if (!isPageLink) setActive(t.href.slice(1)); }}
+              >
+                {t.label}
+              </a>
+            );
+          })}
+        </nav>
+      )}
+      {!onHome && (
+        <div className="nav-right">
+          <a href={LAB_URL} target="_blank" rel="noreferrer" className="nav-projects">
+            projects ↗
+          </a>
+          <a className="nav-cta" href={MAIN_URL} target="_blank" rel="noreferrer">
+            main →
+          </a>
+        </div>
+      )}
     </header>
   );
 }

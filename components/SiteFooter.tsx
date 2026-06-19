@@ -10,7 +10,7 @@ const FOOTER_LINKS = [
 
 const MINIMAL_LINKS = FOOTER_LINKS.filter(l => l.label === "GitHub" || l.label === "Email");
 
-export default function SiteFooter({ minimal = false }: { minimal?: boolean }) {
+export default function SiteFooter({ minimal = false, noLinks = false }: { minimal?: boolean; noLinks?: boolean }) {
   const year = new Date().getFullYear();
   const links = minimal ? MINIMAL_LINKS : FOOTER_LINKS;
   return (
@@ -37,21 +37,23 @@ export default function SiteFooter({ minimal = false }: { minimal?: boolean }) {
           </a>
         </section>}
 
-        <nav className={`site-footer__nav${minimal ? " site-footer__nav--minimal" : ""}`} aria-label="Footer navigation">
-          <ul className="site-footer__links">
-            {links.map((link) => (
-              <li key={link.href}>
-                <a
-                  href={link.href}
-                  target={link.external ? "_blank" : undefined}
-                  rel={link.external ? "noreferrer" : undefined}
-                >
-                  {link.label}
-                </a>
-              </li>
-            ))}
-          </ul>
-        </nav>
+        {!noLinks && (
+          <nav className={`site-footer__nav${minimal ? " site-footer__nav--minimal" : ""}`} aria-label="Footer navigation">
+            <ul className="site-footer__links">
+              {links.map((link) => (
+                <li key={link.href}>
+                  <a
+                    href={link.href}
+                    target={link.external ? "_blank" : undefined}
+                    rel={link.external ? "noreferrer" : undefined}
+                  >
+                    {link.label}
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </nav>
+        )}
       </div>
 
       <div className="site-footer__landscape" aria-hidden="true">
