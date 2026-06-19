@@ -8,13 +8,32 @@ const FOOTER_LINKS = [
   { label: "Email",     href: "mailto:marvlopezacevedo@gmail.com",              external: false },
 ];
 
-export default function SiteFooter() {
+export default function SiteFooter({ minimal = false }: { minimal?: boolean }) {
   const year = new Date().getFullYear();
   return (
     <footer className="site-footer" id="footer" aria-labelledby="site-footer-title">
       <div className="site-footer__background" aria-hidden="true" />
 
       <div className="site-footer__inner">
+        {!minimal && <section className="site-footer__identity">
+          <a href="/" className="site-footer__brand" aria-label="Marvin Lopez home">
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src="/headshot.jpg"
+              alt="Marvin Lopez Acevedo"
+              className="site-footer__headshot"
+            />
+            <span>
+              <h2 id="site-footer-title" className="site-footer__name">
+                Marvin Lopez
+              </h2>
+              <p className="site-footer__tagline">
+                Sporadic thoughts on AI, physics, geoscience, gaming, society, and technology.
+              </p>
+            </span>
+          </a>
+        </section>}
+
         <nav className="site-footer__nav" aria-label="Footer navigation">
           <ul className="site-footer__links">
             {FOOTER_LINKS.map((link) => (
