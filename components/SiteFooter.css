@@ -123,6 +123,13 @@
   align-items: flex-start;
   padding-top: 0.25rem;
 }
+.site-footer__nav--minimal {
+  margin-left: auto;
+  align-items: flex-end;
+}
+.site-footer__nav--minimal .site-footer__links {
+  align-items: flex-end;
+}
 .site-footer__links {
   list-style: none;
   margin: 0;

@@ -694,13 +694,15 @@ section[id] { scroll-margin-top: 88px; }
 .archive-title {
   font-family: var(--f-display);
   font-weight: 700;
-  font-size: clamp(52px, 8vw, 96px);
+  font-size: clamp(47px, 8vw, 91px);
   letter-spacing: -.03em;
   line-height: 0.96;
   margin: 16px 0 20px;
+  text-decoration: underline;
+  text-underline-offset: 6px;
 }
 .archive-title em {
-  font-style: italic;
+  font-style: normal;
   color: var(--a1);
 }
 .archive-subtitle {
@@ -728,7 +730,7 @@ section[id] { scroll-margin-top: 88px; }
 }
 .archive-year__label {
   font-family: var(--f-mono);
-  font-size: 15px;
+  font-size: 18px;
   font-weight: 700;
   letter-spacing: .1em;
   text-transform: uppercase;
@@ -767,7 +769,7 @@ section[id] { scroll-margin-top: 88px; }
 }
 .archive-row__date {
   font-family: var(--f-mono);
-  font-size: 13px;
+  font-size: 16px;
   color: var(--ink-3);
   letter-spacing: .04em;
   white-space: nowrap;

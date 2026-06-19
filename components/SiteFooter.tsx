@@ -8,8 +8,11 @@ const FOOTER_LINKS = [
   { label: "Email",     href: "mailto:marvlopezacevedo@gmail.com",              external: false },
 ];
 
+const MINIMAL_LINKS = FOOTER_LINKS.filter(l => l.label === "GitHub" || l.label === "Email");
+
 export default function SiteFooter({ minimal = false }: { minimal?: boolean }) {
   const year = new Date().getFullYear();
+  const links = minimal ? MINIMAL_LINKS : FOOTER_LINKS;
   return (
     <footer className="site-footer" id="footer" aria-labelledby="site-footer-title">
       <div className="site-footer__background" aria-hidden="true" />
@@ -34,9 +37,9 @@ export default function SiteFooter({ minimal = false }: { minimal?: boolean }) {
           </a>
         </section>}
 
-        <nav className="site-footer__nav" aria-label="Footer navigation">
+        <nav className={`site-footer__nav${minimal ? " site-footer__nav--minimal" : ""}`} aria-label="Footer navigation">
           <ul className="site-footer__links">
-            {FOOTER_LINKS.map((link) => (
+            {links.map((link) => (
               <li key={link.href}>
                 <a
                   href={link.href}
