@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { getSiteConfig } from "@/lib/site-config";
+import LenisProvider from "@/components/LenisProvider";
 import "./globals.css";
 
 export const metadata: Metadata = {
@@ -36,6 +37,7 @@ export default function RootLayout({
       <body>
         {/* Inline override sits after globals.css link so it wins on cascade */}
         <style dangerouslySetInnerHTML={{ __html: cssOverrides }} />
+        <LenisProvider />
         {children}
       </body>
     </html>
