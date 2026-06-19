@@ -10,6 +10,14 @@ import {
 } from "@/lib/posts";
 import { getSiteConfig } from "@/lib/site-config";
 
+const PAGE_NAV_LINKS = [
+  { label: "Archive",   href: "/archive",                                    external: false },
+  { label: "GitHub",    href: "https://github.com/astromarb",                external: true  },
+  { label: "Projects",  href: "https://projects.marvinlopezacevedo.com",     external: true  },
+  { label: "Main site", href: "https://marvinlopezacevedo.com",              external: true  },
+  { label: "Email",     href: "mailto:marvlopezacevedo@gmail.com",           external: false },
+];
+
 function formatDate(d: string): string {
   try {
     const date = new Date(d);
@@ -91,8 +99,21 @@ export default function HomePage() {
           categories={categories}
           categoryCounts={categoryCounts}
         />
+
+        <nav className="page-bottom-nav" aria-label="Site navigation">
+          {PAGE_NAV_LINKS.map((link) => (
+            <a
+              key={link.href}
+              href={link.href}
+              target={link.external ? "_blank" : undefined}
+              rel={link.external ? "noreferrer" : undefined}
+            >
+              {link.label}
+            </a>
+          ))}
+        </nav>
       </main>
-      <SiteFooter />
+      <SiteFooter noLinks />
     </>
   );
 }

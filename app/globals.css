@@ -683,6 +683,39 @@ section[id] { scroll-margin-top: 88px; }
 }
 
 /* ============================================================
+   BOTTOM PAGE NAV (homepage only)
+   ============================================================ */
+.page-bottom-nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  padding: 56px 0 64px;
+  justify-content: center;
+}
+.page-bottom-nav a {
+  font-family: var(--f-mono);
+  font-size: 11px;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  padding: 10px 22px;
+  text-decoration: none;
+  border-radius: 2px;
+  transition: opacity 160ms ease;
+  opacity: 0.88;
+}
+.page-bottom-nav a:hover { opacity: 1; }
+/* Archive */
+.page-bottom-nav a:nth-child(1) { background: var(--ink);     color: var(--paper); }
+/* GitHub */
+.page-bottom-nav a:nth-child(2) { background: var(--a3);      color: var(--on-a3); }
+/* Projects */
+.page-bottom-nav a:nth-child(3) { background: var(--a2);      color: var(--on-a2); }
+/* Main site */
+.page-bottom-nav a:nth-child(4) { background: var(--a1);      color: #fff; }
+/* Email */
+.page-bottom-nav a:nth-child(5) { background: var(--paper-2); color: var(--ink-2); border: 1.5px solid var(--ink-3); }
+
+/* ============================================================
    ARCHIVE PAGE
    ============================================================ */
 .archive-shell {
@@ -694,13 +727,15 @@ section[id] { scroll-margin-top: 88px; }
 .archive-title {
   font-family: var(--f-display);
   font-weight: 700;
-  font-size: clamp(52px, 8vw, 96px);
+  font-size: clamp(47px, 8vw, 91px);
   letter-spacing: -.03em;
   line-height: 0.96;
   margin: 16px 0 20px;
+  text-decoration: underline;
+  text-underline-offset: 6px;
 }
 .archive-title em {
-  font-style: italic;
+  font-style: normal;
   color: var(--a1);
 }
 .archive-subtitle {
@@ -728,7 +763,7 @@ section[id] { scroll-margin-top: 88px; }
 }
 .archive-year__label {
   font-family: var(--f-mono);
-  font-size: 15px;
+  font-size: 18px;
   font-weight: 700;
   letter-spacing: .1em;
   text-transform: uppercase;
@@ -767,7 +802,7 @@ section[id] { scroll-margin-top: 88px; }
 }
 .archive-row__date {
   font-family: var(--f-mono);
-  font-size: 13px;
+  font-size: 16px;
   color: var(--ink-3);
   letter-spacing: .04em;
   white-space: nowrap;

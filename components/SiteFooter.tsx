@@ -8,8 +8,11 @@ const FOOTER_LINKS = [
   { label: "Email",     href: "mailto:marvlopezacevedo@gmail.com",              external: false },
 ];
 
-export default function SiteFooter({ minimal = false }: { minimal?: boolean }) {
+const MINIMAL_LINKS = FOOTER_LINKS.filter(l => l.label === "GitHub" || l.label === "Email");
+
+export default function SiteFooter({ minimal = false, noLinks = false }: { minimal?: boolean; noLinks?: boolean }) {
   const year = new Date().getFullYear();
+  const links = minimal ? MINIMAL_LINKS : FOOTER_LINKS;
   return (
     <footer className="site-footer" id="footer" aria-labelledby="site-footer-title">
       <div className="site-footer__background" aria-hidden="true" />
@@ -34,21 +37,23 @@ export default function SiteFooter({ minimal = false }: { minimal?: boolean }) {
           </a>
         </section>}
 
-        <nav className="site-footer__nav" aria-label="Footer navigation">
-          <ul className="site-footer__links">
-            {FOOTER_LINKS.map((link) => (
-              <li key={link.href}>
-                <a
-                  href={link.href}
-                  target={link.external ? "_blank" : undefined}
-                  rel={link.external ? "noreferrer" : undefined}
-                >
-                  {link.label}
-                </a>
-              </li>
-            ))}
-          </ul>
-        </nav>
+        {!noLinks && (
+          <nav className={`site-footer__nav${minimal ? " site-footer__nav--minimal" : ""}`} aria-label="Footer navigation">
+            <ul className="site-footer__links">
+              {links.map((link) => (
+                <li key={link.href}>
+                  <a
+                    href={link.href}
+                    target={link.external ? "_blank" : undefined}
+                    rel={link.external ? "noreferrer" : undefined}
+                  >
+                    {link.label}
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </nav>
+        )}
       </div>
 
       <div className="site-footer__landscape" aria-hidden="true">
