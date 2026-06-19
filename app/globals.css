@@ -1220,106 +1220,158 @@ section[id] { scroll-margin-top: 88px; }
 @media print {
   @page {
     size: A4;
-    margin: 1.5cm 2cm;
+    margin: 2cm 2.4cm;
   }
 
-  /* Neutral palette for print */
-  :root {
-    --paper:   #ffffff;
-    --paper-2: #f4f4f2;
-    --paper-3: #ebebea;
-    --ink:     #111111;
-    --ink-2:   #444444;
-    --ink-3:   #666666;
-    --a1:      #b91c1c;
-    --a2:      #92700a;
-    --a3:      #1d4ed8;
+  /* Force white background on everything — Safari ignores CSS var overrides */
+  *,
+  *::before,
+  *::after {
+    background: transparent !important;
+    box-shadow: none !important;
+    text-shadow: none !important;
   }
 
-  /* Hide everything that isn't the article */
+  body {
+    background: #fff !important;
+    color: #111 !important;
+    font-size: 11pt;
+    line-height: 1.65;
+  }
+
+  /* Hide all chrome */
   .site-nav,
   .site-footer,
   .blog-back,
   .post-pager,
-  .no-print { display: none !important; }
+  .no-print,
+  .post-actions { display: none !important; }
 
-  body {
-    font-size: 11pt;
-    line-height: 1.65;
-    background: #fff;
-    color: #111;
-  }
-
-  .blog-post-shell { padding: 0; }
+  /* Shell & layout — single clean column */
+  .blog-post-shell { padding: 0 !important; }
 
   .blog-article {
-    display: block;
-    max-width: 100%;
-    padding: 0;
-    gap: 0;
+    display: block !important;
+    max-width: 100% !important;
+    padding: 0 !important;
+    gap: 0 !important;
+    border: none !important;
   }
 
+  /* Header: de-grid, strip borders */
   .blog-article-header {
-    border-right: none;
-    padding: 0 0 1.5em;
-    margin-bottom: 1.5em;
-    border-bottom: 1px solid #ccc;
+    display: block !important;
+    position: static !important;
+    border: none !important;
+    padding: 0 0 1em !important;
+    margin-bottom: 1.2em !important;
+    border-bottom: 0.5pt solid #bbb !important;
   }
 
+  .blog-article-header p {
+    font-size: 13pt;
+    color: #333 !important;
+    margin: 0.4em 0 0;
+  }
+
+  .blog-article-header .hero-chips {
+    margin-top: 0.6em;
+  }
+
+  /* Title & byline */
   .post-title {
-    font-size: 22pt;
-    margin-bottom: 0.4em;
-    color: #111;
+    font-size: 24pt !important;
+    line-height: 1.05 !important;
+    color: #111 !important;
+    margin: 0 0 0.2em !important;
+    font-style: normal !important;
+  }
+
+  .post-byline {
+    font-size: 9pt !important;
+    color: #666 !important;
+    margin: 0 0 1.2em !important;
   }
 
   /* Post body */
   .post-body {
-    background: transparent;
-    padding: 0;
-    font-size: 11pt;
-    color: #111;
+    background: transparent !important;
+    border: none !important;
+    padding: 0 !important;
+    font-size: 11pt !important;
+    color: #111 !important;
   }
 
+  .post-body p,
+  .post-body li {
+    color: #111 !important;
+    font-size: 11pt !important;
+  }
+
+  .post-body h2,
+  .post-body h3,
+  .post-body h4 {
+    color: #111 !important;
+    break-after: avoid;
+  }
+
+  .post-body h2::before { display: none !important; }
+
   .post-body pre {
-    background: #f4f4f2;
-    border: 1px solid #ddd;
-    color: #111;
+    background: #f5f5f5 !important;
+    border: 0.5pt solid #ddd !important;
+    color: #111 !important;
     white-space: pre-wrap;
     word-break: break-word;
     font-size: 9pt;
-    box-shadow: none;
+    padding: 0.6em 0.8em !important;
   }
 
   .post-body code {
-    background: #f4f4f2;
-    color: #111;
+    background: #f0f0f0 !important;
+    color: #111 !important;
     font-size: 9pt;
   }
 
-  /* Show link destinations inline */
-  .post-body a[href]::after {
+  .post-body blockquote {
+    border-left: 2pt solid #bbb !important;
+    color: #444 !important;
+    padding-left: 1em;
+    margin-left: 0;
+  }
+
+  /* Show full URLs for external links only */
+  .post-body a { color: #1d4ed8 !important; }
+  .post-body a[href^="http"]::after {
     content: " (" attr(href) ")";
     font-size: 8pt;
     color: #666;
     word-break: break-all;
   }
   .post-body a[href^="#"]::after,
+  .post-body a[href^="/"]::after,
   .post-body a[href^="javascript"]::after { content: ""; }
 
-  /* Page-break control */
-  h2, h3, h4 { break-after: avoid; }
-  pre, blockquote, table, figure, img { break-inside: avoid; }
-
-  /* Tape labels — keep color in print */
-  .tape {
-    -webkit-print-color-adjust: exact;
-    print-color-adjust: exact;
-  }
-
-  /* Chips */
+  /* Chips — print with color */
   .chip {
-    border: 1px solid currentColor;
+    border: 0.75pt solid currentColor !important;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+    color: #333 !important;
+  }
+  .chip.fill  { background: #b91c1c !important; color: #fff !important; }
+  .chip.fill2 { background: #92700a !important; color: #fff !important; }
+  .chip.fill3 { background: #1d4ed8 !important; color: #fff !important; }
+
+  /* Tape — keep yellow */
+  .tape {
+    background: #c9920a !important;
+    color: #111 !important;
     -webkit-print-color-adjust: exact;
     print-color-adjust: exact;
   }
+
+  /* Page-break control */
+  pre, blockquote, table, figure, img { break-inside: avoid; }
+  h2, h3, h4 { break-after: avoid; }
 }
