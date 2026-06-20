@@ -27,7 +27,7 @@ export default function FooterScene() {
       fill="none"
     >
       {/* ── stars ── */}
-      <g>
+      <g className="footer-scene__stars">
         {STARS.map(([x, y, r], i) => (
           <circle key={i} cx={x} cy={y} r={r} fill={CREAM} opacity={0.7} />
         ))}
@@ -43,7 +43,7 @@ export default function FooterScene() {
       </g>
 
       {/* ── constellation (upper-left) ── */}
-      <g stroke={BLUE} strokeWidth={1} opacity={0.65} strokeLinecap="round">
+      <g className="footer-scene__constellation" stroke={BLUE} strokeWidth={1} opacity={0.65} strokeLinecap="round">
         <polyline points="120,90 200,150 290,120 360,180 300,70" fill="none" />
         {([[120, 90], [200, 150], [290, 120], [360, 180], [300, 70]] as [number, number][]).map(
           ([x, y], i) => (
@@ -53,7 +53,7 @@ export default function FooterScene() {
       </g>
 
       {/* ── circuit motif (upper-right) ── */}
-      <g stroke={ORANGE} strokeWidth={1} opacity={0.6} strokeLinecap="round" strokeLinejoin="round">
+      <g className="footer-scene__circuit" stroke={ORANGE} strokeWidth={1} opacity={0.6} strokeLinecap="round" strokeLinejoin="round">
         <path d="M1180,150 L1180,100 L1260,100 L1260,60 L1340,60" fill="none" />
         <path d="M1260,100 L1310,100 L1310,140" fill="none" />
         {([[1180, 150], [1180, 100], [1260, 100], [1260, 60], [1340, 60], [1310, 140]] as [number, number][]).map(
@@ -66,11 +66,13 @@ export default function FooterScene() {
 
       {/* ── back ridge (faint, blue) ── */}
       <path
+        className="footer-scene__back-fill"
         d="M0,300 L180,262 L340,296 L520,250 L700,292 L900,256 L1080,300 L1260,262 L1440,294 L1440,400 L0,400 Z"
         fill={BLUE}
         fillOpacity={0.05}
       />
       <path
+        className="footer-scene__back-ridge"
         d="M0,300 L180,262 L340,296 L520,250 L700,292 L900,256 L1080,300 L1260,262 L1440,294"
         stroke={BLUE}
         strokeWidth={1.2}
@@ -80,11 +82,13 @@ export default function FooterScene() {
 
       {/* ── front ridge with prominent central peak (cream) ── */}
       <path
+        className="footer-scene__front-fill"
         d="M0,346 L240,316 L430,352 L620,300 L760,232 L900,318 L1040,286 L1240,330 L1440,300 L1440,400 L0,400 Z"
         fill={CREAM}
         fillOpacity={0.04}
       />
       <path
+        className="footer-scene__front-ridge"
         d="M0,346 L240,316 L430,352 L620,300 L760,232 L900,318 L1040,286 L1240,330 L1440,300"
         stroke={CREAM}
         strokeWidth={1.4}
@@ -94,7 +98,7 @@ export default function FooterScene() {
       />
 
       {/* ── observatory on a hill (right-of-centre) ── */}
-      <g strokeLinecap="round" strokeLinejoin="round">
+      <g className="footer-scene__observatory" strokeLinecap="round" strokeLinejoin="round">
         {/* hill the observatory sits on */}
         <path
           d="M980,318 Q1080,250 1180,318"
@@ -128,13 +132,13 @@ export default function FooterScene() {
       </g>
 
       {/* ── geologic strata (bottom, cream wavy layers) ── */}
-      <g stroke={CREAM} fill="none" strokeLinecap="round">
+      <g className="footer-scene__strata" stroke={CREAM} fill="none" strokeLinecap="round">
         <path d="M0,366 Q360,352 720,366 T1440,362" strokeWidth={1} opacity={0.28} />
         <path d="M0,380 Q400,368 800,382 T1440,378" strokeWidth={1} opacity={0.22} />
       </g>
 
       {/* ── concentric strata arcs (bottom-right, orange) ── */}
-      <g stroke={ORANGE} fill="none" strokeLinecap="round" opacity={0.45}>
+      <g className="footer-scene__arcs" stroke={ORANGE} fill="none" strokeLinecap="round" opacity={0.45}>
         <path d="M1200,400 A150,120 0 0 1 1440,330" strokeWidth={1} />
         <path d="M1230,400 A120,96 0 0 1 1440,352" strokeWidth={1} opacity={0.8} />
         <path d="M1262,400 A92,74 0 0 1 1440,372" strokeWidth={1} opacity={0.6} />

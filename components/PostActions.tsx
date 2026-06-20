@@ -23,25 +23,12 @@ export default function PostActions() {
     }
   }
 
-  const btnStyle: React.CSSProperties = {
-    fontFamily: "var(--f-mono)",
-    fontSize: 11,
-    letterSpacing: ".06em",
-    textTransform: "uppercase",
-    background: "none",
-    border: "1.5px solid color-mix(in oklab, var(--ink) 30%, transparent)",
-    color: "var(--ink-2)",
-    padding: "5px 14px",
-    cursor: "pointer",
-    display: "inline-block",
-  };
-
   return (
-    <div className="post-actions no-print" style={{ display: "flex", gap: 10, marginTop: 40, marginBottom: 8 }}>
-      <button type="button" style={btnStyle} onClick={() => window.print()}>
+    <div className="post-actions no-print">
+      <button type="button" className="post-actions__button" onClick={() => window.print()}>
         save as pdf ↓
       </button>
-      <button type="button" style={btnStyle} onClick={handleShare}>
+      <button type="button" className="post-actions__button" onClick={handleShare}>
         {shareLabel}
       </button>
     </div>
