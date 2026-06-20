@@ -197,19 +197,23 @@
 }
 .footer-page-nav a {
   font-family: var(--f-mono);
-  font-size: 11px;
+  font-size: 13px;
   letter-spacing: .12em;
   text-transform: uppercase;
-  padding: 8px 14px;
+  padding: 9px 16px;
   color: var(--ink-2);
   text-decoration: none;
   white-space: nowrap;
   transition: background .12s ease, color .12s ease;
+  border-bottom: 2px solid transparent;
 }
-.footer-page-nav a:hover {
-  background: color-mix(in oklab, var(--ink) 10%, transparent);
-  color: var(--ink);
-}
+.footer-page-nav a:hover { background: color-mix(in oklab, var(--ink) 8%, transparent); }
+/* Color scheme matching previous accent assignments */
+.footer-page-nav a:nth-child(1) { color: var(--ink);   border-bottom-color: var(--ink); }
+.footer-page-nav a:nth-child(2) { color: var(--a3);    border-bottom-color: var(--a3); }
+.footer-page-nav a:nth-child(3) { color: var(--a2);    border-bottom-color: var(--a2); }
+.footer-page-nav a:nth-child(4) { color: var(--a1);    border-bottom-color: var(--a1); }
+.footer-page-nav a:nth-child(5) { color: var(--ink-2); border-bottom-color: var(--ink-3); }
 
 .site-footer__bottom {
   position: absolute;
