@@ -204,8 +204,9 @@
   color: var(--ink-2);
   text-decoration: none;
   white-space: nowrap;
-  transition: background .12s ease, color .12s ease;
+  transition: background .12s ease, color .12s ease, box-shadow .12s ease;
   border-bottom: 2px solid transparent;
+  box-shadow: 2px 3px 0 color-mix(in oklab, var(--ink) 20%, transparent);
 }
 .footer-page-nav a:hover { background: color-mix(in oklab, var(--ink) 8%, transparent); }
 /* Color scheme matching previous accent assignments */

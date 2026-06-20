@@ -542,6 +542,7 @@ section[id] { scroll-margin-top: 88px; }
   background: color-mix(in oklab, var(--ink) 8%, transparent);
   transition: transform 0.1s ease, box-shadow 0.1s ease, filter 0.1s ease;
   filter: brightness(0.72) saturate(0.85);
+  box-shadow: 2px 3px 0 color-mix(in oklab, var(--ink) 22%, transparent);
 }
 .archive-chip:hover {
   filter: brightness(0.9) saturate(1);
