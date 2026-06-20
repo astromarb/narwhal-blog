@@ -178,6 +178,39 @@
   width: 100%;
   height: 100%;
 }
+/* Footer page nav — matches .site-nav .tabs style */
+.site-footer__page-nav {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  justify-content: center;
+  padding: 36px clamp(1.25rem, 5vw, 5rem) 0;
+}
+.footer-page-nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0;
+  background: var(--paper);
+  border: 2px solid color-mix(in oklab, var(--ink) 22%, transparent);
+  padding: 2px;
+  justify-content: center;
+}
+.footer-page-nav a {
+  font-family: var(--f-mono);
+  font-size: 11px;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  padding: 8px 14px;
+  color: var(--ink-2);
+  text-decoration: none;
+  white-space: nowrap;
+  transition: background .12s ease, color .12s ease;
+}
+.footer-page-nav a:hover {
+  background: color-mix(in oklab, var(--ink) 10%, transparent);
+  color: var(--ink);
+}
+
 .site-footer__bottom {
   position: absolute;
   inset: auto clamp(1.25rem, 5vw, 5rem) 1.25rem;
@@ -188,7 +221,7 @@
   padding-top: 1.1rem;
   border-top: 1px solid rgba(239, 231, 212, 0.15);
   color: rgba(239, 231, 212, 0.58);
-  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
+  font-family: var(--f-body);
   font-size: 0.82rem;
 }
 .site-footer__bottom p {

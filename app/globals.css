@@ -711,7 +711,7 @@ section[id] { scroll-margin-top: 88px; }
 }
 .post-row .read {
   font-family: var(--f-mono);
-  font-size: 11px;
+  font-size: 13px;
   color: var(--ink-3);
   letter-spacing: .08em;
   text-align: right;
@@ -733,39 +733,6 @@ section[id] { scroll-margin-top: 88px; }
   font-size: 22px;
   color: var(--ink-3);
 }
-
-/* ============================================================
-   BOTTOM PAGE NAV (homepage only)
-   ============================================================ */
-.page-bottom-nav {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
-  padding: 56px 0 64px;
-  justify-content: center;
-}
-.page-bottom-nav a {
-  font-family: var(--f-mono);
-  font-size: 11px;
-  letter-spacing: .12em;
-  text-transform: uppercase;
-  padding: 10px 22px;
-  text-decoration: none;
-  border-radius: 2px;
-  transition: opacity 160ms ease;
-  opacity: 0.88;
-}
-.page-bottom-nav a:hover { opacity: 1; }
-/* Archive */
-.page-bottom-nav a:nth-child(1) { background: var(--ink);     color: var(--paper); }
-/* GitHub */
-.page-bottom-nav a:nth-child(2) { background: var(--a3);      color: var(--on-a3); }
-/* Projects */
-.page-bottom-nav a:nth-child(3) { background: var(--a2);      color: var(--on-a2); }
-/* Main site */
-.page-bottom-nav a:nth-child(4) { background: var(--a1);      color: #fff; }
-/* Email */
-.page-bottom-nav a:nth-child(5) { background: var(--paper-2); color: var(--ink-2); border: 1.5px solid var(--ink-3); }
 
 /* ============================================================
    ARCHIVE PAGE
@@ -815,7 +782,7 @@ section[id] { scroll-margin-top: 88px; }
 }
 .archive-year__label {
   font-family: var(--f-mono);
-  font-size: 20px;
+  font-size: 17px;
   font-weight: 700;
   letter-spacing: .1em;
   text-transform: uppercase;
@@ -854,7 +821,7 @@ section[id] { scroll-margin-top: 88px; }
 }
 .archive-row__date {
   font-family: var(--f-mono);
-  font-size: 18px;
+  font-size: 15px;
   color: var(--ink-3);
   letter-spacing: .04em;
   white-space: nowrap;
