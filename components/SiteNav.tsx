@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import { usePathname, useRouter } from "next/navigation";
 import { useSearch } from "@/components/SearchProvider";
+import FieldModeToggle from "@/components/FieldModeToggle";
 
 const MAIN_URL = "https://marvinlopezacevedo.com";
 const LAB_URL  = "https://projects.marvinlopezacevedo.com";
@@ -122,9 +123,10 @@ export default function SiteNav() {
               </a>
             );
           })}
-        </nav>
+      </nav>
       )}
       <div className="nav-right">
+        <FieldModeToggle />
         <NavSearch onHome={onHome} />
         {!onHome && (
           <>

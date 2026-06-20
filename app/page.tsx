@@ -1,6 +1,7 @@
 import SiteNav from "@/components/SiteNav";
 import SiteFooter from "@/components/SiteFooter";
 import WritingFilter from "@/components/WritingFilter";
+import KineticHeroTitle from "@/components/KineticHeroTitle";
 import {
   getAllPosts,
   getAllCategories,
@@ -26,9 +27,7 @@ export default function HomePage() {
             <span className="tape">{site.siteLabel}</span>
             {site.heroNote && <span className="note">{site.heroNote}</span>}
           </div>
-          <h1 id="blog-title">
-            {site.heroWord1} <em>{site.heroWord2}</em>
-          </h1>
+          <KineticHeroTitle id="blog-title" word1={site.heroWord1} word2={site.heroWord2} />
           <p className="blog-tagline">
             {site.tagline}
           </p>

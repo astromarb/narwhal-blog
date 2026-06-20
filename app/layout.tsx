@@ -10,6 +10,17 @@ export const metadata: Metadata = {
     "Field notes, paper margins, and quiet code — long-form writing from a geosciences PhD researcher.",
 };
 
+const fieldModeBoot = `
+  (() => {
+    try {
+      const stored = window.localStorage.getItem("marvinFieldMode");
+      document.documentElement.dataset.fieldMode = stored === "day" ? "day" : "night";
+    } catch {
+      document.documentElement.dataset.fieldMode = "night";
+    }
+  })();
+`.trim();
+
 export default function RootLayout({
   children,
 }: {
@@ -34,8 +45,9 @@ export default function RootLayout({
   `.trim();
 
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
       <body>
+        <script dangerouslySetInnerHTML={{ __html: fieldModeBoot }} />
         {/* Inline override sits after globals.css link so it wins on cascade */}
         <style dangerouslySetInnerHTML={{ __html: cssOverrides }} />
         <SearchProvider>
