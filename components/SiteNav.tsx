@@ -1,7 +1,8 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import { usePathname } from "next/navigation";
+import { useEffect, useRef, useState } from "react";
+import { usePathname, useRouter } from "next/navigation";
+import { useSearch } from "@/components/SearchProvider";
 
 const MAIN_URL = "https://marvinlopezacevedo.com";
 const LAB_URL  = "https://projects.marvinlopezacevedo.com";
@@ -13,6 +14,61 @@ const TABS: Tab[] = [
   { href: "/archive", label: "archive" },
   { href: "#footer",  label: "links" },
 ];
+
+function NavSearch({ onHome }: { onHome: boolean }) {
+  const { setQuery } = useSearch();
+  const router = useRouter();
+  const [open, setOpen] = useState(false);
+  const [value, setValue] = useState("");
+  const inputRef = useRef<HTMLInputElement>(null);
+
+  function toggle() {
+    setOpen((v) => {
+      if (!v) requestAnimationFrame(() => inputRef.current?.focus());
+      else { setValue(""); setQuery(""); }
+      return !v;
+    });
+  }
+
+  function handleChange(e: React.ChangeEvent<HTMLInputElement>) {
+    setValue(e.target.value);
+    if (onHome) setQuery(e.target.value);
+  }
+
+  function handleKeyDown(e: React.KeyboardEvent<HTMLInputElement>) {
+    if (e.key === "Escape") { setValue(""); setQuery(""); setOpen(false); }
+    if (e.key === "Enter" && !onHome) {
+      setQuery(value);
+      router.push(`/?q=${encodeURIComponent(value)}`);
+    }
+  }
+
+  return (
+    <div className={`nav-search${open ? " nav-search--open" : ""}`}>
+      <button
+        type="button"
+        className="nav-search__btn"
+        onClick={toggle}
+        aria-label={open ? "Close search" : "Search posts"}
+        aria-expanded={open}
+      >
+        {open ? "✕" : "⌕"}
+      </button>
+      <div className="nav-search__field" aria-hidden={!open}>
+        <input
+          ref={inputRef}
+          type="search"
+          value={value}
+          onChange={handleChange}
+          onKeyDown={handleKeyDown}
+          placeholder="search…"
+          aria-label="Search posts"
+          tabIndex={open ? 0 : -1}
+        />
+      </div>
+    </div>
+  );
+}
 
 export default function SiteNav() {
   const [active, setActive] = useState("top");
@@ -68,16 +124,19 @@ export default function SiteNav() {
           })}
         </nav>
       )}
-      {!onHome && (
-        <div className="nav-right">
-          <a href={LAB_URL} target="_blank" rel="noreferrer" className="nav-projects">
-            projects ↗
-          </a>
-          <a className="nav-cta" href={MAIN_URL} target="_blank" rel="noreferrer">
-            main →
-          </a>
-        </div>
-      )}
+      <div className="nav-right">
+        <NavSearch onHome={onHome} />
+        {!onHome && (
+          <>
+            <a href={LAB_URL} target="_blank" rel="noreferrer" className="nav-projects">
+              projects ↗
+            </a>
+            <a className="nav-cta" href={MAIN_URL} target="_blank" rel="noreferrer">
+              main →
+            </a>
+          </>
+        )}
+      </div>
     </header>
   );
 }

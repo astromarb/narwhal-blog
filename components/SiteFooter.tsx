@@ -1,5 +1,6 @@
 import "./SiteFooter.css";
 import FooterScene from "./FooterScene";
+import EmailButton from "./EmailButton";
 
 const FOOTER_LINKS = [
   { label: "GitHub",    href: "https://github.com/astromarb",                  external: true },
@@ -8,7 +9,7 @@ const FOOTER_LINKS = [
   { label: "Email",     href: "mailto:marvlopezacevedo@gmail.com",              external: false },
 ];
 
-const MINIMAL_LINKS = FOOTER_LINKS.filter(l => l.label === "GitHub" || l.label === "Email");
+const MINIMAL_LINKS = FOOTER_LINKS.filter(l => l.label === "Email");
 
 export default function SiteFooter({ minimal = false, noLinks = false }: { minimal?: boolean; noLinks?: boolean }) {
   const year = new Date().getFullYear();
@@ -42,13 +43,17 @@ export default function SiteFooter({ minimal = false, noLinks = false }: { minim
             <ul className="site-footer__links">
               {links.map((link) => (
                 <li key={link.href}>
-                  <a
-                    href={link.href}
-                    target={link.external ? "_blank" : undefined}
-                    rel={link.external ? "noreferrer" : undefined}
-                  >
-                    {link.label}
-                  </a>
+                  {link.href.startsWith("mailto:") ? (
+                    <EmailButton />
+                  ) : (
+                    <a
+                      href={link.href}
+                      target={link.external ? "_blank" : undefined}
+                      rel={link.external ? "noreferrer" : undefined}
+                    >
+                      {link.label}
+                    </a>
+                  )}
                 </li>
               ))}
             </ul>
