@@ -538,6 +538,7 @@ section[id] { scroll-margin-top: 88px; }
 }
 .archive-chip {
   cursor: pointer;
+  color: #fff;
   background: color-mix(in oklab, var(--ink) 8%, transparent);
   transition: transform 0.1s ease, box-shadow 0.1s ease, filter 0.1s ease;
   filter: brightness(0.72) saturate(0.85);
@@ -546,9 +547,10 @@ section[id] { scroll-margin-top: 88px; }
   filter: brightness(0.9) saturate(1);
 }
 .archive-chip--on {
+  color: #fff;
   filter: brightness(1) saturate(1);
   transform: scale(1.06);
-  box-shadow: 0 0 0 2px var(--paper), 0 0 0 4px currentColor;
+  box-shadow: 0 0 0 2px var(--paper), 0 0 0 4px #fff;
 }
 .archive-chip__count {
   margin-left: 3px;

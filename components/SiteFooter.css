@@ -103,7 +103,7 @@
 .site-footer__headshot {
   display: block;
   width: auto;
-  height: 60px;
+  height: 36px;
   border-radius: 0.25rem;
   opacity: 0.88;
   border: 1px solid rgba(239, 231, 212, 0.2);
@@ -213,7 +213,7 @@
 .footer-page-nav a:nth-child(2) { color: var(--a3);    border-bottom-color: var(--a3); }
 .footer-page-nav a:nth-child(3) { color: var(--a2);    border-bottom-color: var(--a2); }
 .footer-page-nav a:nth-child(4) { color: var(--a1);    border-bottom-color: var(--a1); }
-.footer-page-nav a:nth-child(5) { color: var(--ink-2); border-bottom-color: var(--ink-3); }
+.footer-page-nav a:nth-child(5) { color: var(--ink);   border-bottom-color: var(--ink); }
 
 .site-footer__bottom {
   position: absolute;
