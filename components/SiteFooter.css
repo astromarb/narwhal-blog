@@ -103,7 +103,7 @@
 .site-footer__headshot {
   display: block;
   width: auto;
-  height: 36px;
+  height: 52px;
   border-radius: 0.25rem;
   opacity: 0.88;
   border: 1px solid rgba(239, 231, 212, 0.2);
@@ -112,7 +112,7 @@
 }
 .site-footer__tagline {
   max-width: 34rem;
-  margin: 1.25rem 0 0;
+  margin: 0.5rem 0 0;
   color: rgba(239, 231, 212, 0.68);
   font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
   font-size: clamp(0.9rem, 1.4vw, 1.05rem);

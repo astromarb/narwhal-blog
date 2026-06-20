@@ -742,6 +742,9 @@ section[id] { scroll-margin-top: 88px; }
 .archive-shell {
   padding-top: 52px;
 }
+.archive-shell ~ footer {
+  border-top: 1px solid color-mix(in oklab, var(--ink) 14%, transparent);
+}
 .archive-header {
   margin-bottom: 56px;
 }
