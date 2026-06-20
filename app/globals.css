@@ -259,6 +259,55 @@ section[id] { scroll-margin-top: 88px; }
 }
 .site-nav .nav-cta:hover { background: var(--a3); color: var(--ink); }
 
+/* Nav search (expanding icon → input) */
+.nav-search {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.nav-search__btn {
+  font-family: var(--f-mono);
+  font-size: 17px;
+  background: none;
+  border: none;
+  color: var(--ink-2);
+  cursor: pointer;
+  padding: 5px 7px;
+  line-height: 1;
+  transition: color 0.15s ease;
+}
+.nav-search__btn:hover { color: var(--ink); }
+.nav-search__field {
+  overflow: hidden;
+  max-width: 0;
+  transition: max-width 0.25s ease;
+}
+.nav-search--open .nav-search__field { max-width: 200px; }
+.nav-search__field input {
+  width: 200px;
+  font-family: var(--f-mono);
+  font-size: 11px;
+  letter-spacing: .04em;
+  background: var(--paper-2);
+  border: 1.5px solid color-mix(in oklab, var(--ink) 25%, transparent);
+  color: var(--ink);
+  padding: 6px 10px;
+  outline: none;
+  border-radius: 2px;
+}
+.nav-search__field input::placeholder { color: var(--ink-3); font-style: italic; }
+.nav-search__field input:focus { border-color: var(--a1); }
+
+/* Search result hint below chip bar */
+.search-match-hint {
+  font-family: var(--f-mono);
+  font-size: 10px;
+  letter-spacing: .08em;
+  color: var(--ink-3);
+  margin-top: 10px;
+  text-transform: uppercase;
+}
+
 /* Standalone nav-cta outside .site-nav (used in admin) */
 .nav-cta {
   font-family: var(--f-mono); font-size: 11px;
@@ -296,10 +345,10 @@ section[id] { scroll-margin-top: 88px; }
    HERO
    ============================================================ */
 .blog-hero {
-  display: grid;
-  grid-template-columns: minmax(0, 1.15fr) minmax(320px, .85fr);
-  gap: 48px;
-  align-items: stretch;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
   margin-bottom: var(--sec-gap);
   padding-top: 32px;
 }
@@ -309,6 +358,7 @@ section[id] { scroll-margin-top: 88px; }
   gap: 10px;
   align-items: center;
   flex-wrap: wrap;
+  justify-content: center;
 }
 .blog-hero h1 {
   font-family: var(--f-display);
@@ -318,6 +368,7 @@ section[id] { scroll-margin-top: 88px; }
   line-height: .94;
   font-size: clamp(calc(var(--hero-title-size, 118px) * 0.54), 8vw, var(--hero-title-size, 118px));
   margin: 0;
+  text-align: center;
 }
 .blog-hero h1 em {
   font-style: italic;
@@ -330,6 +381,7 @@ section[id] { scroll-margin-top: 88px; }
   font-size: var(--tagline-size, 34px);
   line-height: 1.12;
   color: var(--ink-2);
+  text-align: center;
 }
 .blog-hero .hero-chips {
   display: flex;
@@ -486,17 +538,20 @@ section[id] { scroll-margin-top: 88px; }
 }
 .archive-chip {
   cursor: pointer;
+  color: #fff;
   background: color-mix(in oklab, var(--ink) 8%, transparent);
   transition: transform 0.1s ease, box-shadow 0.1s ease, filter 0.1s ease;
   filter: brightness(0.72) saturate(0.85);
+  box-shadow: 2px 3px 0 color-mix(in oklab, var(--ink) 22%, transparent);
 }
 .archive-chip:hover {
   filter: brightness(0.9) saturate(1);
 }
 .archive-chip--on {
+  color: #fff;
   filter: brightness(1) saturate(1);
   transform: scale(1.06);
-  box-shadow: 0 0 0 2px var(--paper), 0 0 0 4px currentColor;
+  box-shadow: 0 0 0 2px var(--paper), 0 0 0 4px #fff;
 }
 .archive-chip__count {
   margin-left: 3px;
@@ -659,7 +714,7 @@ section[id] { scroll-margin-top: 88px; }
 }
 .post-row .read {
   font-family: var(--f-mono);
-  font-size: 11px;
+  font-size: 13px;
   color: var(--ink-3);
   letter-spacing: .08em;
   text-align: right;
@@ -683,43 +738,13 @@ section[id] { scroll-margin-top: 88px; }
 }
 
 /* ============================================================
-   BOTTOM PAGE NAV (homepage only)
-   ============================================================ */
-.page-bottom-nav {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
-  padding: 56px 0 64px;
-  justify-content: center;
-}
-.page-bottom-nav a {
-  font-family: var(--f-mono);
-  font-size: 11px;
-  letter-spacing: .12em;
-  text-transform: uppercase;
-  padding: 10px 22px;
-  text-decoration: none;
-  border-radius: 2px;
-  transition: opacity 160ms ease;
-  opacity: 0.88;
-}
-.page-bottom-nav a:hover { opacity: 1; }
-/* Archive */
-.page-bottom-nav a:nth-child(1) { background: var(--ink);     color: var(--paper); }
-/* GitHub */
-.page-bottom-nav a:nth-child(2) { background: var(--a3);      color: var(--on-a3); }
-/* Projects */
-.page-bottom-nav a:nth-child(3) { background: var(--a2);      color: var(--on-a2); }
-/* Main site */
-.page-bottom-nav a:nth-child(4) { background: var(--a1);      color: #fff; }
-/* Email */
-.page-bottom-nav a:nth-child(5) { background: var(--paper-2); color: var(--ink-2); border: 1.5px solid var(--ink-3); }
-
-/* ============================================================
    ARCHIVE PAGE
    ============================================================ */
 .archive-shell {
   padding-top: 52px;
+}
+.archive-shell ~ footer {
+  border-top: 1px solid color-mix(in oklab, var(--ink) 14%, transparent);
 }
 .archive-header {
   margin-bottom: 56px;
@@ -763,7 +788,7 @@ section[id] { scroll-margin-top: 88px; }
 }
 .archive-year__label {
   font-family: var(--f-mono);
-  font-size: 18px;
+  font-size: 17px;
   font-weight: 700;
   letter-spacing: .1em;
   text-transform: uppercase;
@@ -802,7 +827,7 @@ section[id] { scroll-margin-top: 88px; }
 }
 .archive-row__date {
   font-family: var(--f-mono);
-  font-size: 16px;
+  font-size: 15px;
   color: var(--ink-3);
   letter-spacing: .04em;
   white-space: nowrap;
@@ -1185,12 +1210,7 @@ section[id] { scroll-margin-top: 88px; }
   .writing-grid { grid-template-columns: 1fr; gap: 28px; }
   .writing-side { position: static; }
   .sidebar-circuit { display: none; }
-  .blog-hero__side { align-self: auto; width: 100%; }
-  .blog-feature-card { width: 100%; }
-  /* Center hero text in single-column layout */
-  .blog-hero .tape-row { justify-content: center; }
-  .blog-hero h1 { text-align: center; font-style: italic; }
-  .blog-tagline { text-align: center; }
+  .blog-hero h1 { font-style: italic; }
 }
 @media (min-width: 861px) {
   /* WELCOME tape: +5px larger on desktop */
@@ -1204,7 +1224,9 @@ section[id] { scroll-margin-top: 88px; }
   }
   .site-nav .brand    { flex: 0 0 auto; }
   .site-nav .tabs     { margin-left: auto; width: fit-content; }
-  .site-nav .nav-right { display: none; }
+  .site-nav .nav-right { margin-left: auto; }
+  .site-nav .nav-projects,
+  .site-nav .nav-cta  { display: none; }
   .archive-title { text-align: center; }
   .blog-main { padding: 32px 20px 0; }
   .blog-post-shell { padding: 32px 20px 0; }

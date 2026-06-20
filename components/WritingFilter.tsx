@@ -1,6 +1,7 @@
 "use client";
 
 import { useMemo, useState } from "react";
+import { useSearch } from "@/components/SearchProvider";
 
 export type PostListItem = {
   title: string;
@@ -67,7 +68,7 @@ export default function WritingFilter({
   categoryCounts,
   initialCategory,
 }: Props) {
-  const [query, setQuery] = useState("");
+  const { query } = useSearch();
   const [activeCategory, setActiveCategory] = useState<string | null>(
     initialCategory ?? null
   );
@@ -98,36 +99,10 @@ export default function WritingFilter({
 
   return (
     <section
-      className="writing-grid blog-writing"
+      className="blog-writing"
       id="archive"
       aria-label="Blog archive"
     >
-      <aside className="writing-side">
-        <div className="filter-search">
-          <span className="icon" aria-hidden="true">⌕</span>
-          <input
-            type="search"
-            placeholder="search title, body, tags…"
-            value={query}
-            onChange={(e) => setQuery(e.target.value)}
-            aria-label="Search posts"
-          />
-          <div className="hint">
-            {query.trim().length > 0
-              ? `${filtered.length} match${filtered.length === 1 ? "" : "es"}`
-              : "loose match across title, body, and tags"}
-          </div>
-        </div>
-
-        {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img
-          src="/hero-circuit.png"
-          alt=""
-          aria-hidden="true"
-          className="sidebar-circuit"
-        />
-      </aside>
-
       <div className="writing-main">
         <div className="archive-chip-bar" role="tablist" aria-label="Filter by category">
           <button
@@ -193,6 +168,11 @@ export default function WritingFilter({
           })
         )}
         </div>
+        {query.trim().length > 0 && (
+          <p className="search-match-hint">
+            {filtered.length} match{filtered.length === 1 ? "" : "es"} for &ldquo;{query}&rdquo;
+          </p>
+        )}
       </div>
     </section>
   );

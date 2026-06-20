@@ -79,7 +79,7 @@ export default function ArchivePage() {
           )}
         </div>
       </main>
-      <SiteFooter minimal />
+      <SiteFooter minimal noLinks />
     </>
   );
 }
